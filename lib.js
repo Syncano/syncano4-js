@@ -124,22 +124,17 @@ var Syncano = (function() {
 		*/
 		reqest: function(requestType, method, params, _callbackOK, _callbackError) {
 			var deferred = $.Deferred();
-			callbackOK = function(result) {
+			var callbackOK = function(result) {
 				typeof _callbackOK === 'function' && _callbackOK(result);
 				deferred.resolve(result);
 			};
-			callbackError = function(error) {
+			var callbackError = function(error) {
 				typeof _callbackError === 'function' && _callbackError(error);
 				deferred.reject(error);
 			};
 
-			if (method.substr(-1) !== '/') {
-				method += '/';
-			}
-
 			params = params || {};
-
-			var url = baseURL + method;
+			var url = baseURL + normalizeUrl(method);
 			if (authToken !== null) {
 				url += '?api_key=' + authToken
 			}
