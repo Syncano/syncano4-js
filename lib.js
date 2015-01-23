@@ -25,7 +25,7 @@ var Syncano = (function() {
 		if (url.substr(-1) !== '/') {
 			url += '/';
 		}
-		return url;
+		return url.replace(/\/\//g, '/');
 	}
 
 
@@ -33,7 +33,7 @@ var Syncano = (function() {
 		constructor
 	*/
 	function Syncano(url) {
-		baseURL = normalizeUrl(url) + 'v1/';
+		baseURL = normalizeUrl(url);
 	}
 
 
@@ -111,6 +111,18 @@ var Syncano = (function() {
 			}
 		},
 
+		createClass: function(params, callbackOK, callbackError) {
+			params.description = params.description || '';
+			if (typeof params.schema !== 'string') {
+				params.schema = params.schema.toString();
+			}
+			return this.request('POST', linksObject.instance_classes, params, function(result) {
+				this.saveLinks('class_' + params.name, result);
+				typeof callbackOK === 'function' && callbackOK(result);
+			}.bind(this), callbackError);
+
+		},
+
 		/*
 			Generic request method.
 			Parameters:
@@ -159,6 +171,36 @@ var Syncano = (function() {
 				});
 
 			return deferred.promise();
+		}
+	};
+
+	/*
+	 */
+	Syncano.Schema = function() {
+		this.data = [];
+	};
+
+	Syncano.Schema.prototype = {
+		addField: function(name, type) {
+			this.data.push({
+				name: name,
+				type: type
+			});
+			return this;
+		},
+
+		addOrderIndex: function() {
+			this.data[this.data.length - 1]['order_index'] = true;
+			return this;
+		},
+
+		addFilterIndex: function() {
+			this.data[this.data.length - 1]['filter_index'] = true;
+			return this;
+		},
+
+		toString: function() {
+			return JSON.stringify(this.data);
 		}
 	};
 

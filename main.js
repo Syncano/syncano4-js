@@ -4,8 +4,8 @@ function TestSuite(syncano) {
 }
 TestSuite.prototype = {
 	start: function() {
-		// this.authWithToken();
-		this.authWithPassword();
+		this.authWithToken();
+		// this.authWithPassword();
 	},
 
 	authWithPassword: function() {
@@ -25,7 +25,16 @@ TestSuite.prototype = {
 	},
 
 	onInstanceSet: function() {
-		console.log('Info:', this.syncano.getInfo());
+		this.syncano.createClass({
+			name: 'User1',
+			description: 'class User',
+			schema: new Syncano.Schema()
+				.addField('first_name', 'string')
+				.addField('last_name', 'string').addOrderIndex()
+				.addField('year_of_birth', 'integer').addFilterIndex()
+		}).then(function(res) {
+			console.log(res);
+		}, this.onError);
 	},
 
 	onError: function(err) {
