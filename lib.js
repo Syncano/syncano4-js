@@ -46,7 +46,7 @@ var Syncano = (function() {
 				email: email,
 				password: password
 			};
-			return this.reqest('POST', 'account/auth', params, function(res) {
+			return this.request('POST', 'v1/account/auth', params, function(res) {
 				accountObject = res;
 				this.setAuthToken(res.account_key);
 				typeof callbackOK === 'function' && callbackOK(res);
@@ -95,7 +95,7 @@ var Syncano = (function() {
 				promise
 		 */
 		setInstance: function(instanceName, callbackOK, callbackError) {
-			return this.reqest('GET', 'instances/' + instanceName, {}, function(result) {
+			return this.request('GET', 'v1/instances/' + instanceName, {}, function(result) {
 				instanceObject = result;
 				this.saveLinks('instance', result);
 				typeof callbackOK === 'function' && callbackOK(result);
@@ -122,7 +122,7 @@ var Syncano = (function() {
 			Returns:
 				promise
 		*/
-		reqest: function(requestType, method, params, _callbackOK, _callbackError) {
+		request: function(requestType, method, params, _callbackOK, _callbackError) {
 			var deferred = $.Deferred();
 			var callbackOK = function(result) {
 				typeof _callbackOK === 'function' && _callbackOK(result);
