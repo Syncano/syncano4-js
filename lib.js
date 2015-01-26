@@ -31,10 +31,25 @@ var Syncano = (function() {
 	}
 
 
-	function List(data) {
+	function List(data, connection) {
+		this.connection = connection;
 		this.data = data.objects;
 		this.nextPage = data.next;
 		this.prevPage = data.prev;
+
+		if (this.data.length > 0) {
+			if (typeof this.data[0].name !== 'undefined') {
+				this.keyType = 'name';
+				for (var i = 0; i < this.data.length; i++) {
+					var item = this.data[i];
+					var key = item.name.charAt(0).toUpperCase() + item.name.substring(1);
+					this[key] = this.data[i];
+					this[key].delete = function(callbackOK, callbackError) {
+						return this.request('DELETE', item.links.self, {}, callbackOK, callbackError);
+					}.bind(this.connection);
+				}
+			}
+		}
 	}
 	List.prototype = {
 		at: function(idx) {
@@ -166,10 +181,7 @@ var Syncano = (function() {
 		},
 
 		/*
-			classes:
-				create
-				list
-		*/
+		 */
 		createClass: function(params, callbackOK, callbackError) {
 			params.description = params.description || '';
 			if (typeof params.schema !== 'string') {
@@ -265,12 +277,12 @@ var Syncano = (function() {
 				}
 				$.ajax(ajaxParams)
 					.done(function(data, textStatus, jqXHR) {
-						if (typeof data.objects !== 'undefined' && typeof data.prev !== 'undefined' && typeof data.next !== 'undefined') {
-							callbackOK(new List(data))
+						if (typeof data === 'object' && typeof data.objects !== 'undefined' && typeof data.prev !== 'undefined' && typeof data.next !== 'undefined') {
+							callbackOK(new List(data, this))
 						} else {
 							callbackOK(data);
 						}
-					})
+					}.bind(this))
 					.fail(function(xhr, textStatus, errorThrown) {
 						var err = errorThrown;
 						if (xhr.responseText) {

@@ -1,5 +1,6 @@
 function TestSuite() {
 	this.connection = new Syncano(Config.instance);
+	window.conn = this.connection;
 	this.start();
 }
 TestSuite.prototype = {
@@ -29,14 +30,27 @@ TestSuite.prototype = {
 	},
 
 	proceed: function() {
-		this.connection.models.Klass.list().then(function(res) {
-			console.log(res);
-		}, this.onError);
+		this.connection.models.Klass.list().then(function(classList) {
+			// this.createUsersFromFixtures(classList);
+			this.connection.listDataObjects(classList.User, {
+				limit: 3
+			}).then(function(dataList) {
+				console.log(dataList);
+			}.bind(this), this.onError);
+		}.bind(this), this.onError);
+	},
+
+	createUsersFromFixtures: function(classList) {
+		for (var i = 0; i < UserFixtures.length; i++) {
+			this.connection.createDataObject(classList.User, UserFixtures[i]).then(function(res) {
+				console.log('Created', res.first_name, res.last_name);
+			});
+		}
 	},
 
 	createClass: function() {
 		this.connection.createClass({
-			name: 'User1',
+			name: 'user',
 			description: 'class User',
 			schema: new Syncano.Schema()
 				.addField('first_name', 'string')
@@ -52,4 +66,4 @@ TestSuite.prototype = {
 	}
 };
 
-new TestSuite();
+var test = new TestSuite();
