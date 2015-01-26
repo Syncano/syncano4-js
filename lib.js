@@ -24,7 +24,7 @@ var Syncano = (function() {
 		private methods
 	*/
 	function normalizeUrl(url) {
-		if (url.substr(-1) !== '/') {
+		if (url.substr(-1) !== '/' && url.indexOf('?') === -1) {
 			url += '/';
 		}
 		return url.replace(/\/\//g, '/');
@@ -62,6 +62,14 @@ var Syncano = (function() {
 
 		hasPrevPage: function() {
 			return this.prevPage !== null;
+		},
+
+		loadNextPage: function() {
+			return this.connection.request('GET', this.nextPage);
+		},
+
+		loadPrevPage: function() {
+			return this.connection.request('GET', this.prevPage);
 		}
 	}
 
@@ -268,7 +276,7 @@ var Syncano = (function() {
 				params = params || {};
 				var url = normalizeUrl(baseURL + method);
 				if (authToken !== null) {
-					url += '?api_key=' + authToken
+					url += (url.indexOf('?') === -1 ? '?' : '&') + 'api_key=' + authToken;
 				}
 				var ajaxParams = {
 					type: requestType,

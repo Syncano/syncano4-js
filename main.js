@@ -30,14 +30,19 @@ TestSuite.prototype = {
 	},
 
 	proceed: function() {
-		this.connection.models.Klass.list().then(function(classList) {
-			// this.createUsersFromFixtures(classList);
-			this.connection.listDataObjects(classList.User, {
-				limit: 3
-			}).then(function(dataList) {
-				console.log(dataList);
-			}.bind(this), this.onError);
+		// this.connection.models.Klass.list().then(function(classList) {
+		// this.createUsersFromFixtures(classList);
+		this.connection.listDataObjects('user', {
+			limit: 3
+		}).then(function(dataList) {
+			console.log('First page', dataList);
+			if (dataList.hasNextPage()) {
+				dataList.loadNextPage().then(function(res) {
+					console.log('Next page', res);
+				}.bind(this), this.onError);
+			}
 		}.bind(this), this.onError);
+		// }.bind(this), this.onError);
 	},
 
 	createUsersFromFixtures: function(classList) {
