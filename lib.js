@@ -31,6 +31,26 @@ var Syncano = (function() {
 	}
 
 
+	function List(data) {
+		this.data = data.objects;
+		this.nextPage = data.next;
+		this.prevPage = data.prev;
+	}
+	List.prototype = {
+		at: function(idx) {
+			return this.data[idx];
+		},
+
+		hasNextPage: function() {
+			return this.nextPage !== null;
+		},
+
+		hasPrevPage: function() {
+			return this.prevPage !== null;
+		}
+	}
+
+
 	/*
 		constructor
 	*/
@@ -139,13 +159,17 @@ var Syncano = (function() {
 
 		getInfo: function() {
 			return {
-				url: baseURL,
 				account: accountObject,
 				instance: instanceObject,
 				links: linksObject
 			}
 		},
 
+		/*
+			classes:
+				create
+				list
+		*/
 		createClass: function(params, callbackOK, callbackError) {
 			params.description = params.description || '';
 			if (typeof params.schema !== 'string') {
@@ -198,7 +222,11 @@ var Syncano = (function() {
 				}
 				$.ajax(ajaxParams)
 					.done(function(data, textStatus, jqXHR) {
-						callbackOK(data);
+						if (typeof data.objects !== 'undefined' && typeof data.prev !== 'undefined' && typeof data.next !== 'undefined') {
+							callbackOK(new List(data))
+						} else {
+							callbackOK(data);
+						}
 					})
 					.fail(function(xhr, textStatus, errorThrown) {
 						var err = errorThrown;
