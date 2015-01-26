@@ -181,9 +181,52 @@ var Syncano = (function() {
 			}.bind(this), callbackError);
 		},
 
+		/*
+		 */
 		listClasses: function(callbackOK, callbackError) {
 			return this.request('GET', linksObject.instance_classes, {}, callbackOK, callbackError);
 		},
+
+		/*
+			Delete class
+			Parameters:
+				className - name of the class OR object with "name" field
+		*/
+		deleteClass: function(className, callbackOK, callbackError) {
+			if (typeof className === 'object') {
+				className = className.name;
+			}
+			if (typeof className === 'undefined') {
+				throw new Error('Missing name of the class');
+			}
+			var methodName = linksObject.instance_classes + className + '/';
+			return this.request('DELETE', methodName, {}, callbackOK, callbackError);
+		},
+
+
+		createDataObject: function(className, params, callbackOK, callbackError) {
+			if (typeof className === 'object') {
+				className = className.name;
+			}
+			if (typeof className === 'undefined') {
+				throw new Error('Missing name of the class');
+			}
+			var methodName = linksObject.instance_classes + className + '/objects/';
+			return this.request('POST', methodName, params, callbackOK, callbackError);
+		},
+
+
+		listDataObjects: function(className, params, callbackOK, callbackError) {
+			if (typeof className === 'object') {
+				className = className.name;
+			}
+			if (typeof className === 'undefined') {
+				throw new Error('Missing name of the class');
+			}
+			var methodName = linksObject.instance_classes + className + '/objects/';
+			return this.request('GET', methodName, params, callbackOK, callbackError);
+		},
+
 
 		/*
 			Generic request method.
