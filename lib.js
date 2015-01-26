@@ -49,7 +49,7 @@ var Syncano = (function() {
 			},
 
 			list: function() {
-				return conn.getClasses.apply(conn, arguments);
+				return conn.listClasses.apply(conn, arguments);
 			}
 		};
 	}
@@ -157,7 +157,7 @@ var Syncano = (function() {
 			}.bind(this), callbackError);
 		},
 
-		getClasses: function(callbackOK, callbackError) {
+		listClasses: function(callbackOK, callbackError) {
 			return this.request('GET', linksObject.instance_classes, {}, callbackOK, callbackError);
 		},
 
