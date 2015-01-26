@@ -18,6 +18,8 @@ var Syncano = (function() {
 	var instanceObject = {};
 	var linksObject = {};
 
+	var tempInstance = null;
+
 	/*
 		private methods
 	*/
@@ -32,21 +34,32 @@ var Syncano = (function() {
 	/*
 		constructor
 	*/
-	function Syncano() {}
+	function Syncano(param) {
+		if (typeof param === 'string') {
+			tempInstance = param;
+		} else if (typeof param === 'object' && typeof param.instance === 'string') {
+			tempInstance = param.instance;
+		}
+	}
 
 
 	Syncano.prototype = {
 
 		connect: function() {
+			var promise;
 			if (arguments.length >= 2 && arguments[0].indexOf('@') > 0) {
 				// arguments are: email and password and optional callbacks
-				return this.authWithPassword.apply(this, arguments);
+				promise = this.authWithPassword.apply(this, arguments);
 			} else if (arguments.length >= 1) {
 				// arguments are: token and optional callbacks
-				return this.authWithToken.apply(this, arguments);
+				promise = this.authWithToken.apply(this, arguments);
 			} else {
 				throw new Error('Incorrect arguments');
 			}
+			if (tempInstance !== null) {
+				promise = this.setInstance(tempInstance);
+			}
+			return promise;
 		},
 
 		/*
@@ -158,31 +171,34 @@ var Syncano = (function() {
 				deferred.reject(error);
 			};
 
-			params = params || {};
-			var url = baseURL + normalizeUrl(method);
-			if (authToken !== null) {
-				url += '?api_key=' + authToken
-			}
-			var ajaxParams = {
-				type: requestType,
-				url: url,
-				data: params
-			}
-			$.ajax(ajaxParams)
-				.done(function(data, textStatus, jqXHR) {
-					callbackOK(data);
-				})
-				.fail(function(xhr, textStatus, errorThrown) {
-					var err = errorThrown;
-					if (xhr.responseText) {
-						var err = JSON.parse(xhr.responseText);
-						if (err.detail) {
-							err = err.detail;
+			if (typeof method === 'undefined') {
+				callbackError('Missing request method');
+			} else {
+				params = params || {};
+				var url = normalizeUrl(baseURL + method);
+				if (authToken !== null) {
+					url += '?api_key=' + authToken
+				}
+				var ajaxParams = {
+					type: requestType,
+					url: url,
+					data: params
+				}
+				$.ajax(ajaxParams)
+					.done(function(data, textStatus, jqXHR) {
+						callbackOK(data);
+					})
+					.fail(function(xhr, textStatus, errorThrown) {
+						var err = errorThrown;
+						if (xhr.responseText) {
+							var err = JSON.parse(xhr.responseText);
+							if (err.detail) {
+								err = err.detail;
+							}
 						}
-					}
-					callbackError(err);
-				});
-
+						callbackError(err);
+					});
+			}
 			return deferred.promise();
 		}
 	};

@@ -1,5 +1,5 @@
-function TestSuite(syncano) {
-	this.syncano = syncano;
+function TestSuite() {
+	this.connection = new Syncano(Config.instance);
 	this.start();
 }
 TestSuite.prototype = {
@@ -9,33 +9,33 @@ TestSuite.prototype = {
 	},
 
 	authWithPassword: function() {
-		var promise = this.syncano.connect(Config.login, Config.password);
-		this.proceed(promise);
+		var promise = this.connection.connect(Config.login, Config.password);
+		this.proceedWithAuth(promise);
 	},
 
 	authWithToken: function() {
-		var promise = this.syncano.connect(Config.token);
-		this.proceed(promise);
+		var promise = this.connection.connect(Config.token);
+		this.proceedWithAuth(promise);
 	},
 
-	proceed: function(promise) {
+	proceedWithAuth: function(promise) {
 		promise
-			.then(this.onAuthorization.bind(this), this.onError)
-			.then(this.onInstanceSet.bind(this), this.onError);
+		// .then(this.onAuthorization.bind(this), this.onError)
+			.then(this.proceed.bind(this), this.onError);
 	},
 
 	onAuthorization: function() {
-		return this.syncano.setInstance(Config.instance);
+		return this.connection.setInstance(Config.instance);
 	},
 
-	onInstanceSet: function() {
-		this.syncano.getClasses().then(function(res) {
+	proceed: function() {
+		this.connection.getClasses().then(function(res) {
 			console.log(res);
 		}, this.onError);
 	},
 
 	createClass: function() {
-		this.syncano.createClass({
+		this.connection.createClass({
 			name: 'User1',
 			description: 'class User',
 			schema: new Syncano.Schema()
@@ -52,4 +52,4 @@ TestSuite.prototype = {
 	}
 };
 
-new TestSuite(new Syncano());
+new TestSuite();
