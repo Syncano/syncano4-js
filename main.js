@@ -29,7 +29,7 @@ TestSuite.prototype = {
 	},
 
 	proceed: function() {
-		this.connection.getClasses().then(function(res) {
+		this.connection.models.Klass.list().then(function(res) {
 			console.log(res);
 		}, this.onError);
 	},

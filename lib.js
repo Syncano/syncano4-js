@@ -40,6 +40,18 @@ var Syncano = (function() {
 		} else if (typeof param === 'object' && typeof param.instance === 'string') {
 			tempInstance = param.instance;
 		}
+
+		var conn = this;
+		this.models = {};
+		this.models.Klass = {
+			create: function() {
+				return conn.createClass.apply(conn, arguments);
+			},
+
+			list: function() {
+				return conn.getClasses.apply(conn, arguments);
+			}
+		};
 	}
 
 
