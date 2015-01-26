@@ -9,13 +9,17 @@ TestSuite.prototype = {
 	},
 
 	authWithPassword: function() {
-		this.syncano.authWithPassword(Config.login, Config.password)
-			.then(this.onAuthorization.bind(this), this.onError)
-			.then(this.onInstanceSet.bind(this), this.onError);
+		var promise = this.syncano.connect(Config.login, Config.password);
+		this.proceed(promise);
 	},
 
 	authWithToken: function() {
-		this.syncano.authWithToken(Config.token)
+		var promise = this.syncano.connect(Config.token);
+		this.proceed(promise);
+	},
+
+	proceed: function(promise) {
+		promise
 			.then(this.onAuthorization.bind(this), this.onError)
 			.then(this.onInstanceSet.bind(this), this.onError);
 	},
@@ -25,6 +29,12 @@ TestSuite.prototype = {
 	},
 
 	onInstanceSet: function() {
+		this.syncano.getClasses().then(function(res) {
+			console.log(res);
+		}, this.onError);
+	},
+
+	createClass: function() {
 		this.syncano.createClass({
 			name: 'User1',
 			description: 'class User',
@@ -42,4 +52,4 @@ TestSuite.prototype = {
 	}
 };
 
-new TestSuite(new Syncano('https://syncanotest1-env.elasticbeanstalk.com/'));
+new TestSuite(new Syncano());

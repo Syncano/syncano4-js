@@ -12,7 +12,7 @@ var Syncano = (function() {
 	/*
 		private vars
 	*/
-	var baseURL = '';
+	var baseURL = 'https://syncanotest1-env.elasticbeanstalk.com/';
 	var authToken = null;
 	var accountObject = {};
 	var instanceObject = {};
@@ -32,12 +32,22 @@ var Syncano = (function() {
 	/*
 		constructor
 	*/
-	function Syncano(url) {
-		baseURL = normalizeUrl(url);
-	}
+	function Syncano() {}
 
 
 	Syncano.prototype = {
+
+		connect: function() {
+			if (arguments.length >= 2 && arguments[0].indexOf('@') > 0) {
+				// arguments are: email and password and optional callbacks
+				return this.authWithPassword.apply(this, arguments);
+			} else if (arguments.length >= 1) {
+				// arguments are: token and optional callbacks
+				return this.authWithToken.apply(this, arguments);
+			} else {
+				throw new Error('Incorrect arguments');
+			}
+		},
 
 		/*
 		 */
@@ -120,7 +130,10 @@ var Syncano = (function() {
 				this.saveLinks('class_' + params.name, result);
 				typeof callbackOK === 'function' && callbackOK(result);
 			}.bind(this), callbackError);
+		},
 
+		getClasses: function(callbackOK, callbackError) {
+			return this.request('GET', linksObject.instance_classes, {}, callbackOK, callbackError);
 		},
 
 		/*
