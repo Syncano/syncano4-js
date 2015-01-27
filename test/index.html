@@ -6,7 +6,9 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 	<style>
-	.list-group-item {background: transparent !important;}
+		.success {background: #dff0d8 !important;}
+		.error {background: #f2dede !important;}
+		.done {border-left: 10px solid #dff0d8 !important;}
 	</style>
 </head>
 <body>
@@ -17,9 +19,45 @@
 				<span class="navbar-text" id="token">not connected</span>
 			</div>
 		</nav>
+		<div class="col-md-3">
+			<div class="panel panel-default">
+				<div class="panel-heading">Connect</div>
+				<div class="list-group">
+					<a href="#connect-token" class="list-group-item done">Connect with token</a>
+					<a href="#connect-email" class="list-group-item done">Connect with email / password</a>
+				</div>
+			</div>
+
+			<div class="panel panel-default">
+				<div class="panel-heading">Accounts</div>
+				<div class="list-group">
+					<a href="#register-account" class="list-group-item">Register</a>
+					<a href="#account-info" class="list-group-item">Get account info</a>
+					<a href="#account-update" class="list-group-item">Update account info</a>
+					<a href="#account-reset-key" class="list-group-item">Reset key</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="panel panel-default">
+				<div class="panel-heading">Classes</div>
+				<div class="list-group">
+					<a href="#create-class" class="list-group-item done">Create class</a>
+					<a href="#list-classes" class="list-group-item done">List classes</a>
+				</div>
+			</div>
+
+			<div class="panel panel-default">
+				<div class="panel-heading">Data objects</div>
+				<div class="list-group">
+					<a href="#list-data-objects" class="list-group-item">List data objects</a>
+				</div>
+			</div>
+
+			
+		</div>
 		<div class="col-md-3 list-group">
-			<p><a href="#connect-token" class="list-group-item">Connect with token</a></p>
-			<p><a href="#connect-email" class="list-group-item">Connect with email / password</a></p>
+
 		</div>
 	</div>
 	<script src="../vendor/jquery.js"></script>

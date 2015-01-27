@@ -1,4 +1,5 @@
 function TestSuite() {
+	this.$lastClickedButton = null;
 	this.connection = new Syncano(Config.instance);
 }
 
@@ -12,29 +13,66 @@ TestSuite.prototype = {
 		document.getElementById('token').innerHTML = token;
 	},
 
-	connectToken: function($btn) {
+	connectToken: function() {
 		var promise = this.connection.connect(Config.token);
-		this.proceedWithAuth(promise, $btn);
+		this.proceedWithAuth(promise);
 	},
 
-	connectEmail: function($btn) {
+	connectEmail: function() {
 		var promise = this.connection.connect(Config.login, Config.password);
-		this.proceedWithAuth(promise, $btn);
+		this.proceedWithAuth(promise);
 	},
 
-	proceedWithAuth: function(promise, $btn) {
+	proceedWithAuth: function(promise) {
 		this.showToken('');
 		promise.then(function() {
 			this.showToken(this.connection.getInfo().account.account_key);
-			$btn.parent().removeClass().addClass('bg-success');
-		}.bind(this), function(err) {
-			console.error(err);
-			$btn.parent().removeClass().addClass('bg-danger');
-		});
+			this.onSuccess();
+		}.bind(this), this.onError.bind(this));
+	},
+
+	createClass: function() {
+		this.connection.createClass({
+			name: this.generateRandomString(),
+			description: 'class description',
+			schema: new Syncano.Schema()
+				.addField('first_name', 'string')
+				.addField('last_name', 'string').addOrderIndex()
+				.addField('year_of_birth', 'integer').addFilterIndex()
+		}).then(this.onSuccess.bind(this), this.onError.bind(this));
+	},
+
+	listClasses: function() {
+		this.connection.listClasses().then(this.onSuccess.bind(this), this.onError.bind(this));
+	},
+
+	listDataObjects: function() {
+		this.connection.listDataObjects('user').then(this.onSuccess.bind(this), this.onError.bind(this));
+	},
+
+	generateRandomString: function(len) {
+		len = parseInt(len / 2, 10) || 5;
+		var lettersA = 'wrtplkjhgfdszcbnm'.split('');
+		var lettersB = 'euioa'.split('');
+		var s = '';
+		for (var i = 0; i < len; i++) {
+			s += lettersA[parseInt(Math.random() * lettersA.length, 10)];
+			s += lettersB[parseInt(Math.random() * lettersB.length, 10)];
+		}
+		return s;
+	},
+
+	onSuccess: function(result) {
+		console.log(result);
+		this.$lastClickedButton.removeClass('error').addClass('success');
+	},
+
+	onError: function(err) {
+		console.error(err);
+		this.$lastClickedButton.removeClass('success').addClass('error');
 	}
 };
 var test = new TestSuite();
-
 
 
 $('a').on('click', function(e) {
@@ -43,43 +81,14 @@ $('a').on('click', function(e) {
 	var action = $btn.attr('href').substring(1).split('-').map(function(token, idx) {
 		return idx === 0 ? token : token.charAt(0).toUpperCase() + token.substring(1);
 	}).join('');
-	test[action]($btn);
+	test.$lastClickedButton = $btn;
+	test[action]();
 });
 
 
 
 /*
-function TestSuite() {
-	this.connection = new Syncano(Config.instance);
-	window.conn = this.connection;
-	this.start();
-}
 TestSuite.prototype = {
-	start: function() {
-		this.authWithToken();
-		// this.authWithPassword();
-	},
-
-	authWithPassword: function() {
-		var promise = this.connection.connect(Config.login, Config.password);
-		this.proceedWithAuth(promise);
-	},
-
-	authWithToken: function() {
-		var promise = this.connection.connect(Config.token);
-		this.proceedWithAuth(promise);
-	},
-
-	proceedWithAuth: function(promise) {
-		promise
-		// .then(this.onAuthorization.bind(this), this.onError)
-			.then(this.proceed.bind(this), this.onError);
-	},
-
-	onAuthorization: function() {
-		return this.connection.setInstance(Config.instance);
-	},
-
 	proceed: function() {
 		// this.connection.models.Klass.list().then(function(classList) {
 		// this.createUsersFromFixtures(classList);
@@ -103,23 +112,5 @@ TestSuite.prototype = {
 			});
 		}
 	},
-
-	createClass: function() {
-		this.connection.createClass({
-			name: 'user',
-			description: 'class User',
-			schema: new Syncano.Schema()
-				.addField('first_name', 'string')
-				.addField('last_name', 'string').addOrderIndex()
-				.addField('year_of_birth', 'integer').addFilterIndex()
-		}).then(function(res) {
-			console.log(res);
-		}, this.onError);
-	},
-
-	onError: function(err) {
-		console.error(err);
-	}
 };
-
-var test = new TestSuite();*/
+*/
