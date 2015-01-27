@@ -51,6 +51,10 @@ TestSuite.prototype = {
 		}).then(this.onSuccess.bind(this), this.onError.bind(this));
 	},
 
+	accountResetKey: function() {
+		this.connection.accountResetKey().then(this.onSuccess.bind(this), this.onError.bind(this));
+	},
+
 	createClass: function() {
 		this.connection.createClass({
 			name: this.generateRandomString(),
