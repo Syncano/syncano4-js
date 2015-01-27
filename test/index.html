@@ -8,7 +8,19 @@
 	<style>
 		.success {background: #dff0d8 !important;}
 		.error {background: #f2dede !important;}
-		.done {border-left: 10px solid #f5f5f5 !important;}
+		/*.done {border-left: 10px solid #f5f5f5 !important;}*/
+		.done {position: relative;}
+		.done:before {
+			content: 'DONE';
+			display: block;
+			font-size: 10px;
+			color: #000;
+			position: absolute;
+			right: 0;
+			top: 0;
+			padding: 1px 4px;
+			background: #f5f5f5
+		}
 	</style>
 </head>
 <body>
