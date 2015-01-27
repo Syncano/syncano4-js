@@ -39,16 +39,3 @@ Returns object with account info (auth_token and user if any), instance and link
 ### deleteClass(classObject)
 
 Class object with "name" field is expected.
-
-# Shortcuts
-
-Assume
-```
-var obj = new Syncano();
-```
-
-Then:
-
-```obj.models.Klass.list()``` is equivalent to ```obj.listClasses()```
-
-
