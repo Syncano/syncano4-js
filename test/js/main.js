@@ -1,5 +1,56 @@
 function TestSuite() {
 	this.connection = new Syncano(Config.instance);
+}
+
+TestSuite.prototype = {
+	showToken: function(token) {
+		if (token.length) {
+			token = 'token: ' + token;
+		} else {
+			token = 'not connected';
+		}
+		document.getElementById('token').innerHTML = token;
+	},
+
+	connectToken: function($btn) {
+		var promise = this.connection.connect(Config.token);
+		this.proceedWithAuth(promise, $btn);
+	},
+
+	connectEmail: function($btn) {
+		var promise = this.connection.connect(Config.login, Config.password);
+		this.proceedWithAuth(promise, $btn);
+	},
+
+	proceedWithAuth: function(promise, $btn) {
+		this.showToken('');
+		promise.then(function() {
+			this.showToken(this.connection.getInfo().account.account_key);
+			$btn.parent().removeClass().addClass('bg-success');
+		}.bind(this), function(err) {
+			console.error(err);
+			$btn.parent().removeClass().addClass('bg-danger');
+		});
+	}
+};
+var test = new TestSuite();
+
+
+
+$('a').on('click', function(e) {
+	e.preventDefault();
+	var $btn = $(e.target);
+	var action = $btn.attr('href').substring(1).split('-').map(function(token, idx) {
+		return idx === 0 ? token : token.charAt(0).toUpperCase() + token.substring(1);
+	}).join('');
+	test[action]($btn);
+});
+
+
+
+/*
+function TestSuite() {
+	this.connection = new Syncano(Config.instance);
 	window.conn = this.connection;
 	this.start();
 }
@@ -71,4 +122,4 @@ TestSuite.prototype = {
 	}
 };
 
-var test = new TestSuite();
+var test = new TestSuite();*/

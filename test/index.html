@@ -3,12 +3,30 @@
 <head>
 	<meta charset="utf-8">
 	<title>Syncano 4 LIB test</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+	<style>
+	.list-group-item {background: transparent !important;}
+	</style>
 </head>
 <body>
-	<script src="vendor/jquery.js"></script>
-	<script src="lib.js"></script>
-	<script src="config.js"></script>
-	<script src="fixtures.js"></script>
-	<script src="main.js"></script>
+	<div class="container">
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<a class="btn btn-default navbar-right navbar-btn" href="https://syncanotest1-env.elasticbeanstalk.com/docs/" target="_blank">Docs</a>
+				<span class="navbar-text" id="token">not connected</span>
+			</div>
+		</nav>
+		<div class="col-md-3 list-group">
+			<p><a href="#connect-token" class="list-group-item">Connect with token</a></p>
+			<p><a href="#connect-email" class="list-group-item">Connect with email / password</a></p>
+		</div>
+	</div>
+	<script src="../vendor/jquery.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	<script src="../lib/lib.js"></script>
+	<script src="js/config.js"></script>
+	<script src="js/fixtures.js"></script>
+	<script src="js/main.js"></script>
 </body>
 </html>
