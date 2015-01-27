@@ -19,7 +19,7 @@ TestSuite.prototype = {
 	},
 
 	connectEmail: function() {
-		var promise = this.connection.connect(Config.login, Config.password);
+		var promise = this.connection.connect(Config.email, Config.password);
 		this.proceedWithAuth(promise);
 	},
 
@@ -29,6 +29,26 @@ TestSuite.prototype = {
 			this.showToken(this.connection.getInfo().account.account_key);
 			this.onSuccess();
 		}.bind(this), this.onError.bind(this));
+	},
+
+	registerAccount: function() {
+		this.connection.accountRegister({
+			email: this.generateRandomString(6) + '@mindpower.pl',
+			password: this.generateRandomString(12),
+			first_name: this.generateRandomString(8),
+			last_name: this.generateRandomString(8)
+		}).then(this.onSuccess.bind(this), this.onError.bind(this));
+	},
+
+	getAccountInfo: function() {
+		this.connection.accountGetInfo().then(this.onSuccess.bind(this), this.onError.bind(this));
+	},
+
+	updateAccount: function() {
+		this.connection.accountUpdate({
+			email: Config.email,
+			last_name: this.generateRandomString(10)
+		}).then(this.onSuccess.bind(this), this.onError.bind(this));
 	},
 
 	createClass: function() {
@@ -48,6 +68,19 @@ TestSuite.prototype = {
 
 	listDataObjects: function() {
 		this.connection.listDataObjects('user').then(this.onSuccess.bind(this), this.onError.bind(this));
+	},
+
+	listDataObjectsWithPagination: function() {
+		this.connection.listDataObjects('user', {
+			limit: 3
+		}).then(function(pageList) {
+			console.log('First page', pageList);
+			if (pageList.hasNextPage()) {
+				pageList.loadNextPage().then(function(secondPageList) {
+					this.onSuccess(secondPageList);
+				}.bind(this), this.onError);
+			}
+		}.bind(this), this.onError.bind(this));
 	},
 
 	generateRandomString: function(len) {
@@ -82,35 +115,36 @@ $('a').on('click', function(e) {
 		return idx === 0 ? token : token.charAt(0).toUpperCase() + token.substring(1);
 	}).join('');
 	test.$lastClickedButton = $btn;
-	test[action]();
+	try {
+		test[action]();
+	} catch (e) {
+		test.onError(e.message);
+	}
 });
 
 
 
-/*
-TestSuite.prototype = {
-	proceed: function() {
-		// this.connection.models.Klass.list().then(function(classList) {
-		// this.createUsersFromFixtures(classList);
-		this.connection.listDataObjects('user', {
-			limit: 3
-		}).then(function(dataList) {
-			console.log('First page', dataList);
-			if (dataList.hasNextPage()) {
-				dataList.loadNextPage().then(function(res) {
-					console.log('Next page', res);
-				}.bind(this), this.onError);
-			}
-		}.bind(this), this.onError);
-		// }.bind(this), this.onError);
-	},
+var list = [{
+	id: 1,
+	name: '1'
+}, {
+	id: 2,
+	name: '2'
+}, {
+	id: 3,
+	name: '3'
+}, {
+	id: 4,
+	name: '4'
+}];
 
-	createUsersFromFixtures: function(classList) {
-		for (var i = 0; i < UserFixtures.length; i++) {
-			this.connection.createDataObject(classList.User, UserFixtures[i]).then(function(res) {
-				console.log('Created', res.first_name, res.last_name);
-			});
-		}
-	},
-};
-*/
+var obj = {};
+Object.defineProperty(obj, 'data', {
+	value: list,
+	writable: true,
+	enumerable: false,
+	configurable: false
+});
+obj.__defineGetter__('first', function() {
+	return obj.data[0];
+});

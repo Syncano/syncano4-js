@@ -6,7 +6,7 @@
 ```
 var Config = {
 	instance: '',
-	login: '',
+	email: '',
 	password: '',
 	token: ''
 };
