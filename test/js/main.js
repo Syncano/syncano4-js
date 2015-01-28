@@ -55,9 +55,16 @@ TestSuite.prototype = {
 		this.connection.Accounts.resetKey().then(this.onSuccess.bind(this), this.onError.bind(this));
 	},
 
-	createClass: function() {
+	createUserClass: function() {
+		this.createClass('user');
+	},
+
+	createClass: function(name) {
+		if (typeof name === 'undefined') {
+			name = this.generateRandomString();
+		}
 		this.connection.createClass({
-			name: this.generateRandomString(),
+			name: name,
 			description: 'class description',
 			schema: new Syncano.Schema()
 				.addField('first_name', 'string')
