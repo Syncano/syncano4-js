@@ -32,9 +32,12 @@ TestSuite.prototype = {
 	},
 
 	registerAccount: function() {
+		var password = this.generateRandomString(6);
+		var email = this.generateRandomString(6) + '@mindpower.pl';
+		console.info(email, password);
 		this.connection.Accounts.create({
-			email: this.generateRandomString(6) + '@mindpower.pl',
-			password: this.generateRandomString(12),
+			email: email,
+			password: password,
 			first_name: this.generateRandomString(8),
 			last_name: this.generateRandomString(8)
 		}).then(this.onSuccess.bind(this), this.onError.bind(this));
@@ -112,6 +115,28 @@ TestSuite.prototype = {
 
 	listDataObjects: function() {
 		this.connection.listDataObjects('user').then(this.onSuccess.bind(this), this.onError.bind(this));
+	},
+
+	createDataObject: function() {
+		this.connection.createDataObject({
+			class_name: 'user',
+			first_name: this.generateRandomString(6),
+			last_name: this.generateRandomString(10),
+			year_of_birth: this.generateRandomNumber(1950, 2000)
+		}).then(this.onSuccess.bind(this), this.onError.bind(this));
+	},
+
+	deleteDataObject: function() {
+		this.connection.listDataObjects('user').then(function(list) {
+			if (list.length > 0) {
+				this.connection.deleteDataObject({
+					class_name: 'user',
+					id: list._items[0].id
+				}).then(this.onSuccess.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create data object first');
+			}
+		}.bind(this), this.onError.bind(this));
 	},
 
 	createInstance: function() {
@@ -198,6 +223,10 @@ TestSuite.prototype = {
 		return s.join(' ');
 	},
 
+	generateRandomNumber: function(min, max) {
+		return parseInt(Math.random() * (max - min), 10) + min;
+	},
+
 	onSuccess: function(result) {
 		console.log(result);
 		this.$lastClickedButton.removeClass('error').addClass('success');
@@ -209,7 +238,6 @@ TestSuite.prototype = {
 	}
 };
 var test = new TestSuite();
-
 
 $('.panel a').on('click', function(e) {
 	e.preventDefault();
