@@ -74,6 +74,51 @@ TestSuite.prototype = {
 		this.connection.listDataObjects('user').then(this.onSuccess.bind(this), this.onError.bind(this));
 	},
 
+	createInstance: function() {
+		var name = this.generateRandomString(12);
+		this.connection.createInstance({
+			name: name,
+			description: 'description for test instance ' + name
+		}).then(this.onSuccess.bind(this), this.onError.bind(this));
+	},
+
+	listInstances: function() {
+		this.connection.listInstances().then(this.onSuccess.bind(this), this.onError.bind(this));
+	},
+
+	getInstanceInfoString: function() {
+		this.connection.getInstance(Config.instance).then(this.onSuccess.bind(this), this.onError.bind(this));
+	},
+
+	getInstanceInfoObject: function() {
+		this.connection.getInstance({
+			name: Config.instance
+		}).then(this.onSuccess.bind(this), this.onError.bind(this));
+	},
+
+	deleteInstance: function() {
+		this.connection.listInstances().then(function(list) {
+			var instanceToDelete = null;
+			for (var key in list) {
+				if (key !== Config.instance) {
+					instanceToDelete = key;
+					break;
+				}
+			}
+			this.connection.deleteInstance(instanceToDelete).then(this.onSuccess.bind(this), this.onError.bind(this));
+		}.bind(this), this.onError.bind(this));
+	},
+
+	updateInstance: function() {
+		this.connection.updateInstance(Config.instance, {
+			description: this.generateRandomPhrase(3)
+		}).then(this.onSuccess.bind(this), this.onError.bind(this));
+	},
+
+	getInstanceAdmins: function() {
+		this.connection.listInstanceAdmins(Config.instance).then(this.onSuccess.bind(this), this.onError.bind(this));
+	},
+
 	listDataObjectsWithPagination: function() {
 		this.connection.listDataObjects('user', {
 			limit: 3
@@ -83,6 +128,8 @@ TestSuite.prototype = {
 				pageList.loadNextPage().then(function(secondPageList) {
 					this.onSuccess(secondPageList);
 				}.bind(this), this.onError);
+			} else {
+				this.onError('Cannot load second page');
 			}
 		}.bind(this), this.onError.bind(this));
 	},
@@ -99,6 +146,14 @@ TestSuite.prototype = {
 		return s;
 	},
 
+	generateRandomPhrase: function(wordsCnt) {
+		var s = [];
+		for (var i = 0; i < wordsCnt; i++) {
+			s.push(this.generateRandomString(8));
+		}
+		return s.join(' ');
+	},
+
 	onSuccess: function(result) {
 		console.log(result);
 		this.$lastClickedButton.removeClass('error').addClass('success');
@@ -112,7 +167,7 @@ TestSuite.prototype = {
 var test = new TestSuite();
 
 
-$('a').on('click', function(e) {
+$('.panel a').on('click', function(e) {
 	e.preventDefault();
 	var $btn = $(e.target);
 	var action = $btn.attr('href').substring(1).split('-').map(function(token, idx) {
@@ -120,35 +175,12 @@ $('a').on('click', function(e) {
 	}).join('');
 	test.$lastClickedButton = $btn;
 	try {
-		test[action]();
+		if (typeof test[action] === 'function') {
+			test[action]();
+		} else {
+			throw new Error(action + ' is not defined');
+		}
 	} catch (e) {
 		test.onError(e.message);
 	}
-});
-
-
-
-var list = [{
-	id: 1,
-	name: '1'
-}, {
-	id: 2,
-	name: '2'
-}, {
-	id: 3,
-	name: '3'
-}, {
-	id: 4,
-	name: '4'
-}];
-
-var obj = {};
-Object.defineProperty(obj, 'data', {
-	value: list,
-	writable: true,
-	enumerable: false,
-	configurable: false
-});
-obj.__defineGetter__('first', function() {
-	return obj.data[0];
 });
