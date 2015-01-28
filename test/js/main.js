@@ -139,6 +139,20 @@ TestSuite.prototype = {
 		}.bind(this), this.onError.bind(this));
 	},
 
+	updateDataObject: function() {
+		this.connection.listDataObjects('user').then(function(list) {
+			if (list.length > 0) {
+				this.connection.updateDataObject('user', {
+					id: list._items[0].id,
+					first_name: this.generateRandomString(8),
+					last_name: this.generateRandomString(10)
+				}).then(this.onSuccess.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create data object first');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
 	createInstance: function() {
 		var name = this.generateRandomString(12);
 		this.connection.Instances.create({
