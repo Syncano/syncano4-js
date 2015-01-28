@@ -4,17 +4,17 @@ function TestSuite() {
 }
 
 TestSuite.prototype = {
-	showToken: function(token) {
-		if (token.length) {
-			token = 'token: ' + token;
+	showApiKey: function(apiKey) {
+		if (apiKey.length) {
+			apiKey = 'apiKey: ' + apiKey;
 		} else {
-			token = 'not connected';
+			apiKey = 'not connected';
 		}
-		document.getElementById('token').innerHTML = token;
+		document.getElementById('api-key').innerHTML = apiKey;
 	},
 
-	connectToken: function() {
-		var promise = this.connection.connect(Config.token);
+	connectApiKey: function() {
+		var promise = this.connection.connect(Config.apiKey);
 		this.proceedWithAuth(promise);
 	},
 
@@ -24,9 +24,9 @@ TestSuite.prototype = {
 	},
 
 	proceedWithAuth: function(promise) {
-		this.showToken('');
+		this.showApiKey('');
 		promise.then(function() {
-			this.showToken(this.connection.getInfo().account.account_key);
+			this.showApiKey(this.connection.getInfo().account.account_key);
 			this.onSuccess();
 		}.bind(this), this.onError.bind(this));
 	},
