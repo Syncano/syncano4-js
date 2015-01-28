@@ -70,6 +70,39 @@ TestSuite.prototype = {
 		this.connection.listClasses().then(this.onSuccess.bind(this), this.onError.bind(this));
 	},
 
+	deleteClass: function() {
+		this.connection.listClasses().then(function(list) {
+			var classToDelete = null;
+			for (var key in list) {
+				if (key !== 'user') {
+					classToDelete = key;
+					break;
+				}
+			}
+			this.connection.deleteClass(classToDelete).then(this.onSuccess.bind(this), this.onError.bind(this));
+		}.bind(this), this.onError.bind(this));
+	},
+
+	getClassInfo: function() {
+		this.connection.getClass('user').then(this.onSuccess.bind(this), this.onError.bind(this));
+	},
+
+	updateClass: function() {
+		this.connection.listClasses().then(function(list) {
+			var className = null;
+			for (var key in list) {
+				if (key !== 'user') {
+					className = key;
+					break;
+				}
+			}
+			this.connection.updateClass(className, {
+				description: this.generateRandomPhrase(4),
+				schema: new Syncano.Schema().addField('field_name', 'string')
+			}).then(this.onSuccess.bind(this), this.onError.bind(this));
+		}.bind(this), this.onError.bind(this));
+	},
+
 	listDataObjects: function() {
 		this.connection.listDataObjects('user').then(this.onSuccess.bind(this), this.onError.bind(this));
 	},
