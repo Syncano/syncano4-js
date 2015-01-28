@@ -32,7 +32,7 @@ TestSuite.prototype = {
 	},
 
 	registerAccount: function() {
-		this.connection.createAccount({
+		this.connection.Accounts.create({
 			email: this.generateRandomString(6) + '@mindpower.pl',
 			password: this.generateRandomString(12),
 			first_name: this.generateRandomString(8),
@@ -41,18 +41,18 @@ TestSuite.prototype = {
 	},
 
 	getAccountInfo: function() {
-		this.connection.getAccount().then(this.onSuccess.bind(this), this.onError.bind(this));
+		this.connection.Accounts.get().then(this.onSuccess.bind(this), this.onError.bind(this));
 	},
 
 	updateAccount: function() {
-		this.connection.updateAccount({
+		this.connection.Accounts.update({
 			email: Config.email,
 			last_name: this.generateRandomString(10)
 		}).then(this.onSuccess.bind(this), this.onError.bind(this));
 	},
 
 	accountResetKey: function() {
-		this.connection.resetAccountKey().then(this.onSuccess.bind(this), this.onError.bind(this));
+		this.connection.Accounts.resetKey().then(this.onSuccess.bind(this), this.onError.bind(this));
 	},
 
 	createClass: function() {
@@ -109,28 +109,28 @@ TestSuite.prototype = {
 
 	createInstance: function() {
 		var name = this.generateRandomString(12);
-		this.connection.createInstance({
+		this.connection.Instances.create({
 			name: name,
 			description: 'description for test instance ' + name
 		}).then(this.onSuccess.bind(this), this.onError.bind(this));
 	},
 
 	listInstances: function() {
-		this.connection.listInstances().then(this.onSuccess.bind(this), this.onError.bind(this));
+		this.connection.Instances.list().then(this.onSuccess.bind(this), this.onError.bind(this));
 	},
 
 	getInstanceInfoString: function() {
-		this.connection.getInstance(Config.instance).then(this.onSuccess.bind(this), this.onError.bind(this));
+		this.connection.Instances.get(Config.instance).then(this.onSuccess.bind(this), this.onError.bind(this));
 	},
 
 	getInstanceInfoObject: function() {
-		this.connection.getInstance({
+		this.connection.Instances.get({
 			name: Config.instance
 		}).then(this.onSuccess.bind(this), this.onError.bind(this));
 	},
 
 	deleteInstance: function() {
-		this.connection.listInstances().then(function(list) {
+		this.connection.Instances.list().then(function(list) {
 			var instanceToDelete = null;
 			for (var key in list) {
 				if (key !== Config.instance) {
@@ -138,18 +138,22 @@ TestSuite.prototype = {
 					break;
 				}
 			}
-			this.connection.deleteInstance(instanceToDelete).then(this.onSuccess.bind(this), this.onError.bind(this));
+			if (instanceToDelete) {
+				this.connection.Instances.delete(instanceToDelete).then(this.onSuccess.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Please create instance first');
+			}
 		}.bind(this), this.onError.bind(this));
 	},
 
 	updateInstance: function() {
-		this.connection.updateInstance(Config.instance, {
+		this.connection.Instances.update(Config.instance, {
 			description: this.generateRandomPhrase(3)
 		}).then(this.onSuccess.bind(this), this.onError.bind(this));
 	},
 
 	getInstanceAdmins: function() {
-		this.connection.listInstanceAdmins(Config.instance).then(this.onSuccess.bind(this), this.onError.bind(this));
+		this.connection.Instances.listAdmins(Config.instance).then(this.onSuccess.bind(this), this.onError.bind(this));
 	},
 
 	listDataObjectsWithPagination: function() {
