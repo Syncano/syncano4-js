@@ -32,7 +32,7 @@ TestSuite.prototype = {
 	},
 
 	registerAccount: function() {
-		this.connection.accountRegister({
+		this.connection.createAccount({
 			email: this.generateRandomString(6) + '@mindpower.pl',
 			password: this.generateRandomString(12),
 			first_name: this.generateRandomString(8),
@@ -41,18 +41,18 @@ TestSuite.prototype = {
 	},
 
 	getAccountInfo: function() {
-		this.connection.accountGetInfo().then(this.onSuccess.bind(this), this.onError.bind(this));
+		this.connection.getAccount().then(this.onSuccess.bind(this), this.onError.bind(this));
 	},
 
 	updateAccount: function() {
-		this.connection.accountUpdate({
+		this.connection.updateAccount({
 			email: Config.email,
 			last_name: this.generateRandomString(10)
 		}).then(this.onSuccess.bind(this), this.onError.bind(this));
 	},
 
 	accountResetKey: function() {
-		this.connection.accountResetKey().then(this.onSuccess.bind(this), this.onError.bind(this));
+		this.connection.resetAccountKey().then(this.onSuccess.bind(this), this.onError.bind(this));
 	},
 
 	createClass: function() {
