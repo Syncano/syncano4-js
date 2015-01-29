@@ -257,6 +257,65 @@ TestSuite.prototype = {
 		}.bind(this), this.onError.bind(this));
 	},
 
+	createCodebox: function() {
+		var source = [
+			"'use strict';",
+			"var obj = {",
+			"name: 'Syncano'",
+			"};",
+			"console.log(JSON.stringify(obj));"
+		].join('\n');
+		var params = {
+			name: 'Codebox ' + this.generateRandomNumber(10, 1000),
+			source: source
+		}
+		this.connection.CodeBoxes.create(params).then(this.onSuccess.bind(this), this.onError.bind(this));
+	},
+
+	listCodeboxes: function() {
+		this.connection.CodeBoxes.list().then(this.onSuccess.bind(this), this.onError.bind(this));
+	},
+
+	getCodebox: function() {
+		this.connection.CodeBoxes.list().then(function(List) {
+			if (List.length > 0) {
+				this.connection.CodeBoxes.get(List.at(0)).then(this.onSuccess.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create codebox first');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
+	updateCodebox: function() {
+		this.connection.CodeBoxes.list().then(function(List) {
+			if (List.length > 0) {
+				var item = List.at(0);
+				var params = {
+					id: item.id,
+					description: this.generateRandomPhrase(3),
+					source: item.source + '\n\n\n/* comment */'
+				};
+				this.connection.CodeBoxes.update(params).then(this.onSuccess.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create codebox first');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
+	deleteCodebox: function() {
+		this.connection.CodeBoxes.list().then(function(List) {
+			if (List.length > 0) {
+				this.connection.CodeBoxes.remove(List.at(0)).then(this.onSuccess.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create codebox first');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
+	listCodeboxRuntimes: function() {
+		this.connection.CodeBoxes.listRuntimes().then(this.onSuccess.bind(this), this.onError.bind(this));
+	},
+
 	generateRandomString: function(len) {
 		len = parseInt(len / 2, 10) || 5;
 		var lettersA = 'wrtplkjhgfdszcbnm'.split('');
