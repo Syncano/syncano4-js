@@ -131,7 +131,7 @@ TestSuite.prototype = {
 			if (list.length > 0) {
 				this.connection.DataObjects.remove({
 					class_name: 'user',
-					id: list._items[0].id
+					id: list.at(0).id
 				}).then(this.onSuccess.bind(this), this.onError.bind(this));
 			} else {
 				this.onError('Create data object first');
@@ -143,7 +143,7 @@ TestSuite.prototype = {
 		this.connection.DataObjects.list('user').then(function(list) {
 			if (list.length > 0) {
 				this.connection.DataObjects.update('user', {
-					id: list._items[0].id,
+					id: list.at(0).id,
 					first_name: this.generateRandomString(8),
 					last_name: this.generateRandomString(10)
 				}).then(this.onSuccess.bind(this), this.onError.bind(this));
@@ -157,7 +157,7 @@ TestSuite.prototype = {
 		this.connection.DataObjects.list('user').then(function(list) {
 			if (list.length > 0) {
 				this.connection.DataObjects.get('user', {
-					id: list._items[0].id
+					id: list.at(0).id
 				}).then(this.onSuccess.bind(this), this.onError.bind(this));
 			} else {
 				this.onError('Create data object first');
@@ -225,6 +225,34 @@ TestSuite.prototype = {
 				}.bind(this), this.onError);
 			} else {
 				this.onError('Cannot load second page');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
+	listApiKeys: function() {
+		this.connection.ApiKeys.list().then(this.onSuccess.bind(this), this.onError.bind(this));
+	},
+
+	createApiKey: function() {
+		this.connection.ApiKeys.create().then(this.onSuccess.bind(this), this.onError.bind(this));
+	},
+
+	getApiKeyInfo: function() {
+		this.connection.ApiKeys.list().then(function(List) {
+			if (List.length > 0) {
+				this.connection.ApiKeys.get(List.at(0)).then(this.onSuccess.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create api key first');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
+	deleteApiKey: function() {
+		this.connection.ApiKeys.list().then(function(List) {
+			if (List.length > 0) {
+				this.connection.ApiKeys.remove(List.at(0).id).then(this.onSuccess.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create api key first');
 			}
 		}.bind(this), this.onError.bind(this));
 	},
