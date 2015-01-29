@@ -27,6 +27,7 @@ TestSuite.prototype = {
 		this.showApiKey('');
 		promise.then(function() {
 			this.showApiKey(this.connection.getInfo().account.account_key);
+			$('.panel').addClass('active');
 			this.onSuccess();
 		}.bind(this), this.onError.bind(this));
 	},
@@ -60,6 +61,16 @@ TestSuite.prototype = {
 
 	createUserClass: function() {
 		this.createClass('user');
+	},
+
+	createRelationClass: function() {
+		this.connection.Classes.create({
+			name: 'relation',
+			description: 'relation description',
+			schema: new Syncano.Schema()
+				.addField('name', 'string')
+				.addField('user', 'reference', 'user')
+		}).then(this.onSuccess.bind(this), this.onError.bind(this));
 	},
 
 	createClass: function(name) {
@@ -115,6 +126,25 @@ TestSuite.prototype = {
 
 	listDataObjects: function() {
 		this.connection.DataObjects.list('user').then(this.onSuccess.bind(this), this.onError.bind(this));
+	},
+
+	listDataObjectsWithReference: function() {
+		this.connection.DataObjects.list('relation').then(this.onSuccess.bind(this), this.onError.bind(this));
+	},
+
+	createDataObjectWithReference: function() {
+		this.connection.DataObjects.list('user').then(function(Users) {
+			if (Users.length > 0) {
+				var user = Users.at(0);
+				this.connection.DataObjects.create({
+					class_name: 'relation',
+					name: this.generateRandomString(8),
+					user: user.id
+				}).then(this.onSuccess.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create user first');
+			}
+		}.bind(this), this.onError.bind(this));
 	},
 
 	createDataObject: function() {

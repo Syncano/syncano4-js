@@ -4,23 +4,7 @@
 	<meta charset="utf-8">
 	<title>Syncano 4 LIB test</title>
 	<link rel="stylesheet" href="bootstrap.css">
-	<style>
-		.success {background: #dff0d8 !important;}
-		.error {background: #f2dede !important;}
-		/*.done {border-left: 10px solid #f5f5f5 !important;}*/
-		.done {position: relative;}
-		.done:before {
-			content: 'DONE';
-			display: block;
-			font-size: 10px;
-			color: #000;
-			position: absolute;
-			right: 0;
-			top: 0;
-			padding: 1px 4px;
-			background: #f5f5f5
-		}
-	</style>
+	<link rel="stylesheet" href="style.css">
 </head>
 <body>
 	<div class="container">
@@ -31,7 +15,7 @@
 			</div>
 		</nav>
 		<div class="col-md-3">
-			<div class="panel panel-default">
+			<div class="panel panel-default connect">
 				<div class="panel-heading">Connect</div>
 				<div class="list-group">
 					<a href="#connect-api-key" class="list-group-item done">Connect with API key</a>
@@ -70,6 +54,7 @@
 				<div class="panel-heading">Classes</div>
 				<div class="list-group">
 					<a href="#create-user-class" class="list-group-item done">Create "user" class</a>
+					<a href="#create-relation-class" class="list-group-item done">Create class with reference</a>
 					<a href="#create-class" class="list-group-item done">Create class</a>
 					<a href="#list-classes" class="list-group-item done">List classes</a>
 					<a href="#delete-class" class="list-group-item done">Delete class</a>
@@ -83,7 +68,9 @@
 				<div class="list-group">
 					<a href="#list-data-objects" class="list-group-item done">List data objects</a>
 					<a href="#list-data-objects-with-pagination" class="list-group-item done">List objects with pagination</a>
+					<a href="#list-data-objects-with-reference" class="list-group-item done">List objects with reference</a>
 					<a href="#create-data-object" class="list-group-item done">Create data object</a>
+					<a href="#create-data-object-with-reference" class="list-group-item done">Create data object with reference</a>
 					<a href="#delete-data-object" class="list-group-item done">Delete data object</a>
 					<a href="#update-data-object" class="list-group-item done">Update data object</a>
 					<a href="#get-data-object" class="list-group-item done">Get data object</a>
