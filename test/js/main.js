@@ -346,6 +346,39 @@ TestSuite.prototype = {
 		this.connection.CodeBoxes.listRuntimes().then(this.onSuccess.bind(this), this.onError.bind(this));
 	},
 
+	createInvitation: function() {
+		var params = {
+			email: 'fake-email@syncano.com'
+		};
+		this.connection.createInvitation(params).then(this.onSuccess.bind(this), this.onError.bind(this));
+	},
+
+	listInvitations: function() {
+		this.connection.Invitations.list().then(this.onSuccess.bind(this), this.onError.bind(this));
+	},
+
+	getInvitation: function() {
+		this.connection.Invitations.list().then(function(List) {
+			if (List.length > 0) {
+				this.connection.Invitations.get(List.at(0)).then(this.onSuccess.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create invitation first');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
+	deleteInvitation: function() {
+		this.connection.Invitations.list().then(function(List) {
+			if (List.length > 0) {
+				this.connection.Invitations.remove(List.at(0)).then(this.onSuccess.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create invitation first');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
+
+
 	generateRandomString: function(len) {
 		len = parseInt(len / 2, 10) || 5;
 		var lettersA = 'wrtplkjhgfdszcbnm'.split('');
