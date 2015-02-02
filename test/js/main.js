@@ -378,6 +378,33 @@ TestSuite.prototype = {
 	},
 
 
+	createWebhook: function() {
+		this.connection.CodeBoxes.list().then(function(List) {
+			if (List.length > 0) {
+				this.connection.WebHooks.create({
+					codebox: List.at(0),
+					slug: 'slug_' + this.generateRandomString(8)
+				}).then(this.onSuccess.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create codebox first');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
+	listWebhooks: function() {
+		this.connection.WebHooks.list().then(this.onSuccess.bind(this), this.onError.bind(this));
+	},
+
+	getWebhook: function() {
+		this.connection.WebHooks.list().then(function(List) {
+			if (List.length > 0) {
+				this.connection.WebHooks.get(List.at(0)).then(this.onSuccess.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create webhook first');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
 
 	generateRandomString: function(len) {
 		len = parseInt(len / 2, 10) || 5;
