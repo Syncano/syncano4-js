@@ -437,6 +437,56 @@ TestSuite.prototype = {
 		}.bind(this), this.onError.bind(this));
 	},
 
+	createTrigger: function() {
+		this.connection.CodeBoxes.list().then(function(List) {
+			if (List.length > 0) {
+				this.connection.Triggers.create({
+					codebox: List.at(0),
+					klass: 'user',
+					signal: 'post_create'
+				}).then(this.onSuccess.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create codebox first');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
+	listTriggers: function() {
+		this.connection.Triggers.list().then(this.onSuccess.bind(this), this.onError.bind(this));
+	},
+
+	getTrigger: function() {
+		this.connection.Triggers.list().then(function(List) {
+			if (List.length > 0) {
+				this.connection.Triggers.get(List.at(0)).then(this.onSuccess.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create trigger first');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
+	updateTrigger: function() {
+		this.connection.Triggers.list().then(function(List) {
+			if (List.length > 0) {
+				this.connection.Triggers.update(List.at(0).id, {
+					signal: 'post_update'
+				}).then(this.onSuccess.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create trigger first');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
+	deleteTrigger: function() {
+		this.connection.Triggers.list().then(function(List) {
+			if (List.length > 0) {
+				this.connection.Triggers.remove(List.at(0)).then(this.onSuccess.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create trigger first');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
 	example1: function() {
 		[
 			'Scenario:',
