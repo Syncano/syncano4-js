@@ -405,6 +405,38 @@ TestSuite.prototype = {
 		}.bind(this), this.onError.bind(this));
 	},
 
+	deleteWebhook: function() {
+		this.connection.WebHooks.list().then(function(List) {
+			if (List.length > 0) {
+				this.connection.WebHooks.remove(List.at(0)).then(this.onSuccess.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create webhook first');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
+	updateWebhook: function() {
+		this.connection.WebHooks.list().then(function(List) {
+			if (List.length > 0) {
+				this.connection.WebHooks.update(List.at(0).slug, {
+					slug: 'slug_' + this.generateRandomString(6)
+				}).then(this.onSuccess.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create webhook first');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
+	runWebhook: function() {
+		this.connection.WebHooks.list().then(function(List) {
+			if (List.length > 0) {
+				this.connection.WebHooks.run(List.at(0)).then(this.onSuccess.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create webhook first');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
 
 	generateRandomString: function(len) {
 		len = parseInt(len / 2, 10) || 5;
