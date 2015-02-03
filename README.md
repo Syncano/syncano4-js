@@ -39,3 +39,16 @@ Returns object with account info (auth_token and user if any), instance and link
 ### deleteClass(classObject)
 
 Class object with "name" field is expected.
+
+
+###
+var syncano = test.connection;
+syncano.Classes.get('user').then(function(UserClass){
+	return UserClass.createDataObject({
+		first_name: 'Kazimierz',
+		last_name: 'Przerwa-Tetmajer',
+		year_of_birth: 1865
+	});
+}).then(function(Obj){
+	console.log(Obj);
+});
