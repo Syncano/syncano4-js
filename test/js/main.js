@@ -508,6 +508,7 @@ TestSuite.prototype = {
 	onSuccess: function(result) {
 		console.log(result);
 		this.$lastClickedButton.removeClass('error').addClass('success');
+		window.LAST_RESULT = result;
 	},
 
 	onError: function(err) {
