@@ -437,6 +437,49 @@ TestSuite.prototype = {
 		}.bind(this), this.onError.bind(this));
 	},
 
+	example1: function() {
+		[
+			'Scenario:',
+			'1. Create new class',
+			'2. Create two objects using this class',
+			'3. Change class definition',
+			'4. Read objects',
+			'5. Observe new fields'
+		].forEach(function(line) {
+			console.log(line);
+		});
+
+		var CON = this.connection;
+		var className = this.generateRandomString(6);
+		var fieldName = this.generateRandomString(8);
+		CON.Classes.create({
+			name: className,
+			schema: new Syncano.Schema().addField('field1', 'string')
+		}).then(function() {
+			console.log('Created class ', className);
+			return CON.DataObjects.create({
+				class_name: className,
+				field1: fieldName + ' 1',
+			});
+		}, this.onError.bind(this)).then(function() {
+			console.log('Created data object ', fieldName + ' 1');
+			return CON.DataObjects.create({
+				class_name: className,
+				field1: fieldName + ' 2',
+			});
+		}, this.onError.bind(this)).then(function() {
+			console.log('Created data object ', fieldName + ' 2');
+			return CON.Classes.update(className, {
+				schema: new Syncano.Schema().addField('field1', 'string').addField('field2', 'string')
+			});
+		}, this.onError.bind(this)).then(function() {
+			console.log('Updated class', className);
+			return CON.DataObjects.list(className);
+		}, this.onError.bind(this)).then(function(List) {
+			console.log('Objects list', List);
+		}.bind(this), this.onError.bind(this));
+	},
+
 
 	generateRandomString: function(len) {
 		len = parseInt(len / 2, 10) || 5;
