@@ -287,17 +287,26 @@ TestSuite.prototype = {
 		}.bind(this), this.onError.bind(this));
 	},
 
-	createCodebox: function() {
+	createCodeboxPython: function() {
 		var source = [
-			"'use strict';",
-			"var obj = {",
-			"name: 'Syncano'",
-			"};",
+			"print 'hello'"
+		].join('\n');
+		var params = {
+			name: 'Codebox ' + this.generateRandomNumber(10, 1000),
+			source: encodeURIComponent(source),
+			runtime_name: 'python'
+		}
+		this.connection.CodeBoxes.create(params).then(this.onSuccess.bind(this), this.onError.bind(this));
+	},
+
+	createCodeboxJs: function() {
+		var source = [
+			"var obj = {name: 'Syncano'};",
 			"console.log(JSON.stringify(obj));"
 		].join('\n');
 		var params = {
 			name: 'Codebox ' + this.generateRandomNumber(10, 1000),
-			source: source
+			source: encodeURIComponent(source)
 		}
 		this.connection.CodeBoxes.create(params).then(this.onSuccess.bind(this), this.onError.bind(this));
 	},
