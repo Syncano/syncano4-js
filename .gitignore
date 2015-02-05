@@ -3,3 +3,4 @@ config.js
 IDEA.txt
 lib/node_modules/*
 node/node_modules/*
+docs/
