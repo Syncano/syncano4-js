@@ -293,7 +293,7 @@ TestSuite.prototype = {
 		].join('\n');
 		var params = {
 			name: 'Codebox ' + this.generateRandomNumber(10, 1000),
-			source: encodeURIComponent(source),
+			source: source,
 			runtime_name: 'python'
 		}
 		this.connection.CodeBoxes.create(params).then(this.onSuccess.bind(this), this.onError.bind(this));
@@ -306,7 +306,7 @@ TestSuite.prototype = {
 		].join('\n');
 		var params = {
 			name: 'Codebox ' + this.generateRandomNumber(10, 1000),
-			source: encodeURIComponent(source)
+			source: source
 		}
 		this.connection.CodeBoxes.create(params).then(this.onSuccess.bind(this), this.onError.bind(this));
 	},
