@@ -425,13 +425,28 @@ TestSuite.prototype = {
 	},
 
 	updateWebhook: function() {
-		this.connection.WebHooks.list().then(function(List) {
-			if (List.length > 0) {
-				this.connection.WebHooks.update(List.at(0).slug, {
-					slug: 'slug_' + this.generateRandomString(6)
-				}).then(this.onSuccess.bind(this), this.onError.bind(this));
+		this.connection.CodeBoxes.list().then(function(CBList) {
+			if (CBList.length >= 2) {
+				this.connection.WebHooks.list().then(function(WHList) {
+					if (WHList.length > 0) {
+						var webhook = WHList.at(0);
+						var cb = webhook.codebox;
+						var newcb = 0;
+						for (var i = 0; i < CBList.length; i++) {
+							if (CBList.at(i).id !== cb) {
+								newcb = CBList.at(i).id;
+								break;
+							}
+						}
+						this.connection.WebHooks.update(WHList.at(0).slug, {
+							codebox: newcb
+						}).then(this.onSuccess.bind(this), this.onError.bind(this));
+					} else {
+						this.onError('Create webhook first');
+					}
+				}.bind(this), this.onError.bind(this));
 			} else {
-				this.onError('Create webhook first');
+				this.onError('Create at least 2 codeboxes first');
 			}
 		}.bind(this), this.onError.bind(this));
 	},
