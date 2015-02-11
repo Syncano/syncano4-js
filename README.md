@@ -3,7 +3,7 @@
 1. add latest jquery in vendor/jquery.js
 2. create config.js file with
 
-```
+```javascript
 var Config = {
 	instance: '',
 	email: '',
@@ -42,6 +42,8 @@ Class object with "name" field is expected.
 
 
 ###
+
+```javascript
 var syncano = test.connection;
 syncano.Classes.get('user').then(function(UserClass){
 	return UserClass.createDataObject({
@@ -52,3 +54,4 @@ syncano.Classes.get('user').then(function(UserClass){
 }).then(function(Obj){
 	console.log(Obj);
 });
+```
