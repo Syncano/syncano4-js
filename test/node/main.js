@@ -10,7 +10,7 @@ var Config = {
 };
 
 Config = require('./config');
-var Syncano = require('../lib/syncano4.js');
+var Syncano = require('../../lib/syncano4.js');
 
 var syncano = new Syncano(Config.instance);
 syncano.connect(Config.email, Config.password).then(function() {
