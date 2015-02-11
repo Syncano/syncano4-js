@@ -1,4 +1,4 @@
-vendor/*
+test/browser/vendor/*
 config.js
 IDEA.txt
 lib/node_modules/*
