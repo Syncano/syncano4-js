@@ -1,5 +1,7 @@
 'use strict';
 
+/*
+ * Create config.js file with this structure, or uncomment this and remove line with require('./config')
 var Config = {
 	instance: 'instance-name',
 	// use email and password
@@ -8,8 +10,10 @@ var Config = {
 	// or apiKey
 	apiKey: 'api-key'
 };
+module.exports = Config;
+*/
 
-Config = require('./config');
+var Config = require('./config');
 var Syncano = require('../../lib/syncano4.js');
 
 var syncano = new Syncano(Config.instance);
