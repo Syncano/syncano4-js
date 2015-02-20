@@ -1,6 +1,6 @@
 var Todo = SyncanoModel.extend({
 	syncanoParams: {
-		className: 'todo'
+		className: 'todomvc'
 	},
 
 	defaults: {

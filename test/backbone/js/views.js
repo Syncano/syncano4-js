@@ -39,7 +39,8 @@ var ItemView = Backbone.View.extend({
 	events: {
 		'click span': 'removeItem',
 		'click label': 'toggleEditing',
-		'keyup input[type="text"]': 'onKeyUp'
+		'keyup input[type="text"]': 'onKeyUp',
+		'click input[type="checkbox"]': 'toggleCompleted'
 	},
 
 	initialize: function() {
@@ -80,6 +81,15 @@ var ItemView = Backbone.View.extend({
 				}.bind(this)
 			});
 		}
+	},
+
+	toggleCompleted: function(e) {
+		this.model.save('completed', !this.model.get('completed'), {
+			success: function() {
+				this.editing = false;
+				this.render();
+			}.bind(this)
+		});
 	},
 
 	removeItem: function(e) {

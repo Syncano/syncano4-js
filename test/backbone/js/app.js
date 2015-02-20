@@ -5,7 +5,7 @@ promise = promise.then(function() {
 
 	// create Class
 	return syncano.Classes.create({
-		name: 'todo',
+		name: 'todomvc',
 		description: 'Sample class to keep our todo-list items',
 		schema: new Syncano.Schema()
 			.addField('title', 'string')
