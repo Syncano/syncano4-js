@@ -3,4 +3,5 @@ config.js
 IDEA.txt
 lib/node_modules/*
 test/node/node_modules/*
+test/todomvc/node_modules/*
 docs/
