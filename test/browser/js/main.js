@@ -117,7 +117,8 @@ TestSuite.prototype = {
 					break;
 				}
 			}
-			this.connection.Classes.update(className, {
+			this.connection.Classes.update({
+				name: className,
 				description: this.generateRandomPhrase(4),
 				schema: new Syncano.Schema().addField('field_name', 'string')
 			}).then(this.onSuccess.bind(this), this.onError.bind(this));
