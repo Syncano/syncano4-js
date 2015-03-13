@@ -512,6 +512,67 @@ TestSuite.prototype = {
 		}.bind(this), this.onError.bind(this));
 	},
 
+	createSchedule: function() {
+		this.connection.CodeBoxes.list().then(function(List) {
+			if (List.length > 0) {
+				this.connection.Schedules.create({
+					codebox: List.at(0),
+					name: 'every 30 seconds one bunny dies',
+					interval_sec: 30
+				}).then(this.onSuccess.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create codebox first');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
+	listSchedules: function() {
+		this.connection.Schedules.list().then(this.onSuccess.bind(this), this.onError.bind(this));
+	},
+
+	getSchedule: function() {
+		this.connection.Schedules.list().then(function(List) {
+			if (List.length > 0) {
+				this.connection.Schedules.get(List.at(0)).then(this.onSuccess.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create schedule first');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
+	deleteSchedule: function() {
+		this.connection.Schedules.list().then(function(List) {
+			if (List.length > 0) {
+				this.connection.Schedules.remove(List.at(0)).then(this.onSuccess.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create schedule first');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
+	listScheduleTraces: function() {
+		this.connection.Schedules.list().then(function(List) {
+			if (List.length > 0) {
+				this.connection.Schedules.traces(List.at(0)).then(this.onSuccess.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create schedule first');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
+	getScheduleTrace: function() {
+		this.connection.Schedules.list().then(function(List) {
+			if (List.length > 0) {
+				var scheduleId = List.at(0).id;
+				this.connection.Schedules.traces(scheduleId).then(function(List) {
+					this.connection.Schedules.trace(scheduleId, List.at(0)).then(this.onSuccess.bind(this), this.onError.bind(this));
+				}.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create schedule first');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
 	example1: function() {
 		[
 			'Scenario:',
