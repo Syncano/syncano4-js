@@ -5,3 +5,4 @@ lib/node_modules/*
 examples/node/node_modules/*
 examples/todomvc/node_modules/*
 docs/
+tools/
