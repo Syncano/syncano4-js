@@ -356,6 +356,39 @@ TestSuite.prototype = {
 		this.connection.CodeBoxes.listRuntimes().then(this.onSuccess.bind(this), this.onError.bind(this));
 	},
 
+	runCodebox: function() {
+		this.connection.CodeBoxes.list().then(function(List) {
+			if (List.length > 0) {
+				this.connection.CodeBoxes.run(List.at(0)).then(this.onSuccess.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create codebox first');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
+	listCodeboxTraces: function() {
+		this.connection.CodeBoxes.list().then(function(List) {
+			if (List.length > 0) {
+				this.connection.CodeBoxes.traces(List.at(0)).then(this.onSuccess.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create codebox first');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
+	getCodeboxTrace: function() {
+		this.connection.CodeBoxes.list().then(function(List) {
+			if (List.length > 0) {
+				var scheduleId = List.at(0).id;
+				this.connection.CodeBoxes.traces(scheduleId).then(function(List) {
+					this.connection.CodeBoxes.trace(scheduleId, List.at(0)).then(this.onSuccess.bind(this), this.onError.bind(this));
+				}.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create codebox first');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
 	createInvitation: function() {
 		var params = {
 			email: 'fake-email@syncano.com'
