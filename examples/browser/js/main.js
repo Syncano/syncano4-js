@@ -245,6 +245,16 @@ TestSuite.prototype = {
 		this.connection.Instances.listAdmins(Config.instance).then(this.onSuccess.bind(this), this.onError.bind(this));
 	},
 
+	listDataObjectsWithFilter: function() {
+		this.connection.DataObjects.list('user', {
+			query: JSON.stringify({
+				year_of_birth: {
+					_eq: 1959
+				}
+			})
+		}).then(this.onSuccess.bind(this), this.onError.bind(this));
+	},
+
 	listDataObjectsWithPagination: function() {
 		this.connection.DataObjects.list('user', {
 			limit: 3
