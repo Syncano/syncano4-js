@@ -1,6 +1,7 @@
 examples/browser/vendor/*
 config.js
 IDEA.txt
+node_modules/*
 lib/node_modules/*
 examples/node/node_modules/*
 examples/todomvc/node_modules/*

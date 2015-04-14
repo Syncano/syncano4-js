@@ -1,0 +1,13 @@
+{
+  "name": "SyncanoV4",
+  "description": "SyncanoV4",
+  "devDependencies": {
+    "d.js": "^0.7.0",
+    "jasmine-node": "^1.14.5",
+    "request": "^2.55.0",
+    "sinon": "^1.14.1"
+  },
+  "scripts": {
+    "test": "jasmine spec/*.js"
+  }
+}
