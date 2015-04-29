@@ -509,8 +509,9 @@ TestSuite.prototype = {
 		this.connection.CodeBoxes.list().then(function(List) {
 			if (List.length > 0) {
 				this.connection.Triggers.create({
+					name: this.generateRandomString(8),
 					codebox: List.at(0),
-					klass: 'user',
+					'class': 'user',
 					signal: 'post_create'
 				}).then(this.onSuccess.bind(this), this.onError.bind(this));
 			} else {
@@ -521,6 +522,29 @@ TestSuite.prototype = {
 
 	listTriggers: function() {
 		this.connection.Triggers.list().then(this.onSuccess.bind(this), this.onError.bind(this));
+	},
+
+	listTriggerTraces: function() {
+		this.connection.Triggers.list().then(function(List) {
+			if (List.length > 0) {
+				this.connection.Triggers.traces(List.at(0)).then(this.onSuccess.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create trigger first');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
+	getTriggerTrace: function() {
+		this.connection.Triggers.list().then(function(List) {
+			if (List.length > 0) {
+				var triggerId = List.at(0).id;
+				this.connection.Triggers.traces(triggerId).then(function(List) {
+					this.connection.Triggers.trace(triggerId, List.at(0)).then(this.onSuccess.bind(this), this.onError.bind(this));
+				}.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create trigger first');
+			}
+		}.bind(this), this.onError.bind(this));
 	},
 
 	getTrigger: function() {
