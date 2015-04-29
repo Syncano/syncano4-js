@@ -505,6 +505,29 @@ TestSuite.prototype = {
 		}.bind(this), this.onError.bind(this));
 	},
 
+	listWebhookTraces: function() {
+		this.connection.WebHooks.list().then(function(List) {
+			if (List.length > 0) {
+				this.connection.WebHooks.traces(List.at(0)).then(this.onSuccess.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create Webhook first');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
+	getWebhookTrace: function() {
+		this.connection.WebHooks.list().then(function(List) {
+			if (List.length > 0) {
+				var webhookId = List.at(0).id;
+				this.connection.WebHooks.traces(webhookId).then(function(List) {
+					this.connection.WebHooks.trace(webhookId, List.at(0)).then(this.onSuccess.bind(this), this.onError.bind(this));
+				}.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create Webhook first');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
 	createTrigger: function() {
 		this.connection.CodeBoxes.list().then(function(List) {
 			if (List.length > 0) {
