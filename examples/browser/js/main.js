@@ -701,14 +701,25 @@ TestSuite.prototype = {
 	updateUser: function() {
 		this.connection.Users.list().then(function(List) {
 			if (List.length > 0) {
-				this.connection.Users.update(List.at(0), {
+				this.connection.Users.update(List.at(0).id, {
 					username: this.generateRandomString(10),
-					password: this.generateRandomString(8)
+					password: this.generateRandomString(8),
+					age: this.generateRandomNumber(10, 60),
+					sex: 'M'
 				}).then(this.onSuccess.bind(this), this.onError.bind(this));
 			} else {
 				this.onError('Create user first');
 			}
 		}.bind(this), this.onError.bind(this));
+	},
+
+	updateUserProfile: function() {
+		this.connection.Classes.update({
+			name: 'user_profile',
+			schema: new Syncano.Schema()
+				.addField('sex', 'string').addOrderIndex().addFilterIndex()
+				.addField('age', 'integer').addOrderIndex()
+		}).then(this.onSuccess.bind(this), this.onError.bind(this));
 	},
 
 	deleteUser: function() {
