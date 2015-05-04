@@ -278,6 +278,18 @@ TestSuite.prototype = {
 		this.connection.ApiKeys.create().then(this.onSuccess.bind(this), this.onError.bind(this));
 	},
 
+	createApiKeyWithCreateFlag: function() {
+		this.connection.ApiKeys.create({
+			allow_user_create: true
+		}).then(function(res) {
+			if (res['allow_user_create'] === true) {
+				this.onSuccess(res);
+			} else {
+				this.onError('Could not create api key with required priviledges.');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
 	getApiKeyInfo: function() {
 		this.connection.ApiKeys.list().then(function(List) {
 			if (List.length > 0) {
