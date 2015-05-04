@@ -758,6 +758,28 @@ TestSuite.prototype = {
 		}.bind(this), this.onError.bind(this));
 	},
 
+	addUserToGroup: function() {
+		this.connection.Users.list().then(function(List) {
+			if (List.length > 0) {
+				var userId = List.at(0).id;
+				console.log('User', userId);
+				this.connection.Groups.list().then(function(List) {
+					if (List.length > 0) {
+						var groupId = List.at(0).id;
+						this.connection.Groups.addUser({
+							group: groupId,
+							user: userId
+						}).then(this.onSuccess.bind(this), this.onError.bind(this));
+					} else {
+						this.onError('Create group first');
+					}
+				}.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create user first');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
 	example1: function() {
 		[
 			'Scenario:',
