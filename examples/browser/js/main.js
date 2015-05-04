@@ -683,9 +683,7 @@ TestSuite.prototype = {
 	},
 
 	listUsers: function() {
-		this.connection.Users.list({
-			user_key: 'aedd9d380b0f6d4586a52f0c230d301526063f07'
-		}).then(this.onSuccess.bind(this), this.onError.bind(this));
+		this.connection.Users.list().then(this.onSuccess.bind(this), this.onError.bind(this));
 	},
 
 	getUser: function() {
@@ -728,6 +726,34 @@ TestSuite.prototype = {
 				this.connection.Users.remove(List.at(0)).then(this.onSuccess.bind(this), this.onError.bind(this));
 			} else {
 				this.onError('Create user first');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
+	createGroup: function() {
+		this.connection.Groups.create(this.generateRandomString(6)).then(this.onSuccess.bind(this), this.onError.bind(this));
+	},
+
+	getGroup: function() {
+		this.connection.Groups.list().then(function(List) {
+			if (List.length > 0) {
+				this.connection.Groups.get(List.at(0)).then(this.onSuccess.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create group first');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
+	listGroups: function() {
+		this.connection.Groups.list().then(this.onSuccess.bind(this), this.onError.bind(this));
+	},
+
+	deleteGroup: function() {
+		this.connection.Groups.list().then(function(List) {
+			if (List.length > 0) {
+				this.connection.Groups.remove(List.at(0)).then(this.onSuccess.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create group first');
 			}
 		}.bind(this), this.onError.bind(this));
 	},
