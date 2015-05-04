@@ -675,6 +675,52 @@ TestSuite.prototype = {
 		}.bind(this), this.onError.bind(this));
 	},
 
+	createUser: function() {
+		this.connection.Users.create({
+			username: this.generateRandomString(10),
+			password: this.generateRandomString(8)
+		}).then(this.onSuccess.bind(this), this.onError.bind(this));
+	},
+
+	listUsers: function() {
+		this.connection.Users.list({
+			user_key: 'aedd9d380b0f6d4586a52f0c230d301526063f07'
+		}).then(this.onSuccess.bind(this), this.onError.bind(this));
+	},
+
+	getUser: function() {
+		this.connection.Users.list().then(function(List) {
+			if (List.length > 0) {
+				this.connection.Users.get(List.at(0)).then(this.onSuccess.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create user first');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
+	updateUser: function() {
+		this.connection.Users.list().then(function(List) {
+			if (List.length > 0) {
+				this.connection.Users.update(List.at(0), {
+					username: this.generateRandomString(10),
+					password: this.generateRandomString(8)
+				}).then(this.onSuccess.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create user first');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
+	deleteUser: function() {
+		this.connection.Users.list().then(function(List) {
+			if (List.length > 0) {
+				this.connection.Users.remove(List.at(0)).then(this.onSuccess.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create user first');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
 	example1: function() {
 		[
 			'Scenario:',
