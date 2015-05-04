@@ -773,3 +773,7 @@ $('.panel a').on('click', function(e) {
 		test.onError(e.message);
 	}
 });
+
+if (window.location.search.indexOf('auto=true') !== -1) {
+	$('a[href="#connect-api-key"]').click();
+}
