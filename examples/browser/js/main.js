@@ -780,6 +780,39 @@ TestSuite.prototype = {
 		}.bind(this), this.onError.bind(this));
 	},
 
+	createChannel: function() {
+		var params = {
+			name: this.generateRandomString(6),
+			type: 'separate_rooms',
+			custom_publish: true
+		};
+		this.connection.createChannel(params).then(this.onSuccess.bind(this), this.onError.bind(this));
+	},
+
+	listChannels: function() {
+		this.connection.Channels.list().then(this.onSuccess.bind(this), this.onError.bind(this));
+	},
+
+	deleteChannel: function() {
+		this.connection.Channels.list().then(function(List) {
+			if (List.length > 0) {
+				this.connection.Channels.remove(List.at(0)).then(this.onSuccess.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create channel first');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
+	getChannel: function() {
+		this.connection.Channels.list().then(function(List) {
+			if (List.length > 0) {
+				this.connection.Channels.get(List.at(0)).then(this.onSuccess.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create channel first');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
 	example1: function() {
 		[
 			'Scenario:',
