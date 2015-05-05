@@ -711,6 +711,74 @@ TestSuite.prototype = {
 		}.bind(this), this.onError.bind(this));
 	},
 
+	createDataObjectWithOwner: function() {
+		this.connection.Groups.list().then(function(List) {
+			if (List.length > 0) {
+				var group = List.at(0);
+				this.connection.Users.list().then(function(List) {
+					if (List.length > 0) {
+						var user = List.at(0);
+						this.connection.DataObjects.create({
+							class_name: 'user',
+							first_name: this.generateRandomString(6),
+							last_name: this.generateRandomString(10),
+							year_of_birth: 2222,
+							owner: user.id,
+							owner_permissions: 'full',
+							group: group.id,
+							group_permissions: 'write'
+						}).then(this.onSuccess.bind(this), this.onError.bind(this));
+					} else {
+						this.onError('Create user first');
+					}
+				}.bind(this), this.onError.bind(this));
+
+			} else {
+				this.onError('Create group first');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
+	changeDataObjectOwnerAndGroup: function() {
+		this.connection.Groups.list().then(function(List) {
+			if (List.length > 1) {
+				var group = List.at(1);
+				this.connection.Users.list().then(function(List) {
+					if (List.length > 1) {
+						var user = List.at(1);
+						this.connection.DataObjects.list('user').then(function(List) {
+							var id = null,
+								obj = null;
+							for (var i = 0; i < List.length; i++) {
+								var item = List.at(i);
+								if (item.year_of_birth === 2222) {
+									id = item.id;
+									obj = item;
+									break;
+								}
+							}
+							if (id === null) {
+								this.onError('Create DO with owner and group first');
+							} else {
+								console.log('Object before change', obj);
+								this.connection.DataObjects.update('user', {
+									id: id,
+									group: group.id,
+									group_permissions: 'read',
+									owner: user.id
+								}).then(this.onSuccess.bind(this), this.onError.bind(this));
+							}
+						}.bind(this), this.onError.bind(this));
+					} else {
+						this.onError('Create at least two users');
+					}
+				}.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create at least two groups');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
 	updateUserProfile: function() {
 		this.connection.Classes.update({
 			name: 'user_profile',
