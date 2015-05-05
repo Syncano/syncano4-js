@@ -792,6 +792,23 @@ TestSuite.prototype = {
 		this.connection.Channels.list().then(this.onSuccess.bind(this), this.onError.bind(this));
 	},
 
+	updateChannel: function() {
+		this.connection.Channels.list().then(function(List) {
+			if (List.length > 0) {
+				var chn = List.at(0);
+				var params = {};
+				if (chn.type === 'separate_rooms') {
+					params.type = 'default';
+				} else {
+					params.type = 'separate_rooms';
+				}
+				this.connection.Channels.update(chn, params).then(this.onSuccess.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create channel first');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
 	deleteChannel: function() {
 		this.connection.Channels.list().then(function(List) {
 			if (List.length > 0) {
