@@ -874,6 +874,15 @@ TestSuite.prototype = {
 		this.connection.createChannel(params).then(this.onSuccess.bind(this), this.onError.bind(this));
 	},
 
+	createChannelWithSeparateRooms: function() {
+		var params = {
+			name: this.generateRandomString(6),
+			custom_publish: true,
+			type: 'separate_rooms'
+		};
+		this.connection.createChannel(params).then(this.onSuccess.bind(this), this.onError.bind(this));
+	},
+
 	listChannels: function() {
 		this.connection.Channels.list().then(this.onSuccess.bind(this), this.onError.bind(this));
 	},
@@ -950,6 +959,132 @@ TestSuite.prototype = {
 			} else {
 				this.onError('Create channel first');
 			}
+		}.bind(this), this.onError.bind(this));
+	},
+
+	createDataObjectWithChannel: function() {
+		this.connection.Channels.list().then(function(List) {
+			if (List.length > 0) {
+				var channel = List.at(0);
+				this.connection.DataObjects.create({
+					class_name: 'user',
+					first_name: this.generateRandomString(6),
+					last_name: this.generateRandomString(10),
+					year_of_birth: 1111,
+					channel: channel.name
+				}).then(this.onSuccess.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create channel first');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
+	createDataObjectWithRoom: function() {
+		this.connection.Channels.list().then(function(List) {
+			var channel = null;
+			for (var i = 0; i < List.length; i++) {
+				var item = List.at(i);
+				if (item.type === 'separate_rooms') {
+					channel = item;
+					break;
+				}
+			}
+			if (channel === null) {
+				this.onError('Create at least one channel with separate rooms');
+			}
+			this.connection.DataObjects.create({
+				class_name: 'user',
+				first_name: this.generateRandomString(6),
+				last_name: this.generateRandomString(10),
+				year_of_birth: 3333,
+				channel: channel.name,
+				channel_room: 'RoomOfRequirement'
+			}).then(this.onSuccess.bind(this), this.onError.bind(this));
+		}.bind(this), this.onError.bind(this));
+	},
+
+	updateDataObjectWithChannel: function() {
+		this.connection.DataObjects.list('user').then(function(List) {
+			var id = null,
+				obj = null;
+			for (var i = 0; i < List.length; i++) {
+				var item = List.at(i);
+				if (item.year_of_birth === 1111) {
+					id = item.id;
+					obj = item;
+					break;
+				}
+			}
+			if (id === null) {
+				this.onError('Create DO with channel first');
+			} else {
+				this.connection.DataObjects.update('user', {
+					id: id,
+					first_name: this.generateRandomString(10)
+				}).then(this.onSuccess.bind(this), this.onError.bind(this));
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
+	deleteDataObjectWithChannel: function() {
+		this.connection.DataObjects.list('user').then(function(List) {
+			var id = null,
+				obj = null;
+			for (var i = 0; i < List.length; i++) {
+				var item = List.at(i);
+				if (item.year_of_birth === 1111) {
+					id = item.id;
+					obj = item;
+					break;
+				}
+			}
+			if (id === null) {
+				this.onError('Create DO with channel first');
+			} else {
+				this.connection.DataObjects.remove('user', {
+					id: id,
+				}).then(this.onSuccess.bind(this), this.onError.bind(this));
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
+	updateDataObjectWithRoom: function() {
+		this.connection.DataObjects.list('user').then(function(List) {
+			var id = null;
+			for (var i = 0; i < List.length; i++) {
+				var item = List.at(i);
+				if (item.channel_room === 'RoomOfRequirement') {
+					id = item.id;
+					break;
+				}
+			}
+			if (id === null) {
+				this.onError('Create DO with channel first');
+			} else {
+				this.connection.DataObjects.update('user', {
+					id: id,
+					first_name: this.generateRandomString(10)
+				}).then(this.onSuccess.bind(this), this.onError.bind(this));
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
+	getRoomHistory: function() {
+		this.connection.Channels.list().then(function(List) {
+			var channel = null;
+			for (var i = 0; i < List.length; i++) {
+				var item = List.at(i);
+				if (item.type === 'separate_rooms') {
+					channel = item;
+					break;
+				}
+			}
+			if (channel === null) {
+				this.onError('Create at least one channel with separate rooms');
+			}
+			this.connection.Channels.getHistory(channel, {
+				room: 'RoomOfRequirement'
+			}).then(this.onSuccess.bind(this), this.onError.bind(this));
 		}.bind(this), this.onError.bind(this));
 	},
 
