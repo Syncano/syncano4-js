@@ -846,12 +846,9 @@ TestSuite.prototype = {
 		this.connection.Channels.list().then(function(List) {
 			if (List.length > 0) {
 				var data = {
-					action: 'custom',
-					payload: JSON.stringify({
-						title: 'Keep calm',
-						message: 'and love Syncano!',
-						important: true
-					})
+					title: 'Keep calm',
+					message: 'and love Syncano!',
+					important: true
 				};
 				this.connection.Channels.publish(List.at(0), data).then(this.onSuccess.bind(this), this.onError.bind(this));
 			} else {
