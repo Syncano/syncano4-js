@@ -780,6 +780,24 @@ TestSuite.prototype = {
 		}.bind(this), this.onError.bind(this));
 	},
 
+	createObjectWithReadPermission: function() {
+		this.connection.Groups.list().then(function(List) {
+			if (List.length > 0) {
+				var grp = List.at(0);
+				this.connection.DataObjects.create({
+					class_name: 'user',
+					first_name: this.generateRandomString(6),
+					last_name: this.generateRandomString(10),
+					year_of_birth: this.generateRandomNumber(1950, 2000),
+					group: grp.id,
+					group_permissions: 'read',
+				}).then(this.onSuccess.bind(this), this.onError.bind(this));
+			} else {
+				this.onError('Create group first');
+			}
+		}.bind(this), this.onError.bind(this));
+	},
+
 	createChannel: function() {
 		var params = {
 			name: this.generateRandomString(6),
