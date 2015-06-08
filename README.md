@@ -34,6 +34,13 @@ var Config = {
 
 Phew! Now you have your own account and instance and you are ready to play with api. Simply reload `examples/browser/index.html` and play with buttons.
 
+# Docs
+
+Generate docs with yuidoc
+
+```
+yuidoc -o docs lib/
+```
 
 # Examples
 
