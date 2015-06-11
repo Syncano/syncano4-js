@@ -23,7 +23,7 @@
             "plugin_for": [],
             "extension_for": [],
             "file": "lib/syncano4.js",
-            "line": 294,
+            "line": 292,
             "description": "Creates Syncano object",
             "is_constructor": 1,
             "params": [
@@ -44,7 +44,7 @@
             "plugin_for": [],
             "extension_for": [],
             "file": "lib/syncano4.js",
-            "line": 2400,
+            "line": 2369,
             "description": "Schema is the builder for the classes definition",
             "is_constructor": 1,
             "example": [
@@ -55,143 +55,124 @@
     "classitems": [
         {
             "file": "lib/syncano4.js",
-            "line": 63,
-            "description": "PRIVATE METHODS",
-            "class": "Syncano"
-        },
-        {
-            "file": "lib/syncano4.js",
-            "line": 308,
+            "line": 306,
             "description": "Object with methods to handle Accounts",
-            "alias": "Syncano#Accounts",
-            "type": "{object}",
             "itemtype": "property",
             "name": "{function} resetKey - shortcut to {@link Syncano#resetAccountKey} method",
+            "type": "{object}",
             "class": "Syncano"
         },
         {
             "file": "lib/syncano4.js",
-            "line": 325,
+            "line": 323,
             "description": "Object with methods to handle Instances",
-            "alias": "Syncano#Instances",
-            "type": "{object}",
             "itemtype": "property",
             "name": "{function} listAdmins - shortcut to {@link Syncano#listInstanceAdmins} method",
+            "type": "{object}",
             "class": "Syncano"
         },
         {
             "file": "lib/syncano4.js",
-            "line": 346,
+            "line": 344,
             "description": "Object with methods to handle Classes",
-            "alias": "Syncano#Classes",
-            "type": "{object}",
             "itemtype": "property",
             "name": "{function} update - shortcut to {@link Syncano#updateClass} method",
+            "type": "{object}",
             "class": "Syncano"
         },
         {
             "file": "lib/syncano4.js",
-            "line": 365,
+            "line": 363,
             "description": "Object with methods to handle DataObjects",
-            "alias": "Syncano#DataObjects",
-            "type": "{object}",
             "itemtype": "property",
             "name": "{function} update - shortcut to {@link Syncano#updateDataObject} method",
+            "type": "{object}",
             "class": "Syncano"
         },
         {
             "file": "lib/syncano4.js",
-            "line": 384,
+            "line": 382,
             "description": "Object with methods to handle ApiKeys",
-            "alias": "Syncano#ApiKeys",
-            "type": "{object}",
             "itemtype": "property",
             "name": "{function} remove - shortcut to {@link Syncano#removeApiKey} method",
+            "type": "{object}",
             "class": "Syncano"
         },
         {
             "file": "lib/syncano4.js",
-            "line": 401,
+            "line": 399,
             "description": "Object with methods to handle Users",
-            "alias": "Syncano#Users",
-            "type": "{object}",
             "itemtype": "property",
             "name": "{function} remove - shortcut to {@link Syncano#removeUser} method",
+            "type": "{object}",
             "class": "Syncano"
         },
         {
             "file": "lib/syncano4.js",
-            "line": 420,
+            "line": 418,
             "description": "Object with methods to handle Groups of permissions",
-            "alias": "Syncano#Groups",
-            "type": "{object}",
             "itemtype": "property",
             "name": "{function} addUser - shortcut to {@link Syncano#addUserToGroup} method",
+            "type": "{object}",
             "class": "Syncano"
         },
         {
             "file": "lib/syncano4.js",
-            "line": 439,
+            "line": 437,
             "description": "Object with methods to handle Channels",
-            "alias": "Syncano#Channels",
-            "type": "{object}",
             "itemtype": "property",
             "name": "{function} publish - shortcut to {@link Syncano#publishToChannel} method",
+            "type": "{object}",
             "class": "Syncano"
         },
         {
             "file": "lib/syncano4.js",
-            "line": 464,
+            "line": 462,
             "description": "Object with methods to handle CodeBoxes",
-            "alias": "Syncano#CodeBoxes",
-            "type": "{object}",
             "itemtype": "property",
             "name": "{function} run - shortcut to {@link Syncano#runCodeBox} method",
+            "type": "{object}",
             "class": "Syncano"
         },
         {
             "file": "lib/syncano4.js",
-            "line": 491,
+            "line": 489,
             "description": "Object with methods to handle Invitations",
-            "alias": "Syncano#Invitations",
-            "type": "{object}",
             "itemtype": "property",
             "name": "{function} remove - shortcut to {@link Syncano#removeInvitation} method",
+            "type": "{object}",
             "class": "Syncano"
         },
         {
             "file": "lib/syncano4.js",
-            "line": 508,
+            "line": 506,
             "description": "Object with methods to handle WebHooks",
-            "alias": "Syncano#WebHooks",
-            "type": "{object}",
             "itemtype": "property",
             "name": "{function} run - shortcut to {@link Syncano#runWebHook} method",
+            "type": "{object}",
             "class": "Syncano"
         },
         {
             "file": "lib/syncano4.js",
-            "line": 531,
+            "line": 529,
             "description": "Object with methods to handle Triggers",
-            "alias": "Syncano#Triggers",
-            "type": "{object}",
             "itemtype": "property",
             "name": "{function} update - shortcut to {@link Syncano#updateTrigger} method",
+            "type": "{object}",
             "class": "Syncano"
         },
         {
             "file": "lib/syncano4.js",
-            "line": 552,
+            "line": 550,
             "description": "Object with methods to handle Schedules",
-            "alias": "Syncano#Schedules",
-            "type": "{object}",
             "itemtype": "property",
             "name": "{function} trace - shortcut to {@link Syncano#getScheduleTrace} method",
+            "type": "{object}",
             "class": "Syncano"
         },
         {
             "file": "lib/syncano4.js",
-            "line": 581,
+            "line": 579,
             "description": "Connects to Syncano using either auth token (api key) or email / password.\nCalls proper auth method based on arguments passed.",
             "itemtype": "method",
             "name": "Syncano#connect",
@@ -231,7 +212,7 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 620,
+            "line": 618,
             "description": "Connects to Syncano using email and password",
             "itemtype": "method",
             "name": "Syncano#authWithPassword",
@@ -270,7 +251,7 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 648,
+            "line": 646,
             "description": "Connects to Syncano using email and password",
             "itemtype": "method",
             "name": "Syncano#authWithApiKey",
@@ -309,7 +290,7 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 676,
+            "line": 674,
             "description": "Checks if instance exists and stores its information in private instanceObject",
             "itemtype": "method",
             "name": "Syncano#setInstance",
@@ -340,7 +321,7 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 693,
+            "line": 691,
             "description": "Returns object with private informations: account, instance and links",
             "itemtype": "method",
             "name": "Syncano#getInfo",
@@ -352,17 +333,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 708,
-            "description": "INSTANCES METHODS",
-            "class": "Syncano"
-        },
-        {
-            "file": "lib/syncano4.js",
-            "line": 711,
+            "line": 707,
             "description": "Creates new instance using passed parameters.",
             "itemtype": "method",
-            "name": "Syncano#createInstance",
-            "alias": "Syncano.Instances.create",
+            "name": "Syncano.Instances.create",
             "params": [
                 {
                     "name": "params",
@@ -403,11 +377,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 735,
+            "line": 731,
             "description": "Returns all defined instances as a list",
             "itemtype": "method",
-            "name": "Syncano#listInstances",
-            "alias": "Syncano.Instances.list",
+            "name": "Syncano.Instances.list",
             "params": [
                 {
                     "name": "params",
@@ -436,11 +409,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 750,
+            "line": 746,
             "description": "Returns details of the instance with specified name",
             "itemtype": "method",
-            "name": "Syncano#getInstance",
-            "alias": "Syncano.Instances.get",
+            "name": "Syncano.Instances.get",
             "params": [
                 {
                     "name": "name",
@@ -475,11 +447,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 771,
+            "line": 767,
             "description": "Removes instance identified by specified name",
             "itemtype": "method",
-            "name": "Syncano#removeInstance",
-            "alias": "Syncano.Instances.remove",
+            "name": "Syncano.Instances.remove",
             "params": [
                 {
                     "name": "name",
@@ -514,11 +485,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 792,
+            "line": 788,
             "description": "Updates instance identified by specified name",
             "itemtype": "method",
-            "name": "Syncano#updateInstance",
-            "alias": "Syncano.Instances.update",
+            "name": "Syncano.Instances.update",
             "params": [
                 {
                     "name": "name",
@@ -558,11 +528,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 811,
+            "line": 807,
             "description": "Returns all defined instance admins as a list",
             "itemtype": "method",
-            "name": "Syncano#listInstanceAdmins",
-            "alias": "Syncano.Instances.listAdmins",
+            "name": "Syncano.Instances.listAdmins",
             "params": [
                 {
                     "name": "params",
@@ -591,17 +560,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 833,
-            "description": "CLASS METHODS",
-            "class": "Syncano"
-        },
-        {
-            "file": "lib/syncano4.js",
-            "line": 836,
+            "line": 830,
             "description": "Creates new class based on passed parameters",
             "itemtype": "method",
-            "name": "Syncano#createClass",
-            "alias": "Syncano.Classes.create",
+            "name": "Syncano.Classes.create",
             "params": [
                 {
                     "name": "params",
@@ -646,11 +608,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 863,
+            "line": 857,
             "description": "Returns all defined classes as a list",
             "itemtype": "method",
-            "name": "Syncano#listClasses",
-            "alias": "Syncano.Classes.list",
+            "name": "Syncano.Classes.list",
             "params": [
                 {
                     "name": "params",
@@ -679,11 +640,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 877,
+            "line": 871,
             "description": "Removes class identified by specified name",
             "itemtype": "method",
-            "name": "Syncano#removeClass",
-            "alias": "Syncano.Classes.remove",
+            "name": "Syncano.Classes.remove",
             "params": [
                 {
                     "name": "name",
@@ -718,11 +678,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 892,
+            "line": 886,
             "description": "Returns details of the class with specified name",
             "itemtype": "method",
-            "name": "Syncano#getClass",
-            "alias": "Syncano.Classes.get",
+            "name": "Syncano.Classes.get",
             "params": [
                 {
                     "name": "name",
@@ -757,11 +716,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 912,
+            "line": 906,
             "description": "Updates class identified by specified name",
             "itemtype": "method",
-            "name": "Syncano#updateClass",
-            "alias": "Syncano.Classes.update",
+            "name": "Syncano.Classes.update",
             "params": [
                 {
                     "name": "name",
@@ -806,17 +764,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 944,
-            "description": "ACCOUNT METHODS",
-            "class": "Syncano"
-        },
-        {
-            "file": "lib/syncano4.js",
-            "line": 947,
+            "line": 939,
             "description": "Registers new account",
             "itemtype": "method",
-            "name": "Syncano#createAccount",
-            "alias": "Syncano.Accounts.create",
+            "name": "Syncano.Accounts.create",
             "params": [
                 {
                     "name": "params",
@@ -866,11 +817,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 965,
+            "line": 957,
             "description": "Returns details of the currently logged user",
             "itemtype": "method",
-            "name": "Syncano#getAccount",
-            "alias": "Syncano.Accounts.get",
+            "name": "Syncano.Accounts.get",
             "params": [
                 {
                     "name": "callbackOK",
@@ -893,11 +843,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 978,
+            "line": 970,
             "description": "Updates account of the currently logged user",
             "itemtype": "method",
-            "name": "Syncano#updateAccount",
-            "alias": "Syncano.Accounts.update",
+            "name": "Syncano.Accounts.update",
             "params": [
                 {
                     "name": "params",
@@ -942,11 +891,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 995,
+            "line": 987,
             "description": "Sets new auth key for api calls and removes previous one.",
             "itemtype": "method",
-            "name": "Syncano#resetAccountKey",
-            "alias": "Syncano.Accounts.resetKey",
+            "name": "Syncano.Accounts.resetKey",
             "params": [
                 {
                     "name": "callbackOK",
@@ -969,17 +917,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1008,
-            "description": "DATA OBJECT METHODS",
-            "class": "Syncano"
-        },
-        {
-            "file": "lib/syncano4.js",
-            "line": 1011,
+            "line": 1001,
             "description": "Creates new data object within given class",
             "itemtype": "method",
-            "name": "Syncano#createDataObject",
-            "alias": "Syncano.DataObjects.create",
+            "name": "Syncano.DataObjects.create",
             "params": [
                 {
                     "name": "className",
@@ -1012,11 +953,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1038,
+            "line": 1028,
             "description": "Returns all data objects withing a single class as a list",
             "itemtype": "method",
-            "name": "Syncano#listDataObjects",
-            "alias": "Syncano.DataObjects.list",
+            "name": "Syncano.DataObjects.list",
             "params": [
                 {
                     "name": "className",
@@ -1050,11 +990,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1063,
+            "line": 1053,
             "description": "Removes data object identified by specified id and className",
             "itemtype": "method",
-            "name": "Syncano#removeDataObject",
-            "alias": "Syncano.DataObjects.remove",
+            "name": "Syncano.DataObjects.remove",
             "params": [
                 {
                     "name": "className",
@@ -1094,11 +1033,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1097,
+            "line": 1087,
             "description": "Returns details of the data object with specified id and class",
             "itemtype": "method",
-            "name": "Syncano#getDataObject",
-            "alias": "Syncano.DataObjects.get",
+            "name": "Syncano.DataObjects.get",
             "params": [
                 {
                     "name": "className",
@@ -1138,11 +1076,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1131,
+            "line": 1121,
             "description": "Updates data object identified by given id and className",
             "itemtype": "method",
-            "name": "Syncano#updateDataObject",
-            "alias": "Syncano.DataObjects.update",
+            "name": "Syncano.DataObjects.update",
             "params": [
                 {
                     "name": "className",
@@ -1175,17 +1112,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1167,
-            "description": "API KEYS METHODS",
-            "class": "Syncano"
-        },
-        {
-            "file": "lib/syncano4.js",
-            "line": 1170,
+            "line": 1158,
             "description": "Creates new api key",
             "itemtype": "method",
-            "name": "Syncano#createApiKey",
-            "alias": "Syncano.ApiKeys.create",
+            "name": "Syncano.ApiKeys.create",
             "params": [
                 {
                     "name": "params",
@@ -1213,11 +1143,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1188,
+            "line": 1176,
             "description": "Returns all defined api keys as a list",
             "itemtype": "method",
-            "name": "Syncano#listApiKeys",
-            "alias": "Syncano.ApiKeys.list",
+            "name": "Syncano.ApiKeys.list",
             "params": [
                 {
                     "name": "params",
@@ -1246,11 +1175,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1202,
+            "line": 1190,
             "description": "Returns the API key with specified id",
             "itemtype": "method",
-            "name": "Syncano#getApiKey",
-            "alias": "Syncano.ApiKeys.get",
+            "name": "Syncano.ApiKeys.get",
             "params": [
                 {
                     "name": "id",
@@ -1285,11 +1213,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1217,
+            "line": 1205,
             "description": "Removes API key identified by specified id",
             "itemtype": "method",
-            "name": "Syncano#removeApiKey",
-            "alias": "Syncano.ApiKeys.remove",
+            "name": "Syncano.ApiKeys.remove",
             "params": [
                 {
                     "name": "id",
@@ -1324,17 +1251,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1232,
-            "description": "USERS METHODS",
-            "class": "Syncano"
-        },
-        {
-            "file": "lib/syncano4.js",
-            "line": 1235,
+            "line": 1221,
             "description": "Creates new user",
             "itemtype": "method",
-            "name": "Syncano#createUser",
-            "alias": "Syncano.Users.create",
+            "name": "Syncano.Users.create",
             "params": [
                 {
                     "name": "params",
@@ -1374,11 +1294,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1255,
+            "line": 1241,
             "description": "Returns all users within an instance as a list",
             "itemtype": "method",
-            "name": "Syncano#listUsers",
-            "alias": "Syncano.Users.list",
+            "name": "Syncano.Users.list",
             "params": [
                 {
                     "name": "params",
@@ -1407,11 +1326,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1269,
+            "line": 1255,
             "description": "Returns user with specified id",
             "itemtype": "method",
-            "name": "Syncano#getUser",
-            "alias": "Syncano.Users.get",
+            "name": "Syncano.Users.get",
             "params": [
                 {
                     "name": "id",
@@ -1446,11 +1364,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1284,
+            "line": 1270,
             "description": "Updates user identified by given id",
             "itemtype": "method",
-            "name": "Syncano#updateUser",
-            "alias": "Syncano.Users.update",
+            "name": "Syncano.Users.update",
             "params": [
                 {
                     "name": "id",
@@ -1502,11 +1419,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1322,
+            "line": 1308,
             "description": "Removes User identified by specified id",
             "itemtype": "method",
-            "name": "Syncano#removeUser",
-            "alias": "Syncano.Users.remove",
+            "name": "Syncano.Users.remove",
             "params": [
                 {
                     "name": "id",
@@ -1541,17 +1457,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1338,
-            "description": "GROUPS METHODS",
-            "class": "Syncano"
-        },
-        {
-            "file": "lib/syncano4.js",
-            "line": 1341,
+            "line": 1325,
             "description": "Creates new group",
             "itemtype": "method",
-            "name": "Syncano#createGroup",
-            "alias": "Syncano.Groups.create",
+            "name": "Syncano.Groups.create",
             "params": [
                 {
                     "name": "name",
@@ -1579,11 +1488,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1361,
+            "line": 1345,
             "description": "Returns all defined groups",
             "itemtype": "method",
-            "name": "Syncano#listGroups",
-            "alias": "Syncano.Groups.list",
+            "name": "Syncano.Groups.list",
             "params": [
                 {
                     "name": "params",
@@ -1612,11 +1520,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1375,
+            "line": 1359,
             "description": "Returns the group with specified id",
             "itemtype": "method",
-            "name": "Syncano#getGroup",
-            "alias": "Syncano.Groups.get",
+            "name": "Syncano.Groups.get",
             "params": [
                 {
                     "name": "id",
@@ -1651,11 +1558,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1390,
+            "line": 1374,
             "description": "Removes group identified by specified id",
             "itemtype": "method",
-            "name": "Syncano#removeGroup",
-            "alias": "Syncano.Group.remove",
+            "name": "Syncano.Group.remove",
             "params": [
                 {
                     "name": "id",
@@ -1690,17 +1596,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1420,
-            "description": "CODEBOXES METHODS",
-            "class": "Syncano"
-        },
-        {
-            "file": "lib/syncano4.js",
-            "line": 1423,
+            "line": 1405,
             "description": "Creates new codebox",
             "itemtype": "method",
-            "name": "Syncano#createCodeBox",
-            "alias": "Syncano.CodeBoxes.create",
+            "name": "Syncano.CodeBoxes.create",
             "params": [
                 {
                     "name": "params",
@@ -1745,11 +1644,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1452,
+            "line": 1434,
             "description": "Returns all defined codeboxes as a list",
             "itemtype": "method",
-            "name": "Syncano#listCodeBoxes",
-            "alias": "Syncano.CodeBoxes.list",
+            "name": "Syncano.CodeBoxes.list",
             "params": [
                 {
                     "name": "params",
@@ -1778,11 +1676,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1466,
+            "line": 1448,
             "description": "Returns all runtime types for codeboxes as a list",
             "itemtype": "method",
-            "name": "Syncano#listCodeBoxRuntimes",
-            "alias": "Syncano.CodeBoxes.listRuntimes",
+            "name": "Syncano.CodeBoxes.listRuntimes",
             "params": [
                 {
                     "name": "params",
@@ -1811,11 +1708,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1480,
+            "line": 1462,
             "description": "Returns the codebox with specified id",
             "itemtype": "method",
-            "name": "Syncano#getCodeBox",
-            "alias": "Syncano.CodeBoxes.get",
+            "name": "Syncano.CodeBoxes.get",
             "params": [
                 {
                     "name": "id",
@@ -1850,11 +1746,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1495,
+            "line": 1477,
             "description": "Updates codebox identified by specified id",
             "itemtype": "method",
-            "name": "Syncano#updateCodeBox",
-            "alias": "Syncano.CodeBoxes.update",
+            "name": "Syncano.CodeBoxes.update",
             "params": [
                 {
                     "name": "id",
@@ -1914,11 +1809,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1529,
+            "line": 1511,
             "description": "Removes CodeBox identified by specified id",
             "itemtype": "method",
-            "name": "Syncano#removeCodeBox",
-            "alias": "Syncano.CodeBoxes.remove",
+            "name": "Syncano.CodeBoxes.remove",
             "params": [
                 {
                     "name": "id",
@@ -1953,11 +1847,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1544,
+            "line": 1526,
             "description": "Runs new codebox",
             "itemtype": "method",
-            "name": "Syncano#runCodeBox",
-            "alias": "Syncano.CodeBoxes.run",
+            "name": "Syncano.CodeBoxes.run",
             "params": [
                 {
                     "name": "params",
@@ -2002,11 +1895,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1573,
+            "line": 1555,
             "description": "List all traces for single codebox",
             "itemtype": "method",
-            "name": "Syncano#listCodeBoxTraces",
-            "alias": "Syncano.CodeBoxes.traces",
+            "name": "Syncano.CodeBoxes.traces",
             "params": [
                 {
                     "name": "codeboxId",
@@ -2040,11 +1932,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1591,
+            "line": 1573,
             "description": "Get single trace for single codebox",
             "itemtype": "method",
-            "name": "Syncano#getCodeBoxTrace",
-            "alias": "Syncano.CodeBoxes.trace",
+            "name": "Syncano.CodeBoxes.trace",
             "params": [
                 {
                     "name": "codeboxId",
@@ -2083,17 +1974,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1614,
-            "description": "INVITATIONS METHODS",
-            "class": "Syncano"
-        },
-        {
-            "file": "lib/syncano4.js",
-            "line": 1617,
+            "line": 1597,
             "description": "Invites new person to your instance",
             "itemtype": "method",
-            "name": "Syncano#createInvitation",
-            "alias": "Syncano.Invitations.create",
+            "name": "Syncano.Invitations.create",
             "params": [
                 {
                     "name": "params",
@@ -2133,11 +2017,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1642,
+            "line": 1622,
             "description": "Returns all created invitations as a list",
             "itemtype": "method",
-            "name": "Syncano#listInvitations",
-            "alias": "Syncano.Invitations.list",
+            "name": "Syncano.Invitations.list",
             "params": [
                 {
                     "name": "params",
@@ -2166,11 +2049,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1656,
+            "line": 1636,
             "description": "Returns the invitation with specified id",
             "itemtype": "method",
-            "name": "Syncano#getInvitation",
-            "alias": "Syncano.Invitations.get",
+            "name": "Syncano.Invitations.get",
             "params": [
                 {
                     "name": "id",
@@ -2205,11 +2087,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1671,
+            "line": 1651,
             "description": "Removes invitation identified by specified id",
             "itemtype": "method",
-            "name": "Syncano#removeInvitation",
-            "alias": "Syncano.Invitations.remove",
+            "name": "Syncano.Invitations.remove",
             "params": [
                 {
                     "name": "id",
@@ -2244,17 +2125,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1686,
-            "description": "WEBHOOKS METHODS",
-            "class": "Syncano"
-        },
-        {
-            "file": "lib/syncano4.js",
-            "line": 1689,
+            "line": 1667,
             "description": "Creates new webhook.",
             "itemtype": "method",
-            "name": "Syncano#createWebHook",
-            "alias": "Syncano.WebHooks.create",
+            "name": "Syncano.WebHooks.create",
             "params": [
                 {
                     "name": "params",
@@ -2294,11 +2168,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1714,
+            "line": 1692,
             "description": "Returns all defined webhooks as a list",
             "itemtype": "method",
-            "name": "Syncano#listWebHooks",
-            "alias": "Syncano.WebHooks.list",
+            "name": "Syncano.WebHooks.list",
             "params": [
                 {
                     "name": "params",
@@ -2327,11 +2200,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1728,
+            "line": 1706,
             "description": "Returns the webhook with specified id",
             "itemtype": "method",
-            "name": "Syncano#getWebHook",
-            "alias": "Syncano.WebHooks.get",
+            "name": "Syncano.WebHooks.get",
             "params": [
                 {
                     "name": "id",
@@ -2366,11 +2238,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1743,
+            "line": 1721,
             "description": "Removes Webhook identified by specified id",
             "itemtype": "method",
-            "name": "Syncano#removeWebHook",
-            "alias": "Syncano.WebHooks.remove",
+            "name": "Syncano.WebHooks.remove",
             "params": [
                 {
                     "name": "id",
@@ -2405,11 +2276,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1758,
+            "line": 1736,
             "description": "Updates webhook identified by specified id",
             "itemtype": "method",
-            "name": "Syncano#updateWebHook",
-            "alias": "Syncano.WebHooks.update",
+            "name": "Syncano.WebHooks.update",
             "params": [
                 {
                     "name": "id",
@@ -2454,11 +2324,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1784,
+            "line": 1762,
             "description": "Runs defined webhook.",
             "itemtype": "method",
-            "name": "Syncano#runWebHook",
-            "alias": "Syncano.WebHooks.run",
+            "name": "Syncano.WebHooks.run",
             "params": [
                 {
                     "name": "id",
@@ -2486,11 +2355,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1807,
+            "line": 1785,
             "description": "List all traces for single webhook",
             "itemtype": "method",
-            "name": "Syncano#listWebHookTraces",
-            "alias": "Syncano.WebHooks.traces",
+            "name": "Syncano.WebHooks.traces",
             "params": [
                 {
                     "name": "webhookId",
@@ -2524,11 +2392,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1825,
+            "line": 1803,
             "description": "Get single trace for single webhook",
             "itemtype": "method",
-            "name": "Syncano#getWebHookTrace",
-            "alias": "Syncano.WebHooks.trace",
+            "name": "Syncano.WebHooks.trace",
             "params": [
                 {
                     "name": "webhookId",
@@ -2567,17 +2434,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1847,
-            "description": "TRIGGERS METHODS",
-            "class": "Syncano"
-        },
-        {
-            "file": "lib/syncano4.js",
-            "line": 1850,
+            "line": 1826,
             "description": "Creates new trigger",
             "itemtype": "method",
-            "name": "Syncano#createTrigger",
-            "alias": "Syncano.Triggers.create",
+            "name": "Syncano.Triggers.create",
             "params": [
                 {
                     "name": "params",
@@ -2627,11 +2487,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1880,
+            "line": 1856,
             "description": "Returns all defined triggers as a list",
             "itemtype": "method",
-            "name": "Syncano#listTriggers",
-            "alias": "Syncano.Triggers.list",
+            "name": "Syncano.Triggers.list",
             "params": [
                 {
                     "name": "params",
@@ -2660,11 +2519,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1894,
+            "line": 1870,
             "description": "Returns the trigger with specified id",
             "itemtype": "method",
-            "name": "Syncano#getTrigger",
-            "alias": "Syncano.Triggers.get",
+            "name": "Syncano.Triggers.get",
             "params": [
                 {
                     "name": "id",
@@ -2699,11 +2557,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1909,
+            "line": 1885,
             "description": "Updates trigger identified by specified id",
             "itemtype": "method",
-            "name": "Syncano#updateTrigger",
-            "alias": "Syncano.Triggers.update",
+            "name": "Syncano.Triggers.update",
             "params": [
                 {
                     "name": "id",
@@ -2753,11 +2610,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1936,
+            "line": 1912,
             "description": "Removes trigger identified by specified id",
             "itemtype": "method",
-            "name": "Syncano#removeTrigger",
-            "alias": "Syncano.Triggers.remove",
+            "name": "Syncano.Triggers.remove",
             "params": [
                 {
                     "name": "id",
@@ -2792,11 +2648,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1951,
+            "line": 1927,
             "description": "List all traces for single trigger",
             "itemtype": "method",
-            "name": "Syncano#listTriggerTraces",
-            "alias": "Syncano.Triggers.traces",
+            "name": "Syncano.Triggers.traces",
             "params": [
                 {
                     "name": "triggerId",
@@ -2830,11 +2685,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1969,
+            "line": 1945,
             "description": "Get single trace for single trigger",
             "itemtype": "method",
-            "name": "Syncano#getTriggerTrace",
-            "alias": "Syncano.Triggers.trace",
+            "name": "Syncano.Triggers.trace",
             "params": [
                 {
                     "name": "triggerId",
@@ -2873,17 +2727,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 1991,
-            "description": "SCHEDULES METHODS",
-            "class": "Syncano"
-        },
-        {
-            "file": "lib/syncano4.js",
-            "line": 1994,
+            "line": 1968,
             "description": "Creates new schedule",
             "itemtype": "method",
-            "name": "Syncano#createSchedule",
-            "alias": "Syncano.Schedules.create",
+            "name": "Syncano.Schedules.create",
             "params": [
                 {
                     "name": "params",
@@ -2933,11 +2780,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 2021,
+            "line": 1995,
             "description": "Returns all defined schedules as a list",
             "itemtype": "method",
-            "name": "Syncano#listSchedules",
-            "alias": "Syncano.Schedules.list",
+            "name": "Syncano.Schedules.list",
             "params": [
                 {
                     "name": "params",
@@ -2966,11 +2812,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 2035,
+            "line": 2009,
             "description": "Returns the schedule with specified id",
             "itemtype": "method",
-            "name": "Syncano#getSchedule",
-            "alias": "Syncano.Schedules.get",
+            "name": "Syncano.Schedules.get",
             "params": [
                 {
                     "name": "id",
@@ -3005,11 +2850,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 2050,
+            "line": 2024,
             "description": "Removes schedule identified by specified id",
             "itemtype": "method",
-            "name": "Syncano#removeSchedule",
-            "alias": "Syncano.Schedules.remove",
+            "name": "Syncano.Schedules.remove",
             "params": [
                 {
                     "name": "id",
@@ -3044,11 +2888,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 2065,
+            "line": 2039,
             "description": "List all traces for single schedule",
             "itemtype": "method",
-            "name": "Syncano#listScheduleTraces",
-            "alias": "Syncano.Schedules.traces",
+            "name": "Syncano.Schedules.traces",
             "params": [
                 {
                     "name": "scheduleId",
@@ -3082,11 +2925,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 2083,
+            "line": 2057,
             "description": "Get single trace for single schedule",
             "itemtype": "method",
-            "name": "Syncano#getScheduleTrace",
-            "alias": "Syncano.Schedules.trace",
+            "name": "Syncano.Schedules.trace",
             "params": [
                 {
                     "name": "scheduleId",
@@ -3125,17 +2967,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 2105,
-            "description": "REALTIME METHODS",
-            "class": "Syncano"
-        },
-        {
-            "file": "lib/syncano4.js",
-            "line": 2108,
+            "line": 2080,
             "description": "Creates new communication channel based on passed parameters",
             "itemtype": "method",
-            "name": "Syncano#createChannel",
-            "alias": "Syncano.Channels.create",
+            "name": "Syncano.Channels.create",
             "params": [
                 {
                     "name": "params",
@@ -3180,11 +3015,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 2128,
+            "line": 2100,
             "description": "Returns all defined channels as a list",
             "itemtype": "method",
-            "name": "Syncano#listChannels",
-            "alias": "Syncano.Channels.list",
+            "name": "Syncano.Channels.list",
             "params": [
                 {
                     "name": "params",
@@ -3213,11 +3047,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 2142,
+            "line": 2114,
             "description": "Returns the channels with specified name",
             "itemtype": "method",
-            "name": "Syncano#getChannel",
-            "alias": "Syncano.Channels.get",
+            "name": "Syncano.Channels.get",
             "params": [
                 {
                     "name": "name",
@@ -3252,11 +3085,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 2157,
+            "line": 2129,
             "description": "Removes channel identified by specified name",
             "itemtype": "method",
-            "name": "Syncano#removeChannel",
-            "alias": "Syncano.Channels.remove",
+            "name": "Syncano.Channels.remove",
             "params": [
                 {
                     "name": "name",
@@ -3291,11 +3123,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 2172,
+            "line": 2144,
             "description": "Updates channel identified by specified name",
             "itemtype": "method",
-            "name": "Syncano#updateChannel",
-            "alias": "Syncano.Channels.update",
+            "name": "Syncano.Channels.update",
             "params": [
                 {
                     "name": "name",
@@ -3347,11 +3178,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 2196,
+            "line": 2168,
             "description": "Subscribes to messages on channel identified by specified name. Calls callback method when data arrives.",
             "itemtype": "method",
-            "name": "Syncano#channelListen",
-            "alias": "Syncano.Channels.listen",
+            "name": "Syncano.Channels.listen",
             "params": [
                 {
                     "name": "name",
@@ -3376,11 +3206,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 2238,
+            "line": 2210,
             "description": "Sends custom message to channel identified by name",
             "itemtype": "method",
-            "name": "Syncano#publishToChannel",
-            "alias": "Syncano.Channels.publish",
+            "name": "Syncano.Channels.publish",
             "params": [
                 {
                     "name": "name",
@@ -3420,11 +3249,10 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 2264,
+            "line": 2236,
             "description": "Returns all data that was sent to specified channel during last 24 hours",
             "itemtype": "method",
-            "name": "Syncano#getChannelHistory",
-            "alias": "Syncano.Channels.getHistory",
+            "name": "Syncano.Channels.getHistory",
             "params": [
                 {
                     "name": "name",
@@ -3464,13 +3292,7 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 2289,
-            "description": "GENERIC METHODS",
-            "class": "Syncano"
-        },
-        {
-            "file": "lib/syncano4.js",
-            "line": 2332,
+            "line": 2301,
             "description": "Generic request method. Sends request to Syncano backend via XMLHttpRequest (in browser) or Request module (in Node.js)",
             "itemtype": "method",
             "name": "Syncano#request",
@@ -3511,7 +3333,7 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 2417,
+            "line": 2386,
             "description": "Adds new field to the schema",
             "itemtype": "method",
             "name": "Syncano.Schema#addField",
@@ -3540,7 +3362,7 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 2438,
+            "line": 2407,
             "description": "Defines that last added field can be used in order_by query",
             "itemtype": "method",
             "name": "Syncano.Schema#addOrderIndex",
@@ -3552,7 +3374,7 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 2449,
+            "line": 2418,
             "description": "Defines that last added field can be used for filtering objects",
             "itemtype": "method",
             "name": "Syncano.Schema#addFilterIndex",
@@ -3564,7 +3386,7 @@
         },
         {
             "file": "lib/syncano4.js",
-            "line": 2460,
+            "line": 2429,
             "description": "Converts schema to string (used internally)",
             "itemtype": "method",
             "name": "Syncano.Schema#toString",
@@ -3575,734 +3397,5 @@
             "class": "Syncano.Schema"
         }
     ],
-    "warnings": [
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:308"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:325"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:346"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:365"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:384"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:401"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:420"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:439"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:464"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:491"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:508"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:531"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:552"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:581"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:620"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:648"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:676"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:711"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:711"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:735"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:735"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:750"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:750"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:771"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:771"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:792"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:792"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:811"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:811"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:836"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:836"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:863"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:863"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:877"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:877"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:892"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:892"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:912"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:912"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:947"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:947"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:965"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:965"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:978"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:978"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:995"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:995"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1011"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1011"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1038"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1038"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1063"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1063"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1097"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1097"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1131"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1131"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1170"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1170"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1188"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1188"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1202"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1202"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1217"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1217"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1235"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1235"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1255"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1255"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1269"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1269"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1284"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1284"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1322"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1322"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1341"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1341"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1361"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1361"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1375"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1375"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1390"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1390"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1423"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1423"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1452"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1452"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1466"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1466"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1480"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1480"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1495"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1495"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1529"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1529"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1544"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1544"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1573"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1573"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1591"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1591"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1617"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1617"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1642"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1642"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1656"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1656"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1671"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1671"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1689"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1689"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1714"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1714"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1728"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1728"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1743"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1743"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1758"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1758"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1784"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1784"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1807"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1807"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1825"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1825"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1850"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1850"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1880"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1880"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1894"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1894"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1909"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1909"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1936"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1936"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1951"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1951"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1969"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1969"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:1994"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:1994"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:2021"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:2021"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:2035"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:2035"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:2050"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:2050"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:2065"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:2065"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:2083"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:2083"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:2108"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:2108"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:2128"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:2128"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:2142"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:2142"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:2157"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:2157"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:2172"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:2172"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:2196"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:2238"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:2238"
-        },
-        {
-            "message": "unknown tag: alias",
-            "line": " lib/syncano4.js:2264"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:2264"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/syncano4.js:2332"
-        },
-        {
-            "message": "Missing item type\nPRIVATE METHODS",
-            "line": " lib/syncano4.js:63"
-        },
-        {
-            "message": "Missing item type\nINSTANCES METHODS",
-            "line": " lib/syncano4.js:708"
-        },
-        {
-            "message": "Missing item type\nCLASS METHODS",
-            "line": " lib/syncano4.js:833"
-        },
-        {
-            "message": "Missing item type\nACCOUNT METHODS",
-            "line": " lib/syncano4.js:944"
-        },
-        {
-            "message": "Missing item type\nDATA OBJECT METHODS",
-            "line": " lib/syncano4.js:1008"
-        },
-        {
-            "message": "Missing item type\nAPI KEYS METHODS",
-            "line": " lib/syncano4.js:1167"
-        },
-        {
-            "message": "Missing item type\nUSERS METHODS",
-            "line": " lib/syncano4.js:1232"
-        },
-        {
-            "message": "Missing item type\nGROUPS METHODS",
-            "line": " lib/syncano4.js:1338"
-        },
-        {
-            "message": "Missing item type\nCODEBOXES METHODS",
-            "line": " lib/syncano4.js:1420"
-        },
-        {
-            "message": "Missing item type\nINVITATIONS METHODS",
-            "line": " lib/syncano4.js:1614"
-        },
-        {
-            "message": "Missing item type\nWEBHOOKS METHODS",
-            "line": " lib/syncano4.js:1686"
-        },
-        {
-            "message": "Missing item type\nTRIGGERS METHODS",
-            "line": " lib/syncano4.js:1847"
-        },
-        {
-            "message": "Missing item type\nSCHEDULES METHODS",
-            "line": " lib/syncano4.js:1991"
-        },
-        {
-            "message": "Missing item type\nREALTIME METHODS",
-            "line": " lib/syncano4.js:2105"
-        },
-        {
-            "message": "Missing item type\nGENERIC METHODS",
-            "line": " lib/syncano4.js:2289"
-        }
-    ]
+    "warnings": []
 }

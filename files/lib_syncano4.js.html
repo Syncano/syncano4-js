@@ -97,7 +97,7 @@
                         /*
                          * Syncano 4 javascript library
                          * ver 4.1
-                         * last changed: 2015-05-05 by Artur Wróbel
+                         * last changed: 2015-06-08 by Artur Wróbel
                          * Copyright 2015 Syncano Inc.
                          */
                         
@@ -139,7 +139,7 @@
                         	*/
                         
                         	// base url of all requests - will be changed in final version
-                        	var baseURL = &#x27;https://api.syncano.rocks/&#x27;;
+                        	var baseURL = &#x27;https://api.syncano.io/&#x27;;
                         
                         	// main api authorization key - the one used to connect to Syncano or returned when connecting with user/password
                         	var apiKey = null;
@@ -156,9 +156,7 @@
                         	var tempInstance = null;
                         
                         
-                        	/********************
-                        		PRIVATE METHODS
-                        	*********************/
+                        	// PRIVATE METHODS
                         	function normalizeUrl(url) {
                         		var baseUrl = url.substr(0, 8);
                         		if (baseUrl === &#x27;https://&#x27;) {
@@ -404,7 +402,7 @@
                         		/**
                         		 * Object with methods to handle Accounts
                         		 *
-                        		 * @alias Syncano#Accounts
+                        		 * @method Syncano#Accounts
                         		 * @type {object}
                         		 * @property {function} create - shortcut to {@link Syncano#createAccount} method
                         		 * @property {function} get - shortcut to {@link Syncano#getAccount} method
@@ -421,7 +419,7 @@
                         		/**
                         		 * Object with methods to handle Instances
                         		 *
-                        		 * @alias Syncano#Instances
+                        		 * @method Syncano#Instances
                         		 * @type {object}
                         		 * @property {function} create - shortcut to {@link Syncano#createInstance} method
                         		 * @property {function} list - shortcut to {@link Syncano#listInstances} method
@@ -442,7 +440,7 @@
                         		/**
                         		 * Object with methods to handle Classes
                         		 *
-                        		 * @alias Syncano#Classes
+                        		 * @method Syncano#Classes
                         		 * @type {object}
                         		 * @property {function} create - shortcut to {@link Syncano#createClass} method
                         		 * @property {function} list - shortcut to {@link Syncano#listClasses} method
@@ -461,7 +459,7 @@
                         		/**
                         		 * Object with methods to handle DataObjects
                         		 *
-                        		 * @alias Syncano#DataObjects
+                        		 * @method Syncano#DataObjects
                         		 * @type {object}
                         		 * @property {function} create - shortcut to {@link Syncano#createDataObject} method
                         		 * @property {function} list - shortcut to {@link Syncano#listDataObjects} method
@@ -480,7 +478,7 @@
                         		/**
                         		 * Object with methods to handle ApiKeys
                         		 *
-                        		 * @alias Syncano#ApiKeys
+                        		 * @method Syncano#ApiKeys
                         		 * @type {object}
                         		 * @property {function} create - shortcut to {@link Syncano#createApiKey} method
                         		 * @property {function} list - shortcut to {@link Syncano#listApiKeys} method
@@ -497,7 +495,7 @@
                         		/**
                         		 * Object with methods to handle Users
                         		 *
-                        		 * @alias Syncano#Users
+                        		 * @method Syncano#Users
                         		 * @type {object}
                         		 * @property {function} create - shortcut to {@link Syncano#createUser} method
                         		 * @property {function} list - shortcut to {@link Syncano#listUsers} method
@@ -516,7 +514,7 @@
                         		/**
                         		 * Object with methods to handle Groups of permissions
                         		 *
-                        		 * @alias Syncano#Groups
+                        		 * @method Syncano#Groups
                         		 * @type {object}
                         		 * @property {function} create - shortcut to {@link Syncano#createGroup} method
                         		 * @property {function} list - shortcut to {@link Syncano#listGroups} method
@@ -535,7 +533,7 @@
                         		/**
                         		 * Object with methods to handle Channels
                         		 *
-                        		 * @alias Syncano#Channels
+                        		 * @method Syncano#Channels
                         		 * @type {object}
                         		 * @property {function} create - shortcut to {@link Syncano#createChannel} method
                         		 * @property {function} list - shortcut to {@link Syncano#listChannels} method
@@ -560,7 +558,7 @@
                         		/**
                         		 * Object with methods to handle CodeBoxes
                         		 *
-                        		 * @alias Syncano#CodeBoxes
+                        		 * @method Syncano#CodeBoxes
                         		 * @type {object}
                         		 * @property {function} create - shortcut to {@link Syncano#createCodeBox} method
                         		 * @property {function} list - shortcut to {@link Syncano#listCodeBoxes} method
@@ -587,7 +585,7 @@
                         		/**
                         		 * Object with methods to handle Invitations
                         		 *
-                        		 * @alias Syncano#Invitations
+                        		 * @method Syncano#Invitations
                         		 * @type {object}
                         		 * @property {function} create - shortcut to {@link Syncano#createInvitation} method
                         		 * @property {function} list - shortcut to {@link Syncano#listInvitations} method
@@ -604,7 +602,7 @@
                         		/**
                         		 * Object with methods to handle WebHooks
                         		 *
-                        		 * @alias Syncano#WebHooks
+                        		 * @method Syncano#WebHooks
                         		 * @type {object}
                         		 * @property {function} create - shortcut to {@link Syncano#createWebHook} method
                         		 * @property {function} list - shortcut to {@link Syncano#listWebHooks} method
@@ -627,7 +625,7 @@
                         		/**
                         		 * Object with methods to handle Triggers
                         		 *
-                        		 * @alias Syncano#Triggers
+                        		 * @method Syncano#Triggers
                         		 * @type {object}
                         		 * @property {function} create - shortcut to {@link Syncano#createTrigger} method
                         		 * @property {function} list - shortcut to {@link Syncano#listTriggers} method
@@ -648,7 +646,7 @@
                         		/**
                         		 * Object with methods to handle Schedules
                         		 *
-                        		 * @alias Syncano#Schedules
+                        		 * @method Syncano#Schedules
                         		 * @type {object}
                         		 * @property {function} create - shortcut to {@link Syncano#createSchedule} method
                         		 * @property {function} list - shortcut to {@link Syncano#listSchedules} method
@@ -683,7 +681,7 @@
                         		 * @param {string} [password] - used only if first parameter is email
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object}	promise
+                        		 * @return {object}	promise
                         		 *
                         		 * @example
                         		 * var s = new Syncano(&#x27;instance-name&#x27;);
@@ -721,7 +719,7 @@
                         		 * @param {string} password
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 *
                         		 * @example
                         		 * var s = new Syncano(&#x27;instance-name&#x27;);
@@ -749,7 +747,7 @@
                         		 * @param  {string} password
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 *
                         		 * @example
                         		 * var s = new Syncano(&#x27;instance-name&#x27;);
@@ -776,7 +774,7 @@
                         		 * @param {string} instanceName
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		setInstance: function(instanceName, callbackOK, callbackError) {
                         			return this.request(&#x27;GET&#x27;, &#x27;v1/instances/&#x27; + instanceName, {}, function(result) {
@@ -801,20 +799,18 @@
                         		},
                         
                         
-                        		/*********************
-                        		   INSTANCES METHODS
-                        		**********************/
+                        		// INSTANCES METHODS
                         		/**
                         		 * Creates new instance using passed parameters.
                         		 *
                         		 * @method Syncano#createInstance
-                        		 * @alias Syncano.Instances.create
+                        		 * @method Syncano.Instances.create
                         		 * @param {object} params
                         		 * @param {string} params.name - name of the instance
                         		 * @param {string} [description] - optional description of the instance
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		createInstance: function(params, callbackOK, callbackError) {
                         			if (typeof params === &#x27;string&#x27;) {
@@ -832,11 +828,11 @@
                         		 * Returns all defined instances as a list
                         		 *
                         		 * @method Syncano#listInstances
-                        		 * @alias Syncano.Instances.list
+                        		 * @method Syncano.Instances.list
                         		 * @param  {object} [params]
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		listInstances: function(params, callbackOK, callbackError) {
                         			params = params || {};
@@ -847,12 +843,12 @@
                         		 * Returns details of the instance with specified name
                         		 *
                         		 * @method Syncano#getInstance
-                        		 * @alias Syncano.Instances.get
+                        		 * @method Syncano.Instances.get
                         		 * @param {string|object} name
                         		 * @param {string} name.name - when passed parameter is an object, we use its name property
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		getInstance: function(name, callbackOK, callbackError) {
                         			if (typeof name === &#x27;object&#x27;) {
@@ -868,12 +864,12 @@
                         		 * Removes instance identified by specified name
                         		 *
                         		 * @method Syncano#removeInstance
-                        		 * @alias Syncano.Instances.remove
+                        		 * @method Syncano.Instances.remove
                         		 * @param {string|object} name
                         		 * @param {string} name.name - when passed parameter is an object, we use its name property
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		removeInstance: function(name, callbackOK, callbackError) {
                         			if (typeof name === &#x27;object&#x27;) {
@@ -889,13 +885,13 @@
                         		 * Updates instance identified by specified name
                         		 *
                         		 * @method Syncano#updateInstance
-                        		 * @alias Syncano.Instances.update
+                        		 * @method Syncano.Instances.update
                         		 * @param {string} name - name of the instance to change
                         		 * @param {Object} params - new values of the instance parameters
                         		 * @param {string} params.description - new description of the instance
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {Object} promise
+                        		 * @return {Object} promise
                         		 */
                         		updateInstance: function(name, params, callbackOK, callbackError) {
                         			if (typeof name === &#x27;undefined&#x27; || name.length === 0) {
@@ -908,11 +904,11 @@
                         		 * Returns all defined instance admins as a list
                         		 *
                         		 * @method Syncano#listInstanceAdmins
-                        		 * @alias Syncano.Instances.listAdmins
+                        		 * @method Syncano.Instances.listAdmins
                         		 * @param  {object} [params]
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		listInstanceAdmins: function(name, params, callbackOK, callbackError) {
                         			params = params || {};
@@ -926,21 +922,19 @@
                         		},
                         
                         
-                        		/*****************
-                        		   CLASS METHODS
-                        		******************/
+                        		// CLASS METHODS
                         		/**
                         		 * Creates new class based on passed parameters
                         		 *
                         		 * @method Syncano#createClass
-                        		 * @alias Syncano.Classes.create
+                        		 * @method Syncano.Classes.create
                         		 * @param {Object} params - values of the class parameters
                         		 * @param {string} params.name - name of the class
                         		 * @param {string} params.description - description of the class
                         		 * @param {string|object} params.schema - schema object or string
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		createClass: function(params, callbackOK, callbackError) {
                         			if (typeof linksObject.instance_classes === &#x27;undefined&#x27;) {
@@ -960,11 +954,11 @@
                         		 * Returns all defined classes as a list
                         		 *
                         		 * @method Syncano#listClasses
-                        		 * @alias Syncano.Classes.list
+                        		 * @method Syncano.Classes.list
                         		 * @param  {object} [params]
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		listClasses: function(params, callbackOK, callbackError) {
                         			return this.genericList(params, &#x27;instance_classes&#x27;, callbackOK, callbackError);
@@ -974,12 +968,12 @@
                         		 * Removes class identified by specified name
                         		 *
                         		 * @method Syncano#removeClass
-                        		 * @alias Syncano.Classes.remove
+                        		 * @method Syncano.Classes.remove
                         		 * @param {string|object} name
                         		 * @param {string} name.name - when passed parameter is an object, we use its name property
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		removeClass: function(name, callbackOK, callbackError) {
                         			return this.genericRemove(name, &#x27;instance_classes&#x27;, callbackOK, callbackError);
@@ -989,12 +983,12 @@
                         		 * Returns details of the class with specified name
                         		 *
                         		 * @method Syncano#getClass
-                        		 * @alias Syncano.Classes.get
+                        		 * @method Syncano.Classes.get
                         		 * @param {string|object} name
                         		 * @param {string} name.name - when passed parameter is an object, we use its name property
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		getClass: function(name, callbackOK, callbackError) {
                         			return this.genericGet(name, &#x27;instance_classes&#x27;, function(obj) {
@@ -1009,14 +1003,14 @@
                         		 * Updates class identified by specified name
                         		 *
                         		 * @method Syncano#updateClass
-                        		 * @alias Syncano.Classes.update
+                        		 * @method Syncano.Classes.update
                         		 * @param {string} name - name of the class to change
                         		 * @param {Object} params - new values of the class parameters
                         		 * @param {string} params.description - new description of the class
                         		 * @param {string|object} params.schema - schema object or string
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {Object} promise
+                        		 * @return {Object} promise
                         		 */
                         		updateClass: function(name, params, callbackOK, callbackError) {
                         			if (typeof linksObject.instance_classes === &#x27;undefined&#x27;) {
@@ -1037,14 +1031,12 @@
                         		},
                         
                         
-                        		/*******************
-                        		   ACCOUNT METHODS
-                        		********************/
+                        		// ACCOUNT METHODS
                         		/**
                         		 * Registers new account
                         		 *
                         		 * @method Syncano#createAccount
-                        		 * @alias Syncano.Accounts.create
+                        		 * @method Syncano.Accounts.create
                         		 * @param {object} params
                         		 * @param {string} params.email
                         		 * @param {string} params.password
@@ -1052,7 +1044,7 @@
                         		 * @param {string} params.last_name
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		createAccount: function(params, callbackOK, callbackError) {
                         			return this.request(&#x27;POST&#x27;, &#x27;v1/account/register/&#x27;, params, callbackOK, callbackError);
@@ -1062,10 +1054,10 @@
                         		 * Returns details of the currently logged user
                         		 *
                         		 * @method Syncano#getAccount
-                        		 * @alias Syncano.Accounts.get
+                        		 * @method Syncano.Accounts.get
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		getAccount: function(callbackOK, callbackError) {
                         			return this.request(&#x27;GET&#x27;, &#x27;v1/account/&#x27;, {}, callbackOK, callbackError);
@@ -1075,14 +1067,14 @@
                         		 * Updates account of the currently logged user
                         		 *
                         		 * @method Syncano#updateAccount
-                        		 * @alias Syncano.Accounts.update
+                        		 * @method Syncano.Accounts.update
                         		 * @param {Object} params - new values of the account parameters
                         		 * @param {string} params.email - new email address
                         		 * @param {string} params.first_name - new first name of the user
                         		 * @param {string} params.last_name - new last name of the user
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {Object} promise
+                        		 * @return {Object} promise
                         		 */
                         		updateAccount: function(params, callbackOK, callbackError) {
                         			return this.request(&#x27;PUT&#x27;, &#x27;v1/account/&#x27;, params, callbackOK, callbackError);
@@ -1092,28 +1084,26 @@
                         		 * Sets new auth key for api calls and removes previous one.
                         		 *
                         		 * @method  Syncano#resetAccountKey
-                        		 * @alias Syncano.Accounts.resetKey
+                        		 * @method Syncano.Accounts.resetKey
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {Object} promise
+                        		 * @return {Object} promise
                         		 */
                         		resetAccountKey: function(callbackOK, callbackError) {
                         			return this.request(&#x27;POST&#x27;, &#x27;v1/account/reset_key&#x27;, {}, callbackOK, callbackError);
                         		},
                         
-                        		/***********************
-                        		   DATA OBJECT METHODS
-                        		************************/
+                        		// DATA OBJECT METHODS
                         		/**
                         		 * Creates new data object within given class
                         		 *
                         		 * @method Syncano#createDataObject
-                        		 * @alias Syncano.DataObjects.create
+                        		 * @method Syncano.DataObjects.create
                         		 * @param {string} className - name of the class object belongs to
                         		 * @param {Object} params - values of the data object parameters (as defined in class definition)
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		createDataObject: function(className, params, callbackOK, callbackError) {
                         			if (typeof className === &#x27;object&#x27;) {
@@ -1135,12 +1125,12 @@
                         		 * Returns all data objects withing a single class as a list
                         		 *
                         		 * @method Syncano#listDataObjects
-                        		 * @alias Syncano.DataObjects.list
+                        		 * @method Syncano.DataObjects.list
                         		 * @param {string} className
                         		 * @param {object} [params]
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		listDataObjects: function(className, params, callbackOK, callbackError) {
                         			if (typeof className === &#x27;object&#x27;) {
@@ -1160,13 +1150,13 @@
                         		 * Removes data object identified by specified id and className
                         		 *
                         		 * @method Syncano#removeDataObject
-                        		 * @alias Syncano.DataObjects.remove
+                        		 * @method Syncano.DataObjects.remove
                         		 * @param {string} className - name of the class object belongs to
                         		 * @param {Number|object} params - data object or its it
                         		 * @param {Number} params.id - when passed parameter is an object, we use its id property
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		removeDataObject: function(className, params, callbackOK, callbackError) {
                         			if (typeof className === &#x27;object&#x27;) {
@@ -1194,13 +1184,13 @@
                         		 * Returns details of the data object with specified id and class
                         		 *
                         		 * @method Syncano#getDataObject
-                        		 * @alias Syncano.DataObjects.get
+                        		 * @method Syncano.DataObjects.get
                         		 * @param {string} className
                         		 * @param {Number|object} params - when passed parameter is a number we treat it as an id of the data object
                         		 * @param {Number} params.id - when passed parameter is an object, we use its id property
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		getDataObject: function(className, params, callbackOK, callbackError) {
                         			if (typeof className === &#x27;object&#x27;) {
@@ -1228,12 +1218,12 @@
                         		 * Updates data object identified by given id and className
                         		 *
                         		 * @method Syncano#updateDataObject
-                        		 * @alias Syncano.DataObjects.update
+                        		 * @method Syncano.DataObjects.update
                         		 * @param {string} className - name of the class object belongs to
                         		 * @param {Object} params - new values of the data object parameters (as defined in class definition)
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {Object} promise
+                        		 * @return {Object} promise
                         		 */
                         		updateDataObject: function(className, params, callbackOK, callbackError) {
                         			if (typeof className === &#x27;object&#x27;) {
@@ -1260,18 +1250,16 @@
                         			return this.request(&#x27;PATCH&#x27;, methodName, params, callbackOK, callbackError);
                         		},
                         
-                        		/********************
-                        		   API KEYS METHODS
-                        		*********************/
+                        		// API KEYS METHODS
                         		/**
                         		 * Creates new api key
                         		 *
                         		 * @method  Syncano#createApiKey
-                        		 * @alias Syncano.ApiKeys.create
+                        		 * @method Syncano.ApiKeys.create
                         		 * @param  {object} params
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		createApiKey: function(params, callbackOK, callbackError) {
                         			params = params || {};
@@ -1285,11 +1273,11 @@
                         		 * Returns all defined api keys as a list
                         		 *
                         		 * @method Syncano#listApiKeys
-                        		 * @alias Syncano.ApiKeys.list
+                        		 * @method Syncano.ApiKeys.list
                         		 * @param  {object} [params]
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		listApiKeys: function(params, callbackOK, callbackError) {
                         			return this.genericList(params, &#x27;instance_api_keys&#x27;, callbackOK, callbackError);
@@ -1299,12 +1287,12 @@
                         		 * Returns the API key with specified id
                         		 *
                         		 * @method Syncano#getApiKey
-                        		 * @alias Syncano.ApiKeys.get
+                        		 * @method Syncano.ApiKeys.get
                         		 * @param {Number|object} id
                         		 * @param {Number} id.id - when passed parameter is an object, we use its id property
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		getApiKey: function(id, callbackOK, callbackError) {
                         			return this.genericGet(id, &#x27;instance_api_keys&#x27;, callbackOK, callbackError);
@@ -1314,31 +1302,29 @@
                         		 * Removes API key identified by specified id
                         		 *
                         		 * @method Syncano#removeApiKey
-                        		 * @alias Syncano.ApiKeys.remove
+                        		 * @method Syncano.ApiKeys.remove
                         		 * @param {Number|object} id - identifier of the api key to remove
                         		 * @param {Number} id.id - when passed parameter is an object, we use its id property
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		removeApiKey: function(id, callbackOK, callbackError) {
                         			return this.genericRemove(id, &#x27;instance_api_keys&#x27;, callbackOK, callbackError);
                         		},
                         
-                        		/*********************
-                        		   USERS METHODS
-                        		**********************/
+                        		// USERS METHODS
                         		/**
                         		 * Creates new user
                         		 *
                         		 * @method Syncano#createUser
-                        		 * @alias Syncano.Users.create
+                        		 * @method Syncano.Users.create
                         		 * @param {object} params
                         		 * @param {string} params.username
                         		 * @param {string} params.password
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		createUser: function(params, callbackOK, callbackError) {
                         			params = params || {};
@@ -1352,11 +1338,11 @@
                         		 * Returns all users within an instance as a list
                         		 *
                         		 * @method Syncano#listUsers
-                        		 * @alias Syncano.Users.list
+                        		 * @method Syncano.Users.list
                         		 * @param  {object} [params]
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		listUsers: function(params, callbackOK, callbackError) {
                         			return this.genericList(params, &#x27;instance_users&#x27;, callbackOK, callbackError);
@@ -1366,12 +1352,12 @@
                         		 * Returns user with specified id
                         		 *
                         		 * @method Syncano#getUser
-                        		 * @alias Syncano.Users.get
+                        		 * @method Syncano.Users.get
                         		 * @param {Number|object} id
                         		 * @param {Number} id.id - when passed parameter is an object, we use its id property
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		getUser: function(id, callbackOK, callbackError) {
                         			return this.genericGet(id, &#x27;instance_users&#x27;, callbackOK, callbackError);
@@ -1381,7 +1367,7 @@
                         		 * Updates user identified by given id
                         		 *
                         		 * @method Syncano#updateUser
-                        		 * @alias Syncano.Users.update
+                        		 * @method Syncano.Users.update
                         		 * @param {Number|object} id
                         		 * @param {Number} id.id - when passed parameter is an object, we use its id property
                         		 * @param {Object} params - new parameters of user
@@ -1389,7 +1375,7 @@
                         		 * @param {string} params.password
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {Object} promise
+                        		 * @return {Object} promise
                         		 */
                         		updateUser: function(id, params, callbackOK, callbackError) {
                         			if (typeof id === &#x27;object&#x27;) {
@@ -1419,30 +1405,28 @@
                         		 * Removes User identified by specified id
                         		 *
                         		 * @method Syncano#removeUser
-                        		 * @alias Syncano.Users.remove
+                        		 * @method Syncano.Users.remove
                         		 * @param {Number|object} id - identifier of the user to remove
                         		 * @param {Number} id.id - when passed parameter is an object, we use its id property
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		removeUser: function(id, callbackOK, callbackError) {
                         			return this.genericRemove(id, &#x27;instance_users&#x27;, callbackOK, callbackError);
                         		},
                         
                         
-                        		/*********************
-                        		   GROUPS METHODS
-                        		**********************/
+                        		// GROUPS METHODS
                         		/**
                         		 * Creates new group
                         		 *
                         		 * @method Syncano#createGroup
-                        		 * @alias Syncano.Groups.create
+                        		 * @method Syncano.Groups.create
                         		 * @param {object} name - name of the group
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		createGroup: function(name, callbackOK, callbackError) {
                         			var params = {
@@ -1458,11 +1442,11 @@
                         		 * Returns all defined groups
                         		 *
                         		 * @method Syncano#listGroups
-                        		 * @alias Syncano.Groups.list
+                        		 * @method Syncano.Groups.list
                         		 * @param  {object} [params]
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		listGroups: function(params, callbackOK, callbackError) {
                         			return this.genericList(params, &#x27;instance_groups&#x27;, callbackOK, callbackError);
@@ -1472,12 +1456,12 @@
                         		 * Returns the group with specified id
                         		 *
                         		 * @method Syncano#getGroup
-                        		 * @alias Syncano.Groups.get
+                        		 * @method Syncano.Groups.get
                         		 * @param {Number|object} id
                         		 * @param {Number} id.id - when passed parameter is an object, we use its id property
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		getGroup: function(id, callbackOK, callbackError) {
                         			return this.genericGet(id, &#x27;instance_groups&#x27;, callbackOK, callbackError);
@@ -1487,12 +1471,12 @@
                         		 * Removes group identified by specified id
                         		 *
                         		 * @method Syncano#removeGroup
-                        		 * @alias Syncano.Group.remove
+                        		 * @method Syncano.Group.remove
                         		 * @param {Number|object} id - identifier of the CodeBox to remove
                         		 * @param {Number} id.id - when passed parameter is an object, we use its id property
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		removeGroup: function(id, callbackOK, callbackError) {
                         			return this.genericRemove(id, &#x27;instance_groups&#x27;, callbackOK, callbackError);
@@ -1513,21 +1497,19 @@
                         			return this.request(&#x27;POST&#x27;, linksObject.instance_groups + groupId + &#x27;/users/&#x27;, params, callbackOK, callbackError);
                         		},
                         
-                        		/*********************
-                        		   CODEBOXES METHODS
-                        		**********************/
+                        		// CODEBOXES METHODS
                         		/**
                         		 * Creates new codebox
                         		 *
                         		 * @method Syncano#createCodeBox
-                        		 * @alias Syncano.CodeBoxes.create
+                        		 * @method Syncano.CodeBoxes.create
                         		 * @param {object} params
                         		 * @param {string} params.runtime_name - python / nodejs / ruby
                         		 * @param {string} params.name - name of the codebox
                         		 * @param {string} params.source - source code (will be automatically URL-encoded)
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		createCodeBox: function(params, callbackOK, callbackError) {
                         			if (typeof params !== &#x27;object&#x27;) {
@@ -1549,11 +1531,11 @@
                         		 * Returns all defined codeboxes as a list
                         		 *
                         		 * @method Syncano#listCodeBoxes
-                        		 * @alias Syncano.CodeBoxes.list
+                        		 * @method Syncano.CodeBoxes.list
                         		 * @param  {object} [params]
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		listCodeBoxes: function(params, callbackOK, callbackError) {
                         			return this.genericList(params, &#x27;instance_codeboxes&#x27;, callbackOK, callbackError);
@@ -1563,11 +1545,11 @@
                         		 * Returns all runtime types for codeboxes as a list
                         		 *
                         		 * @method Syncano#listCodeBoxRuntimes
-                        		 * @alias Syncano.CodeBoxes.listRuntimes
+                        		 * @method Syncano.CodeBoxes.listRuntimes
                         		 * @param  {object} [params]
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		listCodeBoxRuntimes: function(params, callbackOK, callbackError) {
                         			return this.genericList(params, &#x27;instance_runtimes&#x27;, callbackOK, callbackError);
@@ -1577,12 +1559,12 @@
                         		 * Returns the codebox with specified id
                         		 *
                         		 * @method Syncano#getCodeBox
-                        		 * @alias Syncano.CodeBoxes.get
+                        		 * @method Syncano.CodeBoxes.get
                         		 * @param {Number|object} id
                         		 * @param {Number} id.id - when passed parameter is an object, we use its id property
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		getCodeBox: function(id, callbackOK, callbackError) {
                         			return this.genericGet(id, &#x27;instance_codeboxes&#x27;, callbackOK, callbackError);
@@ -1592,7 +1574,7 @@
                         		 * Updates codebox identified by specified id
                         		 *
                         		 * @method Syncano#updateCodeBox
-                        		 * @alias Syncano.CodeBoxes.update
+                        		 * @method Syncano.CodeBoxes.update
                         		 * @param {Number} id - codebox id
                         		 * @param {Object} params - new values of the codebox parameters
                         		 * @param {string} params.config -
@@ -1602,7 +1584,7 @@
                         		 * @param {string} params.source - source code in Node.js / Python / Ruby
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {Object} promise
+                        		 * @return {Object} promise
                         		 */
                         		updateCodeBox: function(id, params, callbackOK, callbackError) {
                         			if (typeof id === &#x27;object&#x27;) {
@@ -1626,12 +1608,12 @@
                         		 * Removes CodeBox identified by specified id
                         		 *
                         		 * @method Syncano#removeCodeBox
-                        		 * @alias Syncano.CodeBoxes.remove
+                        		 * @method Syncano.CodeBoxes.remove
                         		 * @param {Number|object} id - identifier of the CodeBox to remove
                         		 * @param {Number} id.id - when passed parameter is an object, we use its id property
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		removeCodeBox: function(id, callbackOK, callbackError) {
                         			return this.genericRemove(id, &#x27;instance_codeboxes&#x27;, callbackOK, callbackError);
@@ -1641,14 +1623,14 @@
                         		 * Runs new codebox
                         		 *
                         		 * @method Syncano#runCodeBox
-                        		 * @alias Syncano.CodeBoxes.run
+                        		 * @method Syncano.CodeBoxes.run
                         		 * @param {object} params
                         		 * @param {string} params.runtime_name - python / nodejs / ruby
                         		 * @param {string} params.name - name of the codebox
                         		 * @param {string} params.source - source code (will be automatically URL-encoded)
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		runCodeBox: function(params, callbackOK, callbackError) {
                         			if (typeof params !== &#x27;object&#x27;) {
@@ -1670,12 +1652,12 @@
                         		 * List all traces for single codebox
                         		 *
                         		 * @method Syncano#listCodeBoxTraces
-                        		 * @alias Syncano.CodeBoxes.traces
+                        		 * @method Syncano.CodeBoxes.traces
                         		 * @param {Number|object} codeboxId
                         		 * @param {object} [params]
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		listCodeBoxTraces: function(codeboxId, params, callbackOK, callbackError) {
                         			if (typeof codeboxId === &#x27;object&#x27;) {
@@ -1688,13 +1670,13 @@
                         		 * Get single trace for single codebox
                         		 *
                         		 * @method Syncano#getCodeBoxTrace
-                        		 * @alias Syncano.CodeBoxes.trace
+                        		 * @method Syncano.CodeBoxes.trace
                         		 * @param {Number|object} codeboxId
                         		 * @param {Number|object} traceId
                         		 * @param {object} [params]
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		getCodeBoxTrace: function(codeboxId, traceId, params, callbackOK, callbackError) {
                         			if (typeof codeboxId === &#x27;object&#x27;) {
@@ -1707,20 +1689,18 @@
                         		},
                         
                         
-                        		/***********************
-                        		   INVITATIONS METHODS
-                        		************************/
+                        		// INVITATIONS METHODS
                         		/**
                         		 * Invites new person to your instance
                         		 *
                         		 * @method Syncano#createInvitation
-                        		 * @alias Syncano.Invitations.create
+                        		 * @method Syncano.Invitations.create
                         		 * @param  {object} params
                         		 * @param  {string} params.email - email of the person you are inviting
                         		 * @param  {string} params.role - read / write / full
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		createInvitation: function(params, callbackOK, callbackError) {
                         			if (typeof params !== &#x27;object&#x27;) {
@@ -1739,11 +1719,11 @@
                         		 * Returns all created invitations as a list
                         		 *
                         		 * @method Syncano#listInvitations
-                        		 * @alias Syncano.Invitations.list
+                        		 * @method Syncano.Invitations.list
                         		 * @param  {object} [params]
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		listInvitations: function(params, callbackOK, callbackError) {
                         			return this.genericList(params, &#x27;instance_invitations&#x27;, callbackOK, callbackError);
@@ -1753,12 +1733,12 @@
                         		 * Returns the invitation with specified id
                         		 *
                         		 * @method Syncano#getInvitation
-                        		 * @alias Syncano.Invitations.get
+                        		 * @method Syncano.Invitations.get
                         		 * @param {Number|object} id
                         		 * @param {Number} id.id - when passed parameter is an object, we use its id property
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		getInvitation: function(id, callbackOK, callbackError) {
                         			return this.genericGet(id, &#x27;instance_invitations&#x27;, callbackOK, callbackError);
@@ -1768,31 +1748,29 @@
                         		 * Removes invitation identified by specified id
                         		 *
                         		 * @method Syncano#removeInvitation
-                        		 * @alias Syncano.Invitations.remove
+                        		 * @method Syncano.Invitations.remove
                         		 * @param {Number|object} id - identifier of the invitation to remove
                         		 * @param {Number} id.id - when passed parameter is an object, we use its id property
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		removeInvitation: function(id, callbackOK, callbackError) {
                         			return this.genericRemove(id, &#x27;instance_invitations&#x27;, callbackOK, callbackError);
                         		},
                         
-                        		/********************
-                        		   WEBHOOKS METHODS
-                        		*********************/
+                        		// WEBHOOKS METHODS
                         		/**
                         		 * Creates new webhook.
                         		 *
                         		 * @method Syncano#createWebHook
-                        		 * @alias Syncano.WebHooks.create
+                        		 * @method Syncano.WebHooks.create
                         		 * @param {object} params
                         		 * @param {string} params.slug
                         		 * @param {Number} params.codebox
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		createWebHook: function(params, callbackOK, callbackError) {
                         			if (typeof params !== &#x27;object&#x27;) {
@@ -1811,11 +1789,11 @@
                         		 * Returns all defined webhooks as a list
                         		 *
                         		 * @method Syncano#listWebHooks
-                        		 * @alias Syncano.WebHooks.list
+                        		 * @method Syncano.WebHooks.list
                         		 * @param  {object} [params]
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		listWebHooks: function(params, callbackOK, callbackError) {
                         			return this.genericList(params, &#x27;instance_webhooks&#x27;, callbackOK, callbackError);
@@ -1825,12 +1803,12 @@
                         		 * Returns the webhook with specified id
                         		 *
                         		 * @method Syncano#getWebHook
-                        		 * @alias Syncano.WebHooks.get
+                        		 * @method Syncano.WebHooks.get
                         		 * @param {Number|object} id
                         		 * @param {Number} id.id - when passed parameter is an object, we use its id property
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		getWebHook: function(id, callbackOK, callbackError) {
                         			return this.genericGet(id, &#x27;instance_webhooks&#x27;, callbackOK, callbackError);
@@ -1840,12 +1818,12 @@
                         		 * Removes Webhook identified by specified id
                         		 *
                         		 * @method Syncano#removeWebHook
-                        		 * @alias Syncano.WebHooks.remove
+                        		 * @method Syncano.WebHooks.remove
                         		 * @param {Number|object} id - identifier of the webhook to remove
                         		 * @param {Number} id.id - when passed parameter is an object, we use its id property
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		removeWebHook: function(id, callbackOK, callbackError) {
                         			return this.genericRemove(id, &#x27;instance_webhooks&#x27;, callbackOK, callbackError);
@@ -1855,14 +1833,14 @@
                         		 * Updates webhook identified by specified id
                         		 *
                         		 * @method Syncano#updateWebHook
-                        		 * @alias Syncano.WebHooks.update
+                        		 * @method Syncano.WebHooks.update
                         		 * @param {Number} id - webhook id
                         		 * @param {Object} params - new values of the webhook parameters
                         		 * @param {string} params.slug -
                         		 * @param {Number} params.codebox -
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {Object} promise
+                        		 * @return {Object} promise
                         		 */
                         		updateWebHook: function(id, params, callbackOK, callbackError) {
                         			if (typeof id === &#x27;object&#x27;) {
@@ -1881,11 +1859,11 @@
                         		 * Runs defined webhook.
                         		 *
                         		 * @method Syncano#runWebHook
-                        		 * @alias Syncano.WebHooks.run
+                        		 * @method Syncano.WebHooks.run
                         		 * @param  {Number} id - identifier of the webhook
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		runWebHook: function(id, callbackOK, callbackError) {
                         			if (typeof id === &#x27;object&#x27;) {
@@ -1904,12 +1882,12 @@
                         		 * List all traces for single webhook
                         		 *
                         		 * @method Syncano#listWebHookTraces
-                        		 * @alias Syncano.WebHooks.traces
+                        		 * @method Syncano.WebHooks.traces
                         		 * @param {Number|object} webhookId
                         		 * @param {object} [params]
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		listWebHookTraces: function(webhookId, params, callbackOK, callbackError) {
                         			if (typeof webhookId === &#x27;object&#x27;) {
@@ -1922,13 +1900,13 @@
                         		 * Get single trace for single webhook
                         		 *
                         		 * @method Syncano#getWebHookTrace
-                        		 * @alias Syncano.WebHooks.trace
+                        		 * @method Syncano.WebHooks.trace
                         		 * @param {Number|object} webhookId
                         		 * @param {Number|object} traceId
                         		 * @param {object} [params]
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		getWebHookTrace: function(webhookId, traceId, params, callbackOK, callbackError) {
                         			if (typeof webhookId === &#x27;object&#x27;) {
@@ -1940,14 +1918,12 @@
                         			return this.request(&#x27;GET&#x27;, linksObject.instance_webhooks + webhookId + &#x27;/traces/&#x27; + traceId + &#x27;/&#x27;, params, callbackOK, callbackError);
                         		},
                         
-                        		/********************
-                        		   TRIGGERS METHODS
-                        		*********************/
+                        		// TRIGGERS METHODS
                         		/**
                         		 * Creates new trigger
                         		 *
                         		 * @method Syncano#createTrigger
-                        		 * @alias Syncano.Triggers.create
+                        		 * @method Syncano.Triggers.create
                         		 * @param {object} params
                         		 * @param {string} params.name - name of the trigger
                         		 * @param {string} params.class - name of the objects class
@@ -1955,7 +1931,7 @@
                         		 * @param {string} params.signal - when to run codebox (possible values: post_create, post_update, post_delete)
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		createTrigger: function(params, callbackOK, callbackError) {
                         			if (typeof params !== &#x27;object&#x27;) {
@@ -1977,11 +1953,11 @@
                         		 * Returns all defined triggers as a list
                         		 *
                         		 * @method Syncano#listTriggers
-                        		 * @alias Syncano.Triggers.list
+                        		 * @method Syncano.Triggers.list
                         		 * @param  {object} [params]
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		listTriggers: function(params, callbackOK, callbackError) {
                         			return this.genericList(params, &#x27;instance_triggers&#x27;, callbackOK, callbackError);
@@ -1991,12 +1967,12 @@
                         		 * Returns the trigger with specified id
                         		 *
                         		 * @method Syncano#getTrigger
-                        		 * @alias Syncano.Triggers.get
+                        		 * @method Syncano.Triggers.get
                         		 * @param {Number|object} id
                         		 * @param {Number} id.id - when passed parameter is an object, we use its id property
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		getTrigger: function(id, callbackOK, callbackError) {
                         			return this.genericGet(id, &#x27;instance_triggers&#x27;, callbackOK, callbackError);
@@ -2006,7 +1982,7 @@
                         		 * Updates trigger identified by specified id
                         		 *
                         		 * @method Syncano#updateTrigger
-                        		 * @alias Syncano.Triggers.update
+                        		 * @method Syncano.Triggers.update
                         		 * @param {Number} id - trigger id
                         		 * @param {Object} params - new values of the trigger parameters
                         		 * @param {string} params.klass -
@@ -2014,7 +1990,7 @@
                         		 * @param {Number} params.codebox - new codebox id
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {Object} promise
+                        		 * @return {Object} promise
                         		 */
                         		updateTrigger: function(id, params, callbackOK, callbackError) {
                         			if (typeof id === &#x27;object&#x27;) {
@@ -2033,12 +2009,12 @@
                         		 * Removes trigger identified by specified id
                         		 *
                         		 * @method Syncano#removeTrigger
-                        		 * @alias Syncano.Triggers.remove
+                        		 * @method Syncano.Triggers.remove
                         		 * @param {Number|object} id - identifier of the trigger to remove
                         		 * @param {Number} id.id - when passed parameter is an object, we use its id property
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		removeTrigger: function(id, callbackOK, callbackError) {
                         			return this.genericRemove(id, &#x27;instance_triggers&#x27;, callbackOK, callbackError);
@@ -2048,12 +2024,12 @@
                         		 * List all traces for single trigger
                         		 *
                         		 * @method Syncano#listTriggerTraces
-                        		 * @alias Syncano.Triggers.traces
+                        		 * @method Syncano.Triggers.traces
                         		 * @param {Number|object} triggerId
                         		 * @param {object} [params]
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		listTriggerTraces: function(triggerId, params, callbackOK, callbackError) {
                         			if (typeof triggerId === &#x27;object&#x27;) {
@@ -2066,13 +2042,13 @@
                         		 * Get single trace for single trigger
                         		 *
                         		 * @method Syncano#getTriggerTrace
-                        		 * @alias Syncano.Triggers.trace
+                        		 * @method Syncano.Triggers.trace
                         		 * @param {Number|object} triggerId
                         		 * @param {Number|object} traceId
                         		 * @param {object} [params]
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		getTriggerTrace: function(triggerId, traceId, params, callbackOK, callbackError) {
                         			if (typeof triggerId === &#x27;object&#x27;) {
@@ -2084,14 +2060,12 @@
                         			return this.request(&#x27;GET&#x27;, linksObject.instance_triggers + triggerId + &#x27;/traces/&#x27; + traceId + &#x27;/&#x27;, params, callbackOK, callbackError);
                         		},
                         
-                        		/********************
-                        		   SCHEDULES METHODS
-                        		*********************/
+                        		// SCHEDULES METHODS
                         		/**
                         		 * Creates new schedule
                         		 *
                         		 * @method Syncano#createSchedule
-                        		 * @alias Syncano.Schedules.create
+                        		 * @method Syncano.Schedules.create
                         		 * @param {object} params
                         		 * @param {string} params.name - name of the new schedule
                         		 * @param {Number} params.codebox - codebox to run
@@ -2099,7 +2073,7 @@
                         		 * @param {string} params.crontab - ???
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		createSchedule: function(params, callbackOK, callbackError) {
                         			if (typeof params !== &#x27;object&#x27;) {
@@ -2118,11 +2092,11 @@
                         		 * Returns all defined schedules as a list
                         		 *
                         		 * @method Syncano#listSchedules
-                        		 * @alias Syncano.Schedules.list
+                        		 * @method Syncano.Schedules.list
                         		 * @param  {object} [params]
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		listSchedules: function(params, callbackOK, callbackError) {
                         			return this.genericList(params, &#x27;instance_schedules&#x27;, callbackOK, callbackError);
@@ -2132,12 +2106,12 @@
                         		 * Returns the schedule with specified id
                         		 *
                         		 * @method Syncano#getSchedule
-                        		 * @alias Syncano.Schedules.get
+                        		 * @method Syncano.Schedules.get
                         		 * @param {Number|object} id
                         		 * @param {Number} id.id - when passed parameter is an object, we use its id property
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		getSchedule: function(id, callbackOK, callbackError) {
                         			return this.genericGet(id, &#x27;instance_schedules&#x27;, callbackOK, callbackError);
@@ -2147,12 +2121,12 @@
                         		 * Removes schedule identified by specified id
                         		 *
                         		 * @method Syncano#removeSchedule
-                        		 * @alias Syncano.Schedules.remove
+                        		 * @method Syncano.Schedules.remove
                         		 * @param {Number|object} id - identifier of the schedule to remove
                         		 * @param {Number} id.id - when passed parameter is an object, we use its id property
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		removeSchedule: function(id, callbackOK, callbackError) {
                         			return this.genericRemove(id, &#x27;instance_schedules&#x27;, callbackOK, callbackError);
@@ -2162,12 +2136,12 @@
                         		 * List all traces for single schedule
                         		 *
                         		 * @method Syncano#listScheduleTraces
-                        		 * @alias Syncano.Schedules.traces
+                        		 * @method Syncano.Schedules.traces
                         		 * @param {Number|object} scheduleId
                         		 * @param {object} [params]
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		listScheduleTraces: function(scheduleId, params, callbackOK, callbackError) {
                         			if (typeof scheduleId === &#x27;object&#x27;) {
@@ -2180,13 +2154,13 @@
                         		 * Get single trace for single schedule
                         		 *
                         		 * @method Syncano#getScheduleTrace
-                        		 * @alias Syncano.Schedules.trace
+                        		 * @method Syncano.Schedules.trace
                         		 * @param {Number|object} scheduleId
                         		 * @param {Number|object} traceId
                         		 * @param {object} [params]
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		getScheduleTrace: function(scheduleId, traceId, params, callbackOK, callbackError) {
                         			if (typeof scheduleId === &#x27;object&#x27;) {
@@ -2198,21 +2172,19 @@
                         			return this.request(&#x27;GET&#x27;, linksObject.instance_schedules + scheduleId + &#x27;/traces/&#x27; + traceId + &#x27;/&#x27;, params, callbackOK, callbackError);
                         		},
                         
-                        		/********************
-                        		   REALTIME METHODS
-                        		*********************/
+                        		// REALTIME METHODS
                         		/**
                         		 * Creates new communication channel based on passed parameters
                         		 *
                         		 * @method Syncano#createChannel
-                        		 * @alias Syncano.Channels.create
+                        		 * @method Syncano.Channels.create
                         		 * @param {Object} params
                         		 * @param {string} params.name - name of the channel
                         		 * @param {boolean} params.custom_publish - true if channel accepts custom messages
                         		 * @param {string} params.type - &quot;separate_rooms&quot; or &quot;default&quot;
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		createChannel: function(params, callbackOK, callbackError) {
                         			if (typeof linksObject.instance_self === &#x27;undefined&#x27;) {
@@ -2225,11 +2197,11 @@
                         		 * Returns all defined channels as a list
                         		 *
                         		 * @method Syncano#listChannels
-                        		 * @alias Syncano.Channels.list
+                        		 * @method Syncano.Channels.list
                         		 * @param  {object} [params]
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		listChannels: function(params, callbackOK, callbackError) {
                         			return this.request(&#x27;GET&#x27;, linksObject.instance_channels, params, callbackOK, callbackError);
@@ -2239,12 +2211,12 @@
                         		 * Returns the channels with specified name
                         		 *
                         		 * @method Syncano#getChannel
-                        		 * @alias Syncano.Channels.get
+                        		 * @method Syncano.Channels.get
                         		 * @param {string|object} name
                         		 * @param {string} name.name - when passed parameter is an object, we use its name property
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		getChannel: function(name, callbackOK, callbackError) {
                         			return this.genericGet(name, &#x27;instance_channels&#x27;, callbackOK, callbackError);
@@ -2254,12 +2226,12 @@
                         		 * Removes channel identified by specified name
                         		 *
                         		 * @method Syncano#removeChannel
-                        		 * @alias Syncano.Channels.remove
+                        		 * @method Syncano.Channels.remove
                         		 * @param {string|object} name
                         		 * @param {string} name.name - when passed parameter is an object, we use its name property
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		removeChannel: function(name, callbackOK, callbackError) {
                         			return this.genericRemove(name, &#x27;instance_channels&#x27;, callbackOK, callbackError);
@@ -2269,7 +2241,7 @@
                         		 * Updates channel identified by specified name
                         		 *
                         		 * @method Syncano#updateChannel
-                        		 * @alias Syncano.Channels.update
+                        		 * @method Syncano.Channels.update
                         		 * @param {string|Object} name - channel name
                         		 * @param {string} name.name - when passed parameter is an object, we use its name property
                         		 * @param {Object} params - new values of the channel parameters
@@ -2277,7 +2249,7 @@
                         		 * @param {string} params.type - &quot;separate_rooms&quot; or &quot;default&quot;
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {Object} promise
+                        		 * @return {Object} promise
                         		 */
                         		updateChannel: function(channel, params, callbackOK, callbackError) {
                         			if (typeof channel === &#x27;object&#x27;) {
@@ -2293,7 +2265,7 @@
                         		 * Subscribes to messages on channel identified by specified name. Calls callback method when data arrives.
                         		 *
                         		 * @method Syncano#channelListen
-                        		 * @alias Syncano.Channels.listen
+                        		 * @method Syncano.Channels.listen
                         		 * @param {string|Object} name - channel name
                         		 * @param {string} name.name - when passed parameter is an object, we use its name property
                         		 * @param {function} [callback] - method to call when data arrives
@@ -2335,13 +2307,13 @@
                         		 * Sends custom message to channel identified by name
                         		 *
                         		 * @method Syncano#publishToChannel
-                        		 * @alias Syncano.Channels.publish
+                        		 * @method Syncano.Channels.publish
                         		 * @param {string|Object} name - channel name
                         		 * @param {string} name.name - when passed parameter is an object, we use its name property
                         		 * @param {object} params - data to send to channel
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		publishToChannel: function(name, params, callbackOK, callbackError) {
                         			if (typeof name !== &#x27;string&#x27;) {
@@ -2361,13 +2333,13 @@
                         		 * Returns all data that was sent to specified channel during last 24 hours
                         		 *
                         		 * @method Syncano#getChannelHistory
-                        		 * @alias Syncano.Channels.getHistory
+                        		 * @method Syncano.Channels.getHistory
                         		 * @param {string|Object} name - channel name
                         		 * @param {string} name.name - when passed parameter is an object, we use its name property
                         		 * @param {object} params - optional parameters
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		getChannelHistory: function(name, params, callbackOK, callbackError) {
                         			params = params || {};
@@ -2381,10 +2353,7 @@
                         			return this.request(&#x27;GET&#x27;, url, params, callbackOK, callbackError);
                         		},
                         
-                        
-                        		/********************
-                        		   GENERIC METHODS
-                        		*********************/
+                        		//   GENERIC METHODS
                         		/*
                         			These methods are used internally by other list*, get* and remove* methods
                         		 */
@@ -2434,7 +2403,7 @@
                         		 * @param {object} params -  - parameters to API call
                         		 * @param {function} [callbackOK] - optional method to call on success
                         		 * @param {function} [callbackError] - optional method to call when request fails
-                        		 * @returns {object} promise
+                        		 * @return {object} promise
                         		 */
                         		request: function(requestType, method, params, _callbackOK, _callbackError) {
                         			var deferred = Deferred();
@@ -2772,7 +2741,7 @@
                         			return {
                         				promise: _promise,
                         				resolve: _resolve,
-                        				fulfill: _resolve // alias
+                        				fulfill: _resolve // method
                         					,
                         				reject: _reject
                         			};
