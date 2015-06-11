@@ -1,0 +1,2913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>lib/syncano4.js</title>
+    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+</head>
+<body class="yui3-skin-sam">
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <h1 class="brand" style="padding: 10px 16px 10px; height: 20px; line-height: 20px; margin-left: 0;">
+	    <img alt="" src="../assets/css/logo.png" style="max-height: 65%;" title="">
+            
+        </h1>
+	<div class="nav">
+            <li class="divider-vertical"></li>
+            <li>
+                <p class="navbar-text">
+                    API Docs for Version: <b></b>
+                </p>
+            </li>
+        </div>
+        <form class="navbar-form pull-right" style="line-height: 40px; height: 40px;">
+            <input style="margin-top: 0;" type="text" class="search-query" placeholder="Search for classes/modules..." data-obj='["classes/Syncano", "classes/Syncano.Schema"]'>
+        </form>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="span3">
+	    <div>
+	        <h3>APIs</h3>
+	        <div id="sidebar">
+	            <ul id="main-nav" class="nav nav-tabs" style="margin-bottom:0;">
+	                <li class="active"><a href="#classes" data-toggle="tab">Classes</a></li>
+	                <li><a href="#modules" data-toggle="tab">Modules</a></li>
+	            </ul>
+	    
+	            <div id="api-tabview-filter">
+	                <input type="search" placeholder="Type to filter APIs">
+	            </div>
+	    
+	            <div class="tab-content" style="border: 1px solid #DDD; border-top:0;">
+	                <div class="tab-pane active" id="classes">
+	                    <ul id="api-classes" class="nav nav-list">
+	                            <li><a href="../classes/Syncano.html">Syncano</a></li>
+	                            <li><a href="../classes/Syncano.Schema.html">Syncano.Schema</a></li>
+	                    </ul>
+	                </div>
+	    
+	                <div class="tab-pane" id="modules">
+	                    <ul id="api-modules" class="nav nav-list">
+	                    </ul>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+        </div>
+        <div class="span9">
+                <form id="options-form" class="form-inline pull-right">
+                    Show:
+                    <label for="api-show-inherited" class="checkbox">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected" class="checkbox">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private" class="checkbox">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated" class="checkbox">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </form>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <div class="page-header">
+                            <h1>lib/syncano4.js <small>File</small></h1>
+                        </div>
+                        
+                        <div class="file">
+                            <pre class="prettyprint linenums">
+                        /*
+                         * Syncano 4 javascript library
+                         * ver 4.1
+                         * last changed: 2015-05-05 by Artur Wróbel
+                         * Copyright 2015 Syncano Inc.
+                         */
+                        
+                        var isNode = false,
+                        	isWebpack = false;
+                        if (typeof module !== &#x27;undefined&#x27; &amp;&amp; module.exports) {
+                        	isNode = true;
+                        }
+                        
+                        if (typeof __webpack_require__ === &#x27;function&#x27;) {
+                        	isNode = false;
+                        	isWebpack = true;
+                        }
+                        
+                        var reqfun = (function(s) {
+                        	return function(s) {
+                        		return eval(&#x27;require(&quot;&#x27; + s + &#x27;&quot;);&#x27;);
+                        	};
+                        })();
+                        
+                        if (isNode) {
+                        	var Request = reqfun(&#x27;request&#x27;);
+                        }
+                        
+                        var Syncano = (function() {
+                        	/*
+                        		define dummy console if not present in the system
+                        	*/
+                        	if (typeof console === &#x27;undefined&#x27;) {
+                        		console = {
+                        			log: function() {},
+                        			error: function() {},
+                        			warning: function() {}
+                        		};
+                        	}
+                        
+                        	/*
+                        		private variables
+                        	*/
+                        
+                        	// base url of all requests - will be changed in final version
+                        	var baseURL = &#x27;https://api.syncano.rocks/&#x27;;
+                        
+                        	// main api authorization key - the one used to connect to Syncano or returned when connecting with user/password
+                        	var apiKey = null;
+                        
+                        	// object to store current user info
+                        	var accountObject = {};
+                        
+                        	// instance you are currently connected to
+                        	var instanceObject = {};
+                        
+                        	// object with all links extracted from various requests
+                        	var linksObject = {};
+                        
+                        	var tempInstance = null;
+                        
+                        
+                        	/********************
+                        		PRIVATE METHODS
+                        	*********************/
+                        	function normalizeUrl(url) {
+                        		var baseUrl = url.substr(0, 8);
+                        		if (baseUrl === &#x27;https://&#x27;) {
+                        			url = url.substr(8);
+                        		} else {
+                        			baseUrl = &#x27;&#x27;;
+                        		}
+                        		if (url.substr(-1) !== &#x27;/&#x27; &amp;&amp; url.indexOf(&#x27;?&#x27;) === -1) {
+                        			url += &#x27;/&#x27;;
+                        		}
+                        		return baseUrl + url.replace(/\/\//g, &#x27;/&#x27;);
+                        	}
+                        
+                        	function setApiKey(_apiKey) {
+                        		apiKey = _apiKey;
+                        	}
+                        
+                        	/*
+                        		Parses obj and search for obj.links.
+                        		If found, copies them to private linksObject with given prefix and removes from obj. 
+                        		All existing links will be overwritten
+                        		Returns:
+                        			linksObject
+                        	*/
+                        	function saveLinks(prefix, obj) {
+                        		if (obj.links) {
+                        			Object.keys(obj.links).forEach(function(key) {
+                        				linksObject[prefix + &#x27;_&#x27; + key] = obj.links[key];
+                        			});
+                        		}
+                        		if (typeof linksObject.instance_channels === &#x27;undefined&#x27;) {
+                        			linksObject.instance_channels = linksObject.instance_self + &#x27;channels/&#x27;;
+                        		}
+                        		delete obj.links;
+                        		return linksObject;
+                        	}
+                        
+                        	function prepareAjaxParams(data) {
+                        		var s = [];
+                        		for (var i in data) {
+                        			if (data.hasOwnProperty(i)) {
+                        				s.push(i + &#x27;=&#x27; + data[i]);
+                        			}
+                        		}
+                        		return s.join(&#x27;&amp;&#x27;);
+                        	}
+                        
+                        	function ajax(params) {
+                        		var xhr = {};
+                        		var request = new XMLHttpRequest();
+                        		var mtype = params.type.toUpperCase();
+                        		if (mtype === &#x27;GET&#x27;) {
+                        			params.url += (params.url.indexOf(&#x27;?&#x27;) === -1 ? &#x27;?&#x27; : &#x27;&amp;&#x27;) + prepareAjaxParams(params.data);
+                        		}
+                        		request.open(mtype, params.url, true);
+                        		if (mtype !== &#x27;GET&#x27;) {
+                        			request.setRequestHeader(&#x27;Content-Type&#x27;, &#x27;application/x-www-form-urlencoded; charset=UTF-8&#x27;);
+                        		}
+                        		request.onload = function() {
+                        			if (request.status &gt;= 200 &amp;&amp; request.status &lt; 400) {
+                        				var data = &#x27;&#x27;;
+                        				try {
+                        					data = JSON.parse(request.responseText);
+                        				} catch (e) {};
+                        				params.success(data);
+                        			} else {
+                        				params.error(request);
+                        			}
+                        		};
+                        
+                        		if (mtype !== &#x27;GET&#x27;) {
+                        			request.send(prepareAjaxParams(params.data));
+                        		} else {
+                        			request.send();
+                        		}
+                        		return xhr;
+                        	}
+                        
+                        	function buildUrlParams(params) {
+                        		var urlParams = [];
+                        		for (var key in params) {
+                        			var val = params[key];
+                        			if (Array.isArray(val)) {
+                        				for (var ii = 0, ll = val.length; ii &lt; ll; ii++) {
+                        					urlParams.push(key + &#x27;=&#x27; + encodeURIComponent(val[ii]));
+                        				}
+                        			} else if (typeof val === &#x27;object&#x27;) {
+                        				for (var kk in val) {
+                        					if (val.hasOwnProperty(kk)) {
+                        						var nkey = key + &#x27;%5B&#x27; + kk + &#x27;%5D&#x27;;
+                        						urlParams.push(nkey + &#x27;=&#x27; + encodeURIComponent(val[kk]));
+                        					}
+                        				}
+                        			} else {
+                        				urlParams.push(key + &#x27;=&#x27; + encodeURIComponent(val));
+                        			}
+                        		}
+                        		return urlParams.join(&#x27;&amp;&#x27;);
+                        	}
+                        
+                        	function nodeRequest(params) {
+                        		var opt = {
+                        			url: params.url,
+                        			method: params.type,
+                        			strictSSL: false,
+                        			body: buildUrlParams(params.data)
+                        		};
+                        		if (params.type !== &#x27;GET&#x27;) {
+                        			opt.headers = {
+                        				&#x27;content-type&#x27;: &#x27;application/x-www-form-urlencoded&#x27;,
+                        				&#x27;user-agent&#x27;: &#x27;syncano-nodejs-4.0&#x27;
+                        			};
+                        		}
+                        		Request(opt, function(error, response, body) {
+                        			if (response.statusCode &gt;= 200 &amp;&amp; response.statusCode &lt; 400) {
+                        				var data = &#x27;&#x27;;
+                        				try {
+                        					data = JSON.parse(body);
+                        				} catch (e) {};
+                        				params.success(data);
+                        			} else {
+                        				params.error({
+                        					responseText: body
+                        				});
+                        			}
+                        		});
+                        	}
+                        
+                        	function prepareObjectToBeUpdated(obj) {
+                        		var fieldsToDelete = [&#x27;updated_at&#x27;, &#x27;created_at&#x27;, &#x27;revision&#x27;, &#x27;links&#x27;];
+                        		for (var i = 0; i &lt; fieldsToDelete.length; i++) {
+                        			delete obj[fieldsToDelete[i]];
+                        		}
+                        		return obj;
+                        	}
+                        
+                        	/*
+                        		Helper method to convert list of objects returned from Syncano to object
+                        	*/
+                        	function createList(lib, data) {
+                        		var List = {};
+                        		for (var i = 0, len = data.objects.length; i &lt; len; i++) {
+                        			Object.defineProperty(data.objects[i], &#x27;delete&#x27;, {
+                        				value: function(callbackOK, callbackError) {
+                        					return lib.request(&#x27;DELETE&#x27;, this.links.self, {}, callbackOK, callbackError);
+                        				},
+                        				writable: false,
+                        				enumerable: false,
+                        				configurable: false
+                        			});
+                        			if (typeof data.objects[i].name !== &#x27;undefined&#x27;) {
+                        				Object.defineProperty(List, data.objects[i].name, {
+                        					value: data.objects[i],
+                        					writable: true,
+                        					enumerable: true,
+                        					configurable: false
+                        				});
+                        			}
+                        		}
+                        		Object.defineProperty(List, &#x27;_items&#x27;, {
+                        			value: data.objects,
+                        			writable: true,
+                        			enumerable: false,
+                        			configurable: false
+                        		});
+                        		Object.defineProperty(List, &#x27;length&#x27;, {
+                        			value: List._items.length,
+                        			writable: false,
+                        			enumerable: false,
+                        			configurable: false
+                        		});
+                        		Object.defineProperty(List, &#x27;at&#x27;, {
+                        			value: function(idx) {
+                        				return List._items[idx];
+                        			},
+                        			writable: false,
+                        			enumerable: false,
+                        			configurable: false
+                        		});
+                        		Object.defineProperty(List, &#x27;hasNextPage&#x27;, {
+                        			value: function() {
+                        				return data.next !== null;
+                        			},
+                        			writable: false,
+                        			enumerable: false,
+                        			configurable: false
+                        		});
+                        		Object.defineProperty(List, &#x27;hasPrevPage&#x27;, {
+                        			value: function() {
+                        				return data.prev !== null;
+                        			},
+                        			writable: false,
+                        			enumerable: false,
+                        			configurable: false
+                        		});
+                        		Object.defineProperty(List, &#x27;loadNextPage&#x27;, {
+                        			value: function(callbackOK, callbackError) {
+                        				return lib.request(&#x27;GET&#x27;, data.next);
+                        			},
+                        			writable: false,
+                        			enumerable: false,
+                        			configurable: false
+                        		});
+                        		Object.defineProperty(List, &#x27;loadPrevPage&#x27;, {
+                        			value: function(callbackOK, callbackError) {
+                        				return lib.request(&#x27;GET&#x27;, data.prev);
+                        			},
+                        			writable: false,
+                        			enumerable: false,
+                        			configurable: false
+                        		});
+                        		return List;
+                        	}
+                        
+                        	function extendClassObject(lib, obj) {
+                        		Object.defineProperty(obj, &#x27;createDataObject&#x27;, {
+                        			value: function(params, callbackOK, callbackError) {
+                        				return lib.createDataObject(obj.name, params, callbackOK, callbackError);
+                        			},
+                        			writable: false,
+                        			enumerable: false,
+                        			configurable: false
+                        		});
+                        	}
+                        
+                        	var deferIsAlwaysAsync = true;
+                        
+                        
+                        	/**
+                        	 * Creates Syncano object
+                        	 *
+                        	 * @constructor
+                        	 * @class Syncano
+                        	 * @param {object|string} [param] - either name of the instance to connect to or object with instance attribute
+                        	 */
+                        	function Syncano(param) {
+                        		if (typeof param === &#x27;string&#x27;) {
+                        			tempInstance = param;
+                        		} else if (typeof param === &#x27;object&#x27; &amp;&amp; typeof param.instance === &#x27;string&#x27;) {
+                        			tempInstance = param.instance;
+                        		}
+                        
+                        		/**
+                        		 * Object with methods to handle Accounts
+                        		 *
+                        		 * @alias Syncano#Accounts
+                        		 * @type {object}
+                        		 * @property {function} create - shortcut to {@link Syncano#createAccount} method
+                        		 * @property {function} get - shortcut to {@link Syncano#getAccount} method
+                        		 * @property {function} update - shortcut to {@link Syncano#updateAccount} method
+                        		 * @property {function} resetKey - shortcut to {@link Syncano#resetAccountKey} method
+                        		 */
+                        		this.Accounts = {
+                        			create: this.createAccount.bind(this),
+                        			get: this.getAccount.bind(this),
+                        			update: this.updateAccount.bind(this),
+                        			resetKey: this.resetAccountKey.bind(this)
+                        		};
+                        
+                        		/**
+                        		 * Object with methods to handle Instances
+                        		 *
+                        		 * @alias Syncano#Instances
+                        		 * @type {object}
+                        		 * @property {function} create - shortcut to {@link Syncano#createInstance} method
+                        		 * @property {function} list - shortcut to {@link Syncano#listInstances} method
+                        		 * @property {function} get - shortcut to {@link Syncano#getInstance} method
+                        		 * @property {function} remove - shortcut to {@link Syncano#removeInstance} method
+                        		 * @property {function} update - shortcut to {@link Syncano#updateInstance} method
+                        		 * @property {function} listAdmins - shortcut to {@link Syncano#listInstanceAdmins} method
+                        		 */
+                        		this.Instances = {
+                        			create: this.createInstance.bind(this),
+                        			list: this.listInstances.bind(this),
+                        			get: this.getInstance.bind(this),
+                        			remove: this.removeInstance.bind(this),
+                        			update: this.updateInstance.bind(this),
+                        			listAdmins: this.listInstanceAdmins.bind(this)
+                        		};
+                        
+                        		/**
+                        		 * Object with methods to handle Classes
+                        		 *
+                        		 * @alias Syncano#Classes
+                        		 * @type {object}
+                        		 * @property {function} create - shortcut to {@link Syncano#createClass} method
+                        		 * @property {function} list - shortcut to {@link Syncano#listClasses} method
+                        		 * @property {function} get - shortcut to {@link Syncano#getClass} method
+                        		 * @property {function} remove - shortcut to {@link Syncano#removeClass} method
+                        		 * @property {function} update - shortcut to {@link Syncano#updateClass} method
+                        		 */
+                        		this.Classes = {
+                        			create: this.createClass.bind(this),
+                        			list: this.listClasses.bind(this),
+                        			remove: this.removeClass.bind(this),
+                        			get: this.getClass.bind(this),
+                        			update: this.updateClass.bind(this)
+                        		};
+                        
+                        		/**
+                        		 * Object with methods to handle DataObjects
+                        		 *
+                        		 * @alias Syncano#DataObjects
+                        		 * @type {object}
+                        		 * @property {function} create - shortcut to {@link Syncano#createDataObject} method
+                        		 * @property {function} list - shortcut to {@link Syncano#listDataObjects} method
+                        		 * @property {function} get - shortcut to {@link Syncano#getDataObject} method
+                        		 * @property {function} remove - shortcut to {@link Syncano#removeDataObject} method
+                        		 * @property {function} update - shortcut to {@link Syncano#updateDataObject} method
+                        		 */
+                        		this.DataObjects = {
+                        			create: this.createDataObject.bind(this),
+                        			list: this.listDataObjects.bind(this),
+                        			remove: this.removeDataObject.bind(this),
+                        			get: this.getDataObject.bind(this),
+                        			update: this.updateDataObject.bind(this)
+                        		};
+                        
+                        		/**
+                        		 * Object with methods to handle ApiKeys
+                        		 *
+                        		 * @alias Syncano#ApiKeys
+                        		 * @type {object}
+                        		 * @property {function} create - shortcut to {@link Syncano#createApiKey} method
+                        		 * @property {function} list - shortcut to {@link Syncano#listApiKeys} method
+                        		 * @property {function} get - shortcut to {@link Syncano#getApiKey} method
+                        		 * @property {function} remove - shortcut to {@link Syncano#removeApiKey} method
+                        		 */
+                        		this.ApiKeys = {
+                        			create: this.createApiKey.bind(this),
+                        			list: this.listApiKeys.bind(this),
+                        			get: this.getApiKey.bind(this),
+                        			remove: this.removeApiKey.bind(this)
+                        		};
+                        
+                        		/**
+                        		 * Object with methods to handle Users
+                        		 *
+                        		 * @alias Syncano#Users
+                        		 * @type {object}
+                        		 * @property {function} create - shortcut to {@link Syncano#createUser} method
+                        		 * @property {function} list - shortcut to {@link Syncano#listUsers} method
+                        		 * @property {function} get - shortcut to {@link Syncano#getUser} method
+                        		 * @property {function} update - shortcut to {@link Syncano#updateUser} method
+                        		 * @property {function} remove - shortcut to {@link Syncano#removeUser} method
+                        		 */
+                        		this.Users = {
+                        			create: this.createUser.bind(this),
+                        			list: this.listUsers.bind(this),
+                        			get: this.getUser.bind(this),
+                        			update: this.updateUser.bind(this),
+                        			remove: this.removeUser.bind(this)
+                        		};
+                        
+                        		/**
+                        		 * Object with methods to handle Groups of permissions
+                        		 *
+                        		 * @alias Syncano#Groups
+                        		 * @type {object}
+                        		 * @property {function} create - shortcut to {@link Syncano#createGroup} method
+                        		 * @property {function} list - shortcut to {@link Syncano#listGroups} method
+                        		 * @property {function} get - shortcut to {@link Syncano#getGroup} method
+                        		 * @property {function} remove - shortcut to {@link Syncano#removeGroup} method
+                        		 * @property {function} addUser - shortcut to {@link Syncano#addUserToGroup} method
+                        		 */
+                        		this.Groups = {
+                        			create: this.createGroup.bind(this),
+                        			list: this.listGroups.bind(this),
+                        			get: this.getGroup.bind(this),
+                        			remove: this.removeGroup.bind(this),
+                        			addUser: this.addUserToGroup.bind(this)
+                        		};
+                        
+                        		/**
+                        		 * Object with methods to handle Channels
+                        		 *
+                        		 * @alias Syncano#Channels
+                        		 * @type {object}
+                        		 * @property {function} create - shortcut to {@link Syncano#createChannel} method
+                        		 * @property {function} list - shortcut to {@link Syncano#listChannels} method
+                        		 * @property {function} get - shortcut to {@link Syncano#getChannel} method
+                        		 * @property {function} update - shortcut to {@link Syncano#updateChannel} method
+                        		 * @property {function} remove - shortcut to {@link Syncano#removeChannel} method
+                        		 * @property {function} listen - shortcut to {@link Syncano#channelListen} method
+                        		 * @property {function} getHistory - shortcut to {@link Syncano#getChannelHistory} method
+                        		 * @property {function} publish - shortcut to {@link Syncano#publishToChannel} method
+                        		 */
+                        		this.Channels = {
+                        			create: this.createChannel.bind(this),
+                        			list: this.listChannels.bind(this),
+                        			get: this.getChannel.bind(this),
+                        			update: this.updateChannel.bind(this),
+                        			remove: this.removeChannel.bind(this),
+                        			listen: this.channelListen.bind(this),
+                        			getHistory: this.getChannelHistory.bind(this),
+                        			publish: this.publishToChannel.bind(this)
+                        		};
+                        
+                        		/**
+                        		 * Object with methods to handle CodeBoxes
+                        		 *
+                        		 * @alias Syncano#CodeBoxes
+                        		 * @type {object}
+                        		 * @property {function} create - shortcut to {@link Syncano#createCodeBox} method
+                        		 * @property {function} list - shortcut to {@link Syncano#listCodeBoxes} method
+                        		 * @property {function} get - shortcut to {@link Syncano#getCodeBox} method
+                        		 * @property {function} remove - shortcut to {@link Syncano#removeCodeBox} method
+                        		 * @property {function} update - shortcut to {@link Syncano#updateCodeBox} method
+                        		 * @property {function} listRuntimes - shortcut to {@link Syncano#listCodeBoxRuntimes} method
+                        		 * @property {function} traces - shortcut to {@link Syncano#listCodeBoxTraces} method
+                        		 * @property {function} trace - shortcut to {@link Syncano#getCodeBoxTrace} method
+                        		 * @property {function} run - shortcut to {@link Syncano#runCodeBox} method
+                        		 */
+                        		this.CodeBoxes = {
+                        			create: this.createCodeBox.bind(this),
+                        			list: this.listCodeBoxes.bind(this),
+                        			listRuntimes: this.listCodeBoxRuntimes.bind(this),
+                        			get: this.getCodeBox.bind(this),
+                        			update: this.updateCodeBox.bind(this),
+                        			remove: this.removeCodeBox.bind(this),
+                        			traces: this.listCodeBoxTraces.bind(this),
+                        			trace: this.getCodeBoxTrace.bind(this),
+                        			run: this.runCodeBox.bind(this),
+                        		};
+                        
+                        		/**
+                        		 * Object with methods to handle Invitations
+                        		 *
+                        		 * @alias Syncano#Invitations
+                        		 * @type {object}
+                        		 * @property {function} create - shortcut to {@link Syncano#createInvitation} method
+                        		 * @property {function} list - shortcut to {@link Syncano#listInvitations} method
+                        		 * @property {function} get - shortcut to {@link Syncano#getInvitation} method
+                        		 * @property {function} remove - shortcut to {@link Syncano#removeInvitation} method
+                        		 */
+                        		this.Invitations = {
+                        			create: this.createInvitation.bind(this),
+                        			list: this.listInvitations.bind(this),
+                        			get: this.getInvitation.bind(this),
+                        			remove: this.removeInvitation.bind(this)
+                        		};
+                        
+                        		/**
+                        		 * Object with methods to handle WebHooks
+                        		 *
+                        		 * @alias Syncano#WebHooks
+                        		 * @type {object}
+                        		 * @property {function} create - shortcut to {@link Syncano#createWebHook} method
+                        		 * @property {function} list - shortcut to {@link Syncano#listWebHooks} method
+                        		 * @property {function} get - shortcut to {@link Syncano#getWebHook} method
+                        		 * @property {function} remove - shortcut to {@link Syncano#removeWebHook} method
+                        		 * @property {function} update - shortcut to {@link Syncano#updateWebHook} method
+                        		 * @property {function} run - shortcut to {@link Syncano#runWebHook} method
+                        		 */
+                        		this.WebHooks = {
+                        			create: this.createWebHook.bind(this),
+                        			list: this.listWebHooks.bind(this),
+                        			get: this.getWebHook.bind(this),
+                        			update: this.updateWebHook.bind(this),
+                        			remove: this.removeWebHook.bind(this),
+                        			run: this.runWebHook.bind(this),
+                        			traces: this.listWebHookTraces.bind(this),
+                        			trace: this.getWebHookTrace.bind(this)
+                        		};
+                        
+                        		/**
+                        		 * Object with methods to handle Triggers
+                        		 *
+                        		 * @alias Syncano#Triggers
+                        		 * @type {object}
+                        		 * @property {function} create - shortcut to {@link Syncano#createTrigger} method
+                        		 * @property {function} list - shortcut to {@link Syncano#listTriggers} method
+                        		 * @property {function} get - shortcut to {@link Syncano#getTrigger} method
+                        		 * @property {function} remove - shortcut to {@link Syncano#removeTrigger} method
+                        		 * @property {function} update - shortcut to {@link Syncano#updateTrigger} method
+                        		 */
+                        		this.Triggers = {
+                        			create: this.createTrigger.bind(this),
+                        			list: this.listTriggers.bind(this),
+                        			get: this.getTrigger.bind(this),
+                        			update: this.updateTrigger.bind(this),
+                        			remove: this.removeTrigger.bind(this),
+                        			traces: this.listTriggerTraces.bind(this),
+                        			trace: this.getTriggerTrace.bind(this)
+                        		};
+                        
+                        		/**
+                        		 * Object with methods to handle Schedules
+                        		 *
+                        		 * @alias Syncano#Schedules
+                        		 * @type {object}
+                        		 * @property {function} create - shortcut to {@link Syncano#createSchedule} method
+                        		 * @property {function} list - shortcut to {@link Syncano#listSchedules} method
+                        		 * @property {function} get - shortcut to {@link Syncano#getSchedule} method
+                        		 * @property {function} remove - shortcut to {@link Syncano#removeSchedule} method
+                        		 * @property {function} traces - shortcut to {@link Syncano#listScheduleTraces} method
+                        		 * @property {function} trace - shortcut to {@link Syncano#getScheduleTrace} method
+                        		 */
+                        		this.Schedules = {
+                        			create: this.createSchedule.bind(this),
+                        			list: this.listSchedules.bind(this),
+                        			get: this.getSchedule.bind(this),
+                        			remove: this.removeSchedule.bind(this),
+                        			traces: this.listScheduleTraces.bind(this),
+                        			trace: this.getScheduleTrace.bind(this)
+                        		};
+                        	}
+                        
+                        
+                        	Syncano.prototype = {
+                        
+                        		setAlwaysAsync: function(value) {
+                        			deferIsAlwaysAsync = value;
+                        		},
+                        
+                        		/**
+                        		 * Connects to Syncano using either auth token (api key) or email / password.
+                        		 * Calls proper auth method based on arguments passed.
+                        		 *
+                        		 * @method Syncano#connect
+                        		 * @param {string} identifier - email or token
+                        		 * @param {string} [password] - used only if first parameter is email
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object}	promise
+                        		 *
+                        		 * @example
+                        		 * var s = new Syncano(&#x27;instance-name&#x27;);
+                        		 * s.connect(&#x27;email&#x27;, &#x27;password&#x27;).then(function(){
+                        		 *     alert(&#x27;connected&#x27;);
+                        		 * });
+                        		 */
+                        		connect: function() {
+                        			var promise;
+                        			if (arguments.length &gt;= 2 &amp;&amp; arguments[0].indexOf(&#x27;@&#x27;) &gt; 0) {
+                        				// arguments are: email and password and optional callbacks
+                        				promise = this.authWithPassword.apply(this, arguments);
+                        				if (tempInstance !== null) {
+                        					promise = promise.then(function() {
+                        						return this.setInstance(tempInstance);
+                        					}.bind(this));
+                        				}
+                        			} else if (arguments.length &gt;= 1) {
+                        				// arguments are: apiKey and optional callbacks
+                        				promise = this.authWithApiKey.apply(this, arguments);
+                        				if (tempInstance !== null) {
+                        					promise = this.setInstance(tempInstance);
+                        				}
+                        			} else {
+                        				throw new Error(&#x27;Incorrect arguments&#x27;);
+                        			}
+                        			return promise;
+                        		},
+                        
+                        		/**
+                        		 * Connects to Syncano using email and password
+                        		 *
+                        		 * @method Syncano#authWithPassword
+                        		 * @param {string} email
+                        		 * @param {string} password
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 *
+                        		 * @example
+                        		 * var s = new Syncano(&#x27;instance-name&#x27;);
+                        		 * s.authWithPassword(&#x27;email&#x27;, &#x27;password&#x27;).then(function(){
+                        		 *     alert(&#x27;connected&#x27;);
+                        		 * });
+                        		 */
+                        		authWithPassword: function(email, password, callbackOK, callbackError) {
+                        			var params = {
+                        				email: email,
+                        				password: password
+                        			};
+                        			return this.request(&#x27;POST&#x27;, &#x27;v1/account/auth&#x27;, params, function(res) {
+                        				accountObject = res;
+                        				setApiKey(res.account_key);
+                        				typeof callbackOK === &#x27;function&#x27; &amp;&amp; callbackOK(res);
+                        			}.bind(this), callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Connects to Syncano using email and password
+                        		 *
+                        		 * @method Syncano#authWithApiKey
+                        		 * @param  {string} email
+                        		 * @param  {string} password
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 *
+                        		 * @example
+                        		 * var s = new Syncano(&#x27;instance-name&#x27;);
+                        		 * s.authWithApiKey(&#x27;api-key&#x27;).then(function(){
+                        		 *     alert(&#x27;connected&#x27;);
+                        		 * });
+                        		 */
+                        		authWithApiKey: function(apiKey, callbackOK) {
+                        			setApiKey(apiKey);
+                        			var deferred = Deferred();
+                        			accountObject = {
+                        				account_key: apiKey
+                        			};
+                        			typeof callbackOK === &#x27;function&#x27; &amp;&amp; callbackOK(accountObject);
+                        			deferred.resolve(accountObject);
+                        			return deferred.promise;
+                        		},
+                        
+                        
+                        		/**
+                        		 * Checks if instance exists and stores its information in private instanceObject
+                        		 *
+                        		 * @method Syncano#setInstance
+                        		 * @param {string} instanceName
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		setInstance: function(instanceName, callbackOK, callbackError) {
+                        			return this.request(&#x27;GET&#x27;, &#x27;v1/instances/&#x27; + instanceName, {}, function(result) {
+                        				instanceObject = result;
+                        				saveLinks(&#x27;instance&#x27;, result);
+                        				typeof callbackOK === &#x27;function&#x27; &amp;&amp; callbackOK(result);
+                        			}.bind(this), callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Returns object with private informations: account, instance and links
+                        		 *
+                        		 * @method Syncano#getInfo
+                        		 * @return {object}
+                        		 */
+                        		getInfo: function() {
+                        			return {
+                        				account: accountObject,
+                        				instance: instanceObject,
+                        				links: linksObject
+                        			}
+                        		},
+                        
+                        
+                        		/*********************
+                        		   INSTANCES METHODS
+                        		**********************/
+                        		/**
+                        		 * Creates new instance using passed parameters.
+                        		 *
+                        		 * @method Syncano#createInstance
+                        		 * @alias Syncano.Instances.create
+                        		 * @param {object} params
+                        		 * @param {string} params.name - name of the instance
+                        		 * @param {string} [description] - optional description of the instance
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		createInstance: function(params, callbackOK, callbackError) {
+                        			if (typeof params === &#x27;string&#x27;) {
+                        				params = {
+                        					name: params
+                        				};
+                        			}
+                        			if (typeof params === &#x27;undefined&#x27; || typeof params.name === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Missing instance name&#x27;);
+                        			}
+                        			return this.request(&#x27;POST&#x27;, &#x27;v1/instances&#x27;, params, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Returns all defined instances as a list
+                        		 *
+                        		 * @method Syncano#listInstances
+                        		 * @alias Syncano.Instances.list
+                        		 * @param  {object} [params]
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		listInstances: function(params, callbackOK, callbackError) {
+                        			params = params || {};
+                        			return this.request(&#x27;GET&#x27;, &#x27;v1/instances&#x27;, params, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Returns details of the instance with specified name
+                        		 *
+                        		 * @method Syncano#getInstance
+                        		 * @alias Syncano.Instances.get
+                        		 * @param {string|object} name
+                        		 * @param {string} name.name - when passed parameter is an object, we use its name property
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		getInstance: function(name, callbackOK, callbackError) {
+                        			if (typeof name === &#x27;object&#x27;) {
+                        				name = name.name;
+                        			}
+                        			if (typeof name === &#x27;undefined&#x27; || name.length === 0) {
+                        				throw new Error(&#x27;Missing instance name&#x27;);
+                        			}
+                        			return this.request(&#x27;GET&#x27;, &#x27;v1/instances/&#x27; + name, {}, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Removes instance identified by specified name
+                        		 *
+                        		 * @method Syncano#removeInstance
+                        		 * @alias Syncano.Instances.remove
+                        		 * @param {string|object} name
+                        		 * @param {string} name.name - when passed parameter is an object, we use its name property
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		removeInstance: function(name, callbackOK, callbackError) {
+                        			if (typeof name === &#x27;object&#x27;) {
+                        				name = name.name;
+                        			}
+                        			if (typeof name === &#x27;undefined&#x27; || name.length === 0) {
+                        				throw new Error(&#x27;Missing instance name&#x27;);
+                        			}
+                        			return this.request(&#x27;DELETE&#x27;, &#x27;v1/instances/&#x27; + name, {}, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Updates instance identified by specified name
+                        		 *
+                        		 * @method Syncano#updateInstance
+                        		 * @alias Syncano.Instances.update
+                        		 * @param {string} name - name of the instance to change
+                        		 * @param {Object} params - new values of the instance parameters
+                        		 * @param {string} params.description - new description of the instance
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {Object} promise
+                        		 */
+                        		updateInstance: function(name, params, callbackOK, callbackError) {
+                        			if (typeof name === &#x27;undefined&#x27; || name.length === 0) {
+                        				throw new Error(&#x27;Missing instance name&#x27;);
+                        			}
+                        			return this.request(&#x27;PATCH&#x27;, &#x27;v1/instances/&#x27; + name, params, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Returns all defined instance admins as a list
+                        		 *
+                        		 * @method Syncano#listInstanceAdmins
+                        		 * @alias Syncano.Instances.listAdmins
+                        		 * @param  {object} [params]
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		listInstanceAdmins: function(name, params, callbackOK, callbackError) {
+                        			params = params || {};
+                        			if (typeof name === &#x27;object&#x27;) {
+                        				name = name.name;
+                        			}
+                        			if (typeof name === &#x27;undefined&#x27; || name.length === 0) {
+                        				throw new Error(&#x27;Missing instance name&#x27;);
+                        			}
+                        			return this.request(&#x27;GET&#x27;, &#x27;v1/instances/&#x27; + name + &#x27;/admins/&#x27;, params, callbackOK, callbackError);
+                        		},
+                        
+                        
+                        		/*****************
+                        		   CLASS METHODS
+                        		******************/
+                        		/**
+                        		 * Creates new class based on passed parameters
+                        		 *
+                        		 * @method Syncano#createClass
+                        		 * @alias Syncano.Classes.create
+                        		 * @param {Object} params - values of the class parameters
+                        		 * @param {string} params.name - name of the class
+                        		 * @param {string} params.description - description of the class
+                        		 * @param {string|object} params.schema - schema object or string
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		createClass: function(params, callbackOK, callbackError) {
+                        			if (typeof linksObject.instance_classes === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Not connected to any instance&#x27;);
+                        			}
+                        			params.description = params.description || &#x27;&#x27;;
+                        			if (typeof params.schema !== &#x27;string&#x27;) {
+                        				params.schema = params.schema.toString();
+                        			}
+                        			return this.request(&#x27;POST&#x27;, linksObject.instance_classes, params, function(result) {
+                        				saveLinks(&#x27;class_&#x27; + params.name, result);
+                        				typeof callbackOK === &#x27;function&#x27; &amp;&amp; callbackOK(result);
+                        			}.bind(this), callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Returns all defined classes as a list
+                        		 *
+                        		 * @method Syncano#listClasses
+                        		 * @alias Syncano.Classes.list
+                        		 * @param  {object} [params]
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		listClasses: function(params, callbackOK, callbackError) {
+                        			return this.genericList(params, &#x27;instance_classes&#x27;, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Removes class identified by specified name
+                        		 *
+                        		 * @method Syncano#removeClass
+                        		 * @alias Syncano.Classes.remove
+                        		 * @param {string|object} name
+                        		 * @param {string} name.name - when passed parameter is an object, we use its name property
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		removeClass: function(name, callbackOK, callbackError) {
+                        			return this.genericRemove(name, &#x27;instance_classes&#x27;, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Returns details of the class with specified name
+                        		 *
+                        		 * @method Syncano#getClass
+                        		 * @alias Syncano.Classes.get
+                        		 * @param {string|object} name
+                        		 * @param {string} name.name - when passed parameter is an object, we use its name property
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		getClass: function(name, callbackOK, callbackError) {
+                        			return this.genericGet(name, &#x27;instance_classes&#x27;, function(obj) {
+                        				extendClassObject(this, obj);
+                        				if (typeof callbackOK === &#x27;function&#x27;) {
+                        					callbackOK();
+                        				}
+                        			}.bind(this), callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Updates class identified by specified name
+                        		 *
+                        		 * @method Syncano#updateClass
+                        		 * @alias Syncano.Classes.update
+                        		 * @param {string} name - name of the class to change
+                        		 * @param {Object} params - new values of the class parameters
+                        		 * @param {string} params.description - new description of the class
+                        		 * @param {string|object} params.schema - schema object or string
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {Object} promise
+                        		 */
+                        		updateClass: function(name, params, callbackOK, callbackError) {
+                        			if (typeof linksObject.instance_classes === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Not connected to any instance&#x27;);
+                        			}
+                        			if (typeof name === &#x27;object&#x27;) {
+                        				params = name;
+                        				name = name.name;
+                        				delete params.name;
+                        			}
+                        			if (typeof name === &#x27;undefined&#x27; || name.length === 0) {
+                        				throw new Error(&#x27;Missing class name&#x27;);
+                        			}
+                        			if (typeof params.schema !== &#x27;string&#x27;) {
+                        				params.schema = params.schema.toString();
+                        			}
+                        			return this.request(&#x27;PATCH&#x27;, linksObject.instance_classes + name, params, callbackOK, callbackError);
+                        		},
+                        
+                        
+                        		/*******************
+                        		   ACCOUNT METHODS
+                        		********************/
+                        		/**
+                        		 * Registers new account
+                        		 *
+                        		 * @method Syncano#createAccount
+                        		 * @alias Syncano.Accounts.create
+                        		 * @param {object} params
+                        		 * @param {string} params.email
+                        		 * @param {string} params.password
+                        		 * @param {string} params.first_name
+                        		 * @param {string} params.last_name
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		createAccount: function(params, callbackOK, callbackError) {
+                        			return this.request(&#x27;POST&#x27;, &#x27;v1/account/register/&#x27;, params, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Returns details of the currently logged user
+                        		 *
+                        		 * @method Syncano#getAccount
+                        		 * @alias Syncano.Accounts.get
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		getAccount: function(callbackOK, callbackError) {
+                        			return this.request(&#x27;GET&#x27;, &#x27;v1/account/&#x27;, {}, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Updates account of the currently logged user
+                        		 *
+                        		 * @method Syncano#updateAccount
+                        		 * @alias Syncano.Accounts.update
+                        		 * @param {Object} params - new values of the account parameters
+                        		 * @param {string} params.email - new email address
+                        		 * @param {string} params.first_name - new first name of the user
+                        		 * @param {string} params.last_name - new last name of the user
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {Object} promise
+                        		 */
+                        		updateAccount: function(params, callbackOK, callbackError) {
+                        			return this.request(&#x27;PUT&#x27;, &#x27;v1/account/&#x27;, params, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Sets new auth key for api calls and removes previous one.
+                        		 *
+                        		 * @method  Syncano#resetAccountKey
+                        		 * @alias Syncano.Accounts.resetKey
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {Object} promise
+                        		 */
+                        		resetAccountKey: function(callbackOK, callbackError) {
+                        			return this.request(&#x27;POST&#x27;, &#x27;v1/account/reset_key&#x27;, {}, callbackOK, callbackError);
+                        		},
+                        
+                        		/***********************
+                        		   DATA OBJECT METHODS
+                        		************************/
+                        		/**
+                        		 * Creates new data object within given class
+                        		 *
+                        		 * @method Syncano#createDataObject
+                        		 * @alias Syncano.DataObjects.create
+                        		 * @param {string} className - name of the class object belongs to
+                        		 * @param {Object} params - values of the data object parameters (as defined in class definition)
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		createDataObject: function(className, params, callbackOK, callbackError) {
+                        			if (typeof className === &#x27;object&#x27;) {
+                        				params = className;
+                        				className = className.class_name;
+                        				delete params.class_name;
+                        			}
+                        			if (typeof className === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Missing name of the class&#x27;);
+                        			}
+                        			if (typeof linksObject.instance_classes === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Not connected to any instance&#x27;);
+                        			}
+                        			var methodName = linksObject.instance_classes + className + &#x27;/objects/&#x27;;
+                        			return this.request(&#x27;POST&#x27;, methodName, params, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Returns all data objects withing a single class as a list
+                        		 *
+                        		 * @method Syncano#listDataObjects
+                        		 * @alias Syncano.DataObjects.list
+                        		 * @param {string} className
+                        		 * @param {object} [params]
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		listDataObjects: function(className, params, callbackOK, callbackError) {
+                        			if (typeof className === &#x27;object&#x27;) {
+                        				className = className.name;
+                        			}
+                        			if (typeof className === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Missing name of the class&#x27;);
+                        			}
+                        			if (typeof linksObject.instance_classes === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Not connected to any instance&#x27;);
+                        			}
+                        			var methodName = linksObject.instance_classes + className + &#x27;/objects/&#x27;;
+                        			return this.request(&#x27;GET&#x27;, methodName, params, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Removes data object identified by specified id and className
+                        		 *
+                        		 * @method Syncano#removeDataObject
+                        		 * @alias Syncano.DataObjects.remove
+                        		 * @param {string} className - name of the class object belongs to
+                        		 * @param {Number|object} params - data object or its it
+                        		 * @param {Number} params.id - when passed parameter is an object, we use its id property
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		removeDataObject: function(className, params, callbackOK, callbackError) {
+                        			if (typeof className === &#x27;object&#x27;) {
+                        				params = className;
+                        				className = className.class_name;
+                        				delete params.class_name;
+                        			}
+                        			if (typeof className === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Missing name of the class&#x27;);
+                        			}
+                        			if (typeof linksObject.instance_classes === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Not connected to any instance&#x27;);
+                        			}
+                        			var id;
+                        			if (typeof params !== &#x27;object&#x27;) {
+                        				id = params;
+                        			} else {
+                        				id = params.id || params.pk;
+                        			}
+                        			var methodName = linksObject.instance_classes + className + &#x27;/objects/&#x27; + id;
+                        			return this.request(&#x27;DELETE&#x27;, methodName, {}, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Returns details of the data object with specified id and class
+                        		 *
+                        		 * @method Syncano#getDataObject
+                        		 * @alias Syncano.DataObjects.get
+                        		 * @param {string} className
+                        		 * @param {Number|object} params - when passed parameter is a number we treat it as an id of the data object
+                        		 * @param {Number} params.id - when passed parameter is an object, we use its id property
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		getDataObject: function(className, params, callbackOK, callbackError) {
+                        			if (typeof className === &#x27;object&#x27;) {
+                        				params = className;
+                        				className = className.class_name;
+                        				delete params.class_name;
+                        			}
+                        			if (typeof className === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Missing name of the class&#x27;);
+                        			}
+                        			if (typeof linksObject.instance_classes === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Not connected to any instance&#x27;);
+                        			}
+                        			var id;
+                        			if (typeof params !== &#x27;object&#x27;) {
+                        				id = params;
+                        			} else {
+                        				id = params.id || params.pk;
+                        			}
+                        			var methodName = linksObject.instance_classes + className + &#x27;/objects/&#x27; + id;
+                        			return this.request(&#x27;GET&#x27;, methodName, {}, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Updates data object identified by given id and className
+                        		 *
+                        		 * @method Syncano#updateDataObject
+                        		 * @alias Syncano.DataObjects.update
+                        		 * @param {string} className - name of the class object belongs to
+                        		 * @param {Object} params - new values of the data object parameters (as defined in class definition)
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {Object} promise
+                        		 */
+                        		updateDataObject: function(className, params, callbackOK, callbackError) {
+                        			if (typeof className === &#x27;object&#x27;) {
+                        				params = className;
+                        				className = className.class_name;
+                        				delete params.class_name;
+                        			}
+                        			if (typeof className === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Missing name of the class&#x27;);
+                        			}
+                        			if (typeof linksObject.instance_classes === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Not connected to any instance&#x27;);
+                        			}
+                        			var id;
+                        			if (params.id) {
+                        				id = params.id;
+                        				delete params.id;
+                        			} else if (params.pk) {
+                        				id = params.pk;
+                        				delete params.pk;
+                        			}
+                        			params = prepareObjectToBeUpdated(params);
+                        			var methodName = linksObject.instance_classes + className + &#x27;/objects/&#x27; + id;
+                        			return this.request(&#x27;PATCH&#x27;, methodName, params, callbackOK, callbackError);
+                        		},
+                        
+                        		/********************
+                        		   API KEYS METHODS
+                        		*********************/
+                        		/**
+                        		 * Creates new api key
+                        		 *
+                        		 * @method  Syncano#createApiKey
+                        		 * @alias Syncano.ApiKeys.create
+                        		 * @param  {object} params
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		createApiKey: function(params, callbackOK, callbackError) {
+                        			params = params || {};
+                        			if (typeof linksObject.instance_api_keys === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Not connected to any instance&#x27;);
+                        			}
+                        			return this.request(&#x27;POST&#x27;, linksObject.instance_api_keys, params, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Returns all defined api keys as a list
+                        		 *
+                        		 * @method Syncano#listApiKeys
+                        		 * @alias Syncano.ApiKeys.list
+                        		 * @param  {object} [params]
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		listApiKeys: function(params, callbackOK, callbackError) {
+                        			return this.genericList(params, &#x27;instance_api_keys&#x27;, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Returns the API key with specified id
+                        		 *
+                        		 * @method Syncano#getApiKey
+                        		 * @alias Syncano.ApiKeys.get
+                        		 * @param {Number|object} id
+                        		 * @param {Number} id.id - when passed parameter is an object, we use its id property
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		getApiKey: function(id, callbackOK, callbackError) {
+                        			return this.genericGet(id, &#x27;instance_api_keys&#x27;, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Removes API key identified by specified id
+                        		 *
+                        		 * @method Syncano#removeApiKey
+                        		 * @alias Syncano.ApiKeys.remove
+                        		 * @param {Number|object} id - identifier of the api key to remove
+                        		 * @param {Number} id.id - when passed parameter is an object, we use its id property
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		removeApiKey: function(id, callbackOK, callbackError) {
+                        			return this.genericRemove(id, &#x27;instance_api_keys&#x27;, callbackOK, callbackError);
+                        		},
+                        
+                        		/*********************
+                        		   USERS METHODS
+                        		**********************/
+                        		/**
+                        		 * Creates new user
+                        		 *
+                        		 * @method Syncano#createUser
+                        		 * @alias Syncano.Users.create
+                        		 * @param {object} params
+                        		 * @param {string} params.username
+                        		 * @param {string} params.password
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		createUser: function(params, callbackOK, callbackError) {
+                        			params = params || {};
+                        			if (typeof linksObject.instance_users === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Not connected to any instance&#x27;);
+                        			}
+                        			return this.request(&#x27;POST&#x27;, linksObject.instance_users, params, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Returns all users within an instance as a list
+                        		 *
+                        		 * @method Syncano#listUsers
+                        		 * @alias Syncano.Users.list
+                        		 * @param  {object} [params]
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		listUsers: function(params, callbackOK, callbackError) {
+                        			return this.genericList(params, &#x27;instance_users&#x27;, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Returns user with specified id
+                        		 *
+                        		 * @method Syncano#getUser
+                        		 * @alias Syncano.Users.get
+                        		 * @param {Number|object} id
+                        		 * @param {Number} id.id - when passed parameter is an object, we use its id property
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		getUser: function(id, callbackOK, callbackError) {
+                        			return this.genericGet(id, &#x27;instance_users&#x27;, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Updates user identified by given id
+                        		 *
+                        		 * @method Syncano#updateUser
+                        		 * @alias Syncano.Users.update
+                        		 * @param {Number|object} id
+                        		 * @param {Number} id.id - when passed parameter is an object, we use its id property
+                        		 * @param {Object} params - new parameters of user
+                        		 * @param {string} params.username
+                        		 * @param {string} params.password
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {Object} promise
+                        		 */
+                        		updateUser: function(id, params, callbackOK, callbackError) {
+                        			if (typeof id === &#x27;object&#x27;) {
+                        				params = id;
+                        				id = params.id;
+                        				delete params.id;
+                        			}
+                        			if (typeof id === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Missing user id&#x27;);
+                        			}
+                        			if (typeof linksObject.instance_users === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Not connected to any instance&#x27;);
+                        			}
+                        			var promise = this.request(&#x27;PATCH&#x27;, linksObject.instance_users + id, params, callbackOK, callbackError);
+                        			delete params.username;
+                        			delete params.password;
+                        			if (Object.keys(params).length &gt; 0) {
+                        				promise = promise.then(function(res) {
+                        					var profileUrl = res.profile.links.self;
+                        					return this.request(&#x27;PATCH&#x27;, profileUrl, params, callbackOK, callbackError);
+                        				}.bind(this), callbackError);
+                        			}
+                        			return promise;
+                        		},
+                        
+                        		/**
+                        		 * Removes User identified by specified id
+                        		 *
+                        		 * @method Syncano#removeUser
+                        		 * @alias Syncano.Users.remove
+                        		 * @param {Number|object} id - identifier of the user to remove
+                        		 * @param {Number} id.id - when passed parameter is an object, we use its id property
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		removeUser: function(id, callbackOK, callbackError) {
+                        			return this.genericRemove(id, &#x27;instance_users&#x27;, callbackOK, callbackError);
+                        		},
+                        
+                        
+                        		/*********************
+                        		   GROUPS METHODS
+                        		**********************/
+                        		/**
+                        		 * Creates new group
+                        		 *
+                        		 * @method Syncano#createGroup
+                        		 * @alias Syncano.Groups.create
+                        		 * @param {object} name - name of the group
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		createGroup: function(name, callbackOK, callbackError) {
+                        			var params = {
+                        				name: name
+                        			};
+                        			if (typeof linksObject.instance_groups === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Not connected to any instance&#x27;);
+                        			}
+                        			return this.request(&#x27;POST&#x27;, linksObject.instance_groups, params, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Returns all defined groups
+                        		 *
+                        		 * @method Syncano#listGroups
+                        		 * @alias Syncano.Groups.list
+                        		 * @param  {object} [params]
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		listGroups: function(params, callbackOK, callbackError) {
+                        			return this.genericList(params, &#x27;instance_groups&#x27;, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Returns the group with specified id
+                        		 *
+                        		 * @method Syncano#getGroup
+                        		 * @alias Syncano.Groups.get
+                        		 * @param {Number|object} id
+                        		 * @param {Number} id.id - when passed parameter is an object, we use its id property
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		getGroup: function(id, callbackOK, callbackError) {
+                        			return this.genericGet(id, &#x27;instance_groups&#x27;, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Removes group identified by specified id
+                        		 *
+                        		 * @method Syncano#removeGroup
+                        		 * @alias Syncano.Group.remove
+                        		 * @param {Number|object} id - identifier of the CodeBox to remove
+                        		 * @param {Number} id.id - when passed parameter is an object, we use its id property
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		removeGroup: function(id, callbackOK, callbackError) {
+                        			return this.genericRemove(id, &#x27;instance_groups&#x27;, callbackOK, callbackError);
+                        		},
+                        
+                        		addUserToGroup: function(params, callbackOK, callbackError) {
+                        			var groupId = params.group;
+                        			delete params.group;
+                        			if (typeof linksObject.instance_groups === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Not connected to any instance&#x27;);
+                        			}
+                        			if (typeof groupId === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Missing group id&#x27;);
+                        			}
+                        			if (typeof params.user === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Missing user id&#x27;);
+                        			}
+                        			return this.request(&#x27;POST&#x27;, linksObject.instance_groups + groupId + &#x27;/users/&#x27;, params, callbackOK, callbackError);
+                        		},
+                        
+                        		/*********************
+                        		   CODEBOXES METHODS
+                        		**********************/
+                        		/**
+                        		 * Creates new codebox
+                        		 *
+                        		 * @method Syncano#createCodeBox
+                        		 * @alias Syncano.CodeBoxes.create
+                        		 * @param {object} params
+                        		 * @param {string} params.runtime_name - python / nodejs / ruby
+                        		 * @param {string} params.name - name of the codebox
+                        		 * @param {string} params.source - source code (will be automatically URL-encoded)
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		createCodeBox: function(params, callbackOK, callbackError) {
+                        			if (typeof params !== &#x27;object&#x27;) {
+                        				throw new Error(&#x27;Missing parameters object&#x27;);
+                        			}
+                        			if (typeof linksObject.instance_codeboxes === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Not connected to any instance&#x27;);
+                        			}
+                        			if (typeof params.runtime_name === &#x27;undefined&#x27;) {
+                        				params.runtime_name = &#x27;nodejs&#x27;;
+                        			}
+                        			if (typeof params.source !== &#x27;undefined&#x27;) {
+                        				params.source = encodeURIComponent(params.source);
+                        			}
+                        			return this.request(&#x27;POST&#x27;, linksObject.instance_codeboxes, params, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Returns all defined codeboxes as a list
+                        		 *
+                        		 * @method Syncano#listCodeBoxes
+                        		 * @alias Syncano.CodeBoxes.list
+                        		 * @param  {object} [params]
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		listCodeBoxes: function(params, callbackOK, callbackError) {
+                        			return this.genericList(params, &#x27;instance_codeboxes&#x27;, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Returns all runtime types for codeboxes as a list
+                        		 *
+                        		 * @method Syncano#listCodeBoxRuntimes
+                        		 * @alias Syncano.CodeBoxes.listRuntimes
+                        		 * @param  {object} [params]
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		listCodeBoxRuntimes: function(params, callbackOK, callbackError) {
+                        			return this.genericList(params, &#x27;instance_runtimes&#x27;, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Returns the codebox with specified id
+                        		 *
+                        		 * @method Syncano#getCodeBox
+                        		 * @alias Syncano.CodeBoxes.get
+                        		 * @param {Number|object} id
+                        		 * @param {Number} id.id - when passed parameter is an object, we use its id property
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		getCodeBox: function(id, callbackOK, callbackError) {
+                        			return this.genericGet(id, &#x27;instance_codeboxes&#x27;, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Updates codebox identified by specified id
+                        		 *
+                        		 * @method Syncano#updateCodeBox
+                        		 * @alias Syncano.CodeBoxes.update
+                        		 * @param {Number} id - codebox id
+                        		 * @param {Object} params - new values of the codebox parameters
+                        		 * @param {string} params.config -
+                        		 * @param {string} params.runtime_name - nodejs / python / ruby
+                        		 * @param {string} params.name - new codebox name
+                        		 * @param {string} params.description -
+                        		 * @param {string} params.source - source code in Node.js / Python / Ruby
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {Object} promise
+                        		 */
+                        		updateCodeBox: function(id, params, callbackOK, callbackError) {
+                        			if (typeof id === &#x27;object&#x27;) {
+                        				params = id;
+                        				id = params.id;
+                        				delete params.id;
+                        			}
+                        			if (typeof id === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Missing codebox id&#x27;);
+                        			}
+                        			if (typeof linksObject.instance_codeboxes === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Not connected to any instance&#x27;);
+                        			}
+                        			if (typeof params.source !== &#x27;undefined&#x27;) {
+                        				params.source = encodeURIComponent(params.source);
+                        			}
+                        			return this.request(&#x27;PATCH&#x27;, linksObject.instance_codeboxes + id, params, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Removes CodeBox identified by specified id
+                        		 *
+                        		 * @method Syncano#removeCodeBox
+                        		 * @alias Syncano.CodeBoxes.remove
+                        		 * @param {Number|object} id - identifier of the CodeBox to remove
+                        		 * @param {Number} id.id - when passed parameter is an object, we use its id property
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		removeCodeBox: function(id, callbackOK, callbackError) {
+                        			return this.genericRemove(id, &#x27;instance_codeboxes&#x27;, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Runs new codebox
+                        		 *
+                        		 * @method Syncano#runCodeBox
+                        		 * @alias Syncano.CodeBoxes.run
+                        		 * @param {object} params
+                        		 * @param {string} params.runtime_name - python / nodejs / ruby
+                        		 * @param {string} params.name - name of the codebox
+                        		 * @param {string} params.source - source code (will be automatically URL-encoded)
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		runCodeBox: function(params, callbackOK, callbackError) {
+                        			if (typeof params !== &#x27;object&#x27;) {
+                        				throw new Error(&#x27;Missing parameters object&#x27;);
+                        			}
+                        			if (typeof linksObject.instance_codeboxes === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Not connected to any instance&#x27;);
+                        			}
+                        			if (typeof params.runtime_name === &#x27;undefined&#x27;) {
+                        				params.runtime_name = &#x27;nodejs&#x27;;
+                        			}
+                        			if (typeof params.source !== &#x27;undefined&#x27;) {
+                        				params.source = encodeURIComponent(params.source);
+                        			}
+                        			return this.request(&#x27;POST&#x27;, linksObject.instance_codeboxes, params, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * List all traces for single codebox
+                        		 *
+                        		 * @method Syncano#listCodeBoxTraces
+                        		 * @alias Syncano.CodeBoxes.traces
+                        		 * @param {Number|object} codeboxId
+                        		 * @param {object} [params]
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		listCodeBoxTraces: function(codeboxId, params, callbackOK, callbackError) {
+                        			if (typeof codeboxId === &#x27;object&#x27;) {
+                        				codeboxId = codeboxId.id;
+                        			}
+                        			return this.request(&#x27;GET&#x27;, linksObject.instance_codeboxes + codeboxId + &#x27;/traces/&#x27;, params, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Get single trace for single codebox
+                        		 *
+                        		 * @method Syncano#getCodeBoxTrace
+                        		 * @alias Syncano.CodeBoxes.trace
+                        		 * @param {Number|object} codeboxId
+                        		 * @param {Number|object} traceId
+                        		 * @param {object} [params]
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		getCodeBoxTrace: function(codeboxId, traceId, params, callbackOK, callbackError) {
+                        			if (typeof codeboxId === &#x27;object&#x27;) {
+                        				codeboxId = codeboxId.id;
+                        			}
+                        			if (typeof traceId === &#x27;object&#x27;) {
+                        				traceId = traceId.id;
+                        			}
+                        			return this.request(&#x27;GET&#x27;, linksObject.instance_codeboxes + codeboxId + &#x27;/traces/&#x27; + traceId + &#x27;/&#x27;, params, callbackOK, callbackError);
+                        		},
+                        
+                        
+                        		/***********************
+                        		   INVITATIONS METHODS
+                        		************************/
+                        		/**
+                        		 * Invites new person to your instance
+                        		 *
+                        		 * @method Syncano#createInvitation
+                        		 * @alias Syncano.Invitations.create
+                        		 * @param  {object} params
+                        		 * @param  {string} params.email - email of the person you are inviting
+                        		 * @param  {string} params.role - read / write / full
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		createInvitation: function(params, callbackOK, callbackError) {
+                        			if (typeof params !== &#x27;object&#x27;) {
+                        				throw new Error(&#x27;Missing parameters object&#x27;);
+                        			}
+                        			if (typeof linksObject.instance_invitations === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Not connected to any instance&#x27;);
+                        			}
+                        			if (typeof params.role === &#x27;undefined&#x27;) {
+                        				params.role = &#x27;read&#x27;;
+                        			}
+                        			return this.request(&#x27;POST&#x27;, linksObject.instance_invitations, params, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Returns all created invitations as a list
+                        		 *
+                        		 * @method Syncano#listInvitations
+                        		 * @alias Syncano.Invitations.list
+                        		 * @param  {object} [params]
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		listInvitations: function(params, callbackOK, callbackError) {
+                        			return this.genericList(params, &#x27;instance_invitations&#x27;, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Returns the invitation with specified id
+                        		 *
+                        		 * @method Syncano#getInvitation
+                        		 * @alias Syncano.Invitations.get
+                        		 * @param {Number|object} id
+                        		 * @param {Number} id.id - when passed parameter is an object, we use its id property
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		getInvitation: function(id, callbackOK, callbackError) {
+                        			return this.genericGet(id, &#x27;instance_invitations&#x27;, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Removes invitation identified by specified id
+                        		 *
+                        		 * @method Syncano#removeInvitation
+                        		 * @alias Syncano.Invitations.remove
+                        		 * @param {Number|object} id - identifier of the invitation to remove
+                        		 * @param {Number} id.id - when passed parameter is an object, we use its id property
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		removeInvitation: function(id, callbackOK, callbackError) {
+                        			return this.genericRemove(id, &#x27;instance_invitations&#x27;, callbackOK, callbackError);
+                        		},
+                        
+                        		/********************
+                        		   WEBHOOKS METHODS
+                        		*********************/
+                        		/**
+                        		 * Creates new webhook.
+                        		 *
+                        		 * @method Syncano#createWebHook
+                        		 * @alias Syncano.WebHooks.create
+                        		 * @param {object} params
+                        		 * @param {string} params.slug
+                        		 * @param {Number} params.codebox
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		createWebHook: function(params, callbackOK, callbackError) {
+                        			if (typeof params !== &#x27;object&#x27;) {
+                        				throw new Error(&#x27;Missing parameters object&#x27;);
+                        			}
+                        			if (typeof params.codebox === &#x27;object&#x27;) {
+                        				params.codebox = params.codebox.id || params.codebox.pk;
+                        			}
+                        			if (typeof linksObject.instance_webhooks === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Not connected to any instance&#x27;);
+                        			}
+                        			return this.request(&#x27;POST&#x27;, linksObject.instance_webhooks, params, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Returns all defined webhooks as a list
+                        		 *
+                        		 * @method Syncano#listWebHooks
+                        		 * @alias Syncano.WebHooks.list
+                        		 * @param  {object} [params]
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		listWebHooks: function(params, callbackOK, callbackError) {
+                        			return this.genericList(params, &#x27;instance_webhooks&#x27;, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Returns the webhook with specified id
+                        		 *
+                        		 * @method Syncano#getWebHook
+                        		 * @alias Syncano.WebHooks.get
+                        		 * @param {Number|object} id
+                        		 * @param {Number} id.id - when passed parameter is an object, we use its id property
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		getWebHook: function(id, callbackOK, callbackError) {
+                        			return this.genericGet(id, &#x27;instance_webhooks&#x27;, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Removes Webhook identified by specified id
+                        		 *
+                        		 * @method Syncano#removeWebHook
+                        		 * @alias Syncano.WebHooks.remove
+                        		 * @param {Number|object} id - identifier of the webhook to remove
+                        		 * @param {Number} id.id - when passed parameter is an object, we use its id property
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		removeWebHook: function(id, callbackOK, callbackError) {
+                        			return this.genericRemove(id, &#x27;instance_webhooks&#x27;, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Updates webhook identified by specified id
+                        		 *
+                        		 * @method Syncano#updateWebHook
+                        		 * @alias Syncano.WebHooks.update
+                        		 * @param {Number} id - webhook id
+                        		 * @param {Object} params - new values of the webhook parameters
+                        		 * @param {string} params.slug -
+                        		 * @param {Number} params.codebox -
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {Object} promise
+                        		 */
+                        		updateWebHook: function(id, params, callbackOK, callbackError) {
+                        			if (typeof id === &#x27;object&#x27;) {
+                        				id = id.slug;
+                        			}
+                        			if (typeof id === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Missing webhook slug&#x27;);
+                        			}
+                        			if (typeof linksObject.instance_webhooks === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Not connected to any instance&#x27;);
+                        			}
+                        			return this.request(&#x27;PATCH&#x27;, linksObject.instance_webhooks + id, params, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Runs defined webhook.
+                        		 *
+                        		 * @method Syncano#runWebHook
+                        		 * @alias Syncano.WebHooks.run
+                        		 * @param  {Number} id - identifier of the webhook
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		runWebHook: function(id, callbackOK, callbackError) {
+                        			if (typeof id === &#x27;object&#x27;) {
+                        				id = id.slug;
+                        			}
+                        			if (typeof id === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Missing webhook slug&#x27;);
+                        			}
+                        			if (typeof linksObject.instance_webhooks === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Not connected to any instance&#x27;);
+                        			}
+                        			return this.request(&#x27;GET&#x27;, linksObject.instance_webhooks + id + &#x27;/run&#x27;, {}, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * List all traces for single webhook
+                        		 *
+                        		 * @method Syncano#listWebHookTraces
+                        		 * @alias Syncano.WebHooks.traces
+                        		 * @param {Number|object} webhookId
+                        		 * @param {object} [params]
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		listWebHookTraces: function(webhookId, params, callbackOK, callbackError) {
+                        			if (typeof webhookId === &#x27;object&#x27;) {
+                        				webhookId = webhookId.id;
+                        			}
+                        			return this.request(&#x27;GET&#x27;, linksObject.instance_webhooks + webhookId + &#x27;/traces/&#x27;, params, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Get single trace for single webhook
+                        		 *
+                        		 * @method Syncano#getWebHookTrace
+                        		 * @alias Syncano.WebHooks.trace
+                        		 * @param {Number|object} webhookId
+                        		 * @param {Number|object} traceId
+                        		 * @param {object} [params]
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		getWebHookTrace: function(webhookId, traceId, params, callbackOK, callbackError) {
+                        			if (typeof webhookId === &#x27;object&#x27;) {
+                        				webhookId = webhookId.id;
+                        			}
+                        			if (typeof traceId === &#x27;object&#x27;) {
+                        				traceId = traceId.id;
+                        			}
+                        			return this.request(&#x27;GET&#x27;, linksObject.instance_webhooks + webhookId + &#x27;/traces/&#x27; + traceId + &#x27;/&#x27;, params, callbackOK, callbackError);
+                        		},
+                        
+                        		/********************
+                        		   TRIGGERS METHODS
+                        		*********************/
+                        		/**
+                        		 * Creates new trigger
+                        		 *
+                        		 * @method Syncano#createTrigger
+                        		 * @alias Syncano.Triggers.create
+                        		 * @param {object} params
+                        		 * @param {string} params.name - name of the trigger
+                        		 * @param {string} params.class - name of the objects class
+                        		 * @param {Number} params.codebox - codebox to run
+                        		 * @param {string} params.signal - when to run codebox (possible values: post_create, post_update, post_delete)
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		createTrigger: function(params, callbackOK, callbackError) {
+                        			if (typeof params !== &#x27;object&#x27;) {
+                        				throw new Error(&#x27;Missing parameters object&#x27;);
+                        			}
+                        			if (typeof params.codebox === &#x27;object&#x27;) {
+                        				params.codebox = params.codebox.id;
+                        			}
+                        			if (typeof params.klass === &#x27;object&#x27;) {
+                        				params.klass = params.klass.name;
+                        			}
+                        			if (typeof linksObject.instance_triggers === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Not connected to any instance&#x27;);
+                        			}
+                        			return this.request(&#x27;POST&#x27;, linksObject.instance_triggers, params, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Returns all defined triggers as a list
+                        		 *
+                        		 * @method Syncano#listTriggers
+                        		 * @alias Syncano.Triggers.list
+                        		 * @param  {object} [params]
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		listTriggers: function(params, callbackOK, callbackError) {
+                        			return this.genericList(params, &#x27;instance_triggers&#x27;, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Returns the trigger with specified id
+                        		 *
+                        		 * @method Syncano#getTrigger
+                        		 * @alias Syncano.Triggers.get
+                        		 * @param {Number|object} id
+                        		 * @param {Number} id.id - when passed parameter is an object, we use its id property
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		getTrigger: function(id, callbackOK, callbackError) {
+                        			return this.genericGet(id, &#x27;instance_triggers&#x27;, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Updates trigger identified by specified id
+                        		 *
+                        		 * @method Syncano#updateTrigger
+                        		 * @alias Syncano.Triggers.update
+                        		 * @param {Number} id - trigger id
+                        		 * @param {Object} params - new values of the trigger parameters
+                        		 * @param {string} params.klass -
+                        		 * @param {string} params.signal - post_update / post_create / post_delete
+                        		 * @param {Number} params.codebox - new codebox id
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {Object} promise
+                        		 */
+                        		updateTrigger: function(id, params, callbackOK, callbackError) {
+                        			if (typeof id === &#x27;object&#x27;) {
+                        				id = id.id;
+                        			}
+                        			if (typeof id === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Missing identifier&#x27;);
+                        			}
+                        			if (typeof linksObject.instance_triggers === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Not connected to any instance&#x27;);
+                        			}
+                        			return this.request(&#x27;PATCH&#x27;, linksObject.instance_triggers + id, params, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Removes trigger identified by specified id
+                        		 *
+                        		 * @method Syncano#removeTrigger
+                        		 * @alias Syncano.Triggers.remove
+                        		 * @param {Number|object} id - identifier of the trigger to remove
+                        		 * @param {Number} id.id - when passed parameter is an object, we use its id property
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		removeTrigger: function(id, callbackOK, callbackError) {
+                        			return this.genericRemove(id, &#x27;instance_triggers&#x27;, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * List all traces for single trigger
+                        		 *
+                        		 * @method Syncano#listTriggerTraces
+                        		 * @alias Syncano.Triggers.traces
+                        		 * @param {Number|object} triggerId
+                        		 * @param {object} [params]
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		listTriggerTraces: function(triggerId, params, callbackOK, callbackError) {
+                        			if (typeof triggerId === &#x27;object&#x27;) {
+                        				triggerId = triggerId.id;
+                        			}
+                        			return this.request(&#x27;GET&#x27;, linksObject.instance_triggers + triggerId + &#x27;/traces/&#x27;, params, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Get single trace for single trigger
+                        		 *
+                        		 * @method Syncano#getTriggerTrace
+                        		 * @alias Syncano.Triggers.trace
+                        		 * @param {Number|object} triggerId
+                        		 * @param {Number|object} traceId
+                        		 * @param {object} [params]
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		getTriggerTrace: function(triggerId, traceId, params, callbackOK, callbackError) {
+                        			if (typeof triggerId === &#x27;object&#x27;) {
+                        				triggerId = triggerId.id;
+                        			}
+                        			if (typeof traceId === &#x27;object&#x27;) {
+                        				traceId = traceId.id;
+                        			}
+                        			return this.request(&#x27;GET&#x27;, linksObject.instance_triggers + triggerId + &#x27;/traces/&#x27; + traceId + &#x27;/&#x27;, params, callbackOK, callbackError);
+                        		},
+                        
+                        		/********************
+                        		   SCHEDULES METHODS
+                        		*********************/
+                        		/**
+                        		 * Creates new schedule
+                        		 *
+                        		 * @method Syncano#createSchedule
+                        		 * @alias Syncano.Schedules.create
+                        		 * @param {object} params
+                        		 * @param {string} params.name - name of the new schedule
+                        		 * @param {Number} params.codebox - codebox to run
+                        		 * @param {string} params.interval_sec - how often (in seconds) the schedule should run
+                        		 * @param {string} params.crontab - ???
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		createSchedule: function(params, callbackOK, callbackError) {
+                        			if (typeof params !== &#x27;object&#x27;) {
+                        				throw new Error(&#x27;Missing parameters object&#x27;);
+                        			}
+                        			if (typeof params.codebox === &#x27;object&#x27;) {
+                        				params.codebox = params.codebox.id;
+                        			}
+                        			if (typeof linksObject.instance_schedules === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Not connected to any instance&#x27;);
+                        			}
+                        			return this.request(&#x27;POST&#x27;, linksObject.instance_schedules, params, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Returns all defined schedules as a list
+                        		 *
+                        		 * @method Syncano#listSchedules
+                        		 * @alias Syncano.Schedules.list
+                        		 * @param  {object} [params]
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		listSchedules: function(params, callbackOK, callbackError) {
+                        			return this.genericList(params, &#x27;instance_schedules&#x27;, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Returns the schedule with specified id
+                        		 *
+                        		 * @method Syncano#getSchedule
+                        		 * @alias Syncano.Schedules.get
+                        		 * @param {Number|object} id
+                        		 * @param {Number} id.id - when passed parameter is an object, we use its id property
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		getSchedule: function(id, callbackOK, callbackError) {
+                        			return this.genericGet(id, &#x27;instance_schedules&#x27;, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Removes schedule identified by specified id
+                        		 *
+                        		 * @method Syncano#removeSchedule
+                        		 * @alias Syncano.Schedules.remove
+                        		 * @param {Number|object} id - identifier of the schedule to remove
+                        		 * @param {Number} id.id - when passed parameter is an object, we use its id property
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		removeSchedule: function(id, callbackOK, callbackError) {
+                        			return this.genericRemove(id, &#x27;instance_schedules&#x27;, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * List all traces for single schedule
+                        		 *
+                        		 * @method Syncano#listScheduleTraces
+                        		 * @alias Syncano.Schedules.traces
+                        		 * @param {Number|object} scheduleId
+                        		 * @param {object} [params]
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		listScheduleTraces: function(scheduleId, params, callbackOK, callbackError) {
+                        			if (typeof scheduleId === &#x27;object&#x27;) {
+                        				scheduleId = scheduleId.id;
+                        			}
+                        			return this.request(&#x27;GET&#x27;, linksObject.instance_schedules + scheduleId + &#x27;/traces/&#x27;, params, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Get single trace for single schedule
+                        		 *
+                        		 * @method Syncano#getScheduleTrace
+                        		 * @alias Syncano.Schedules.trace
+                        		 * @param {Number|object} scheduleId
+                        		 * @param {Number|object} traceId
+                        		 * @param {object} [params]
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		getScheduleTrace: function(scheduleId, traceId, params, callbackOK, callbackError) {
+                        			if (typeof scheduleId === &#x27;object&#x27;) {
+                        				scheduleId = scheduleId.id;
+                        			}
+                        			if (typeof traceId === &#x27;object&#x27;) {
+                        				traceId = traceId.id;
+                        			}
+                        			return this.request(&#x27;GET&#x27;, linksObject.instance_schedules + scheduleId + &#x27;/traces/&#x27; + traceId + &#x27;/&#x27;, params, callbackOK, callbackError);
+                        		},
+                        
+                        		/********************
+                        		   REALTIME METHODS
+                        		*********************/
+                        		/**
+                        		 * Creates new communication channel based on passed parameters
+                        		 *
+                        		 * @method Syncano#createChannel
+                        		 * @alias Syncano.Channels.create
+                        		 * @param {Object} params
+                        		 * @param {string} params.name - name of the channel
+                        		 * @param {boolean} params.custom_publish - true if channel accepts custom messages
+                        		 * @param {string} params.type - &quot;separate_rooms&quot; or &quot;default&quot;
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		createChannel: function(params, callbackOK, callbackError) {
+                        			if (typeof linksObject.instance_self === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Not connected to any instance&#x27;);
+                        			}
+                        			return this.request(&#x27;POST&#x27;, linksObject.instance_channels, params, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Returns all defined channels as a list
+                        		 *
+                        		 * @method Syncano#listChannels
+                        		 * @alias Syncano.Channels.list
+                        		 * @param  {object} [params]
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		listChannels: function(params, callbackOK, callbackError) {
+                        			return this.request(&#x27;GET&#x27;, linksObject.instance_channels, params, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Returns the channels with specified name
+                        		 *
+                        		 * @method Syncano#getChannel
+                        		 * @alias Syncano.Channels.get
+                        		 * @param {string|object} name
+                        		 * @param {string} name.name - when passed parameter is an object, we use its name property
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		getChannel: function(name, callbackOK, callbackError) {
+                        			return this.genericGet(name, &#x27;instance_channels&#x27;, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Removes channel identified by specified name
+                        		 *
+                        		 * @method Syncano#removeChannel
+                        		 * @alias Syncano.Channels.remove
+                        		 * @param {string|object} name
+                        		 * @param {string} name.name - when passed parameter is an object, we use its name property
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		removeChannel: function(name, callbackOK, callbackError) {
+                        			return this.genericRemove(name, &#x27;instance_channels&#x27;, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Updates channel identified by specified name
+                        		 *
+                        		 * @method Syncano#updateChannel
+                        		 * @alias Syncano.Channels.update
+                        		 * @param {string|Object} name - channel name
+                        		 * @param {string} name.name - when passed parameter is an object, we use its name property
+                        		 * @param {Object} params - new values of the channel parameters
+                        		 * @param {boolean} params.custom_publish - true if channel accepts custom messages
+                        		 * @param {string} params.type - &quot;separate_rooms&quot; or &quot;default&quot;
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {Object} promise
+                        		 */
+                        		updateChannel: function(channel, params, callbackOK, callbackError) {
+                        			if (typeof channel === &#x27;object&#x27;) {
+                        				channel = channel.name;
+                        			}
+                        			if (typeof linksObject.instance_channels === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Not connected to any instance&#x27;);
+                        			}
+                        			return this.request(&#x27;PATCH&#x27;, linksObject.instance_channels + channel, params, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Subscribes to messages on channel identified by specified name. Calls callback method when data arrives.
+                        		 *
+                        		 * @method Syncano#channelListen
+                        		 * @alias Syncano.Channels.listen
+                        		 * @param {string|Object} name - channel name
+                        		 * @param {string} name.name - when passed parameter is an object, we use its name property
+                        		 * @param {function} [callback] - method to call when data arrives
+                        		 */
+                        		channelListen: function(name, callback) {
+                        			if (typeof name !== &#x27;string&#x27;) {
+                        				name = name.name;
+                        			}
+                        			if (typeof name !== &#x27;string&#x27;) {
+                        				throw new Error(&#x27;Missing channel name&#x27;);
+                        			}
+                        			var url = normalizeUrl(baseURL + linksObject.instance_channels + name + &#x27;/poll/&#x27;);
+                        			if (apiKey !== null) {
+                        				url += (url.indexOf(&#x27;?&#x27;) === -1 ? &#x27;?&#x27; : &#x27;&amp;&#x27;) + &#x27;api_key=&#x27; + apiKey + &#x27;&amp;format=json&#x27;;
+                        			}
+                        			(function poll() {
+                        				$.ajax({
+                        					url: url,
+                        					success: function(data) {
+                        						callback(data);
+                        					},
+                        					dataType: &quot;json&quot;,
+                        					complete: function(xhr) {
+                        						if (xhr.responseJSON &amp;&amp; xhr.responseJSON.id) {
+                        							url = [
+                        								normalizeUrl(baseURL + linksObject.instance_channels),
+                        								name + &#x27;/poll/?last_id=&#x27; + xhr.responseJSON.id,
+                        								&#x27;&amp;api_key=&#x27; + apiKey + &#x27;&amp;format=json&#x27;
+                        							].join(&#x27;&#x27;);
+                        						}
+                        						poll();
+                        					},
+                        					timeout: 30000
+                        				});
+                        			})();
+                        		},
+                        
+                        		/**
+                        		 * Sends custom message to channel identified by name
+                        		 *
+                        		 * @method Syncano#publishToChannel
+                        		 * @alias Syncano.Channels.publish
+                        		 * @param {string|Object} name - channel name
+                        		 * @param {string} name.name - when passed parameter is an object, we use its name property
+                        		 * @param {object} params - data to send to channel
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		publishToChannel: function(name, params, callbackOK, callbackError) {
+                        			if (typeof name !== &#x27;string&#x27;) {
+                        				name = name.name;
+                        			}
+                        			if (typeof name !== &#x27;string&#x27;) {
+                        				throw new Error(&#x27;Missing channel name&#x27;);
+                        			}
+                        			var data = {
+                        				payload: JSON.stringify(params)
+                        			};
+                        			var url = linksObject.instance_channels + name + &#x27;/publish/&#x27;;
+                        			return this.request(&#x27;POST&#x27;, url, data, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Returns all data that was sent to specified channel during last 24 hours
+                        		 *
+                        		 * @method Syncano#getChannelHistory
+                        		 * @alias Syncano.Channels.getHistory
+                        		 * @param {string|Object} name - channel name
+                        		 * @param {string} name.name - when passed parameter is an object, we use its name property
+                        		 * @param {object} params - optional parameters
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		getChannelHistory: function(name, params, callbackOK, callbackError) {
+                        			params = params || {};
+                        			if (typeof name !== &#x27;string&#x27;) {
+                        				name = name.name;
+                        			}
+                        			if (typeof name !== &#x27;string&#x27;) {
+                        				throw new Error(&#x27;Missing channel name&#x27;);
+                        			}
+                        			var url = linksObject.instance_channels + name + &#x27;/history/&#x27;;
+                        			return this.request(&#x27;GET&#x27;, url, params, callbackOK, callbackError);
+                        		},
+                        
+                        
+                        		/********************
+                        		   GENERIC METHODS
+                        		*********************/
+                        		/*
+                        			These methods are used internally by other list*, get* and remove* methods
+                        		 */
+                        		genericList: function(params, links_url, callbackOK, callbackError) {
+                        			params = params || {};
+                        			var url = linksObject[links_url];
+                        			if (typeof url === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Not connected to any instance&#x27;);
+                        			}
+                        			return this.request(&#x27;GET&#x27;, url, params, callbackOK, callbackError);
+                        		},
+                        
+                        		genericGet: function(id, links_url, callbackOK, callbackError) {
+                        			var url = linksObject[links_url];
+                        			if (typeof url === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Not connected to any instance&#x27;);
+                        			}
+                        			if (typeof id === &#x27;object&#x27;) {
+                        				id = id.id || id.name || id.slug;
+                        			}
+                        			if (!id) {
+                        				throw new Error(&#x27;Missing identifier&#x27;);
+                        			}
+                        			return this.request(&#x27;GET&#x27;, url + id, {}, callbackOK, callbackError);
+                        		},
+                        
+                        		genericRemove: function(id, links_url, callbackOK, callbackError) {
+                        			var url = linksObject[links_url];
+                        			if (typeof url === &#x27;undefined&#x27;) {
+                        				throw new Error(&#x27;Not connected to any instance&#x27;);
+                        			}
+                        			if (typeof id === &#x27;object&#x27;) {
+                        				id = id.id || id.name || id.slug;
+                        			}
+                        			if (!id) {
+                        				throw new Error(&#x27;Missing identifier&#x27;);
+                        			}
+                        			return this.request(&#x27;DELETE&#x27;, url + id, {}, callbackOK, callbackError);
+                        		},
+                        
+                        		/**
+                        		 * Generic request method. Sends request to Syncano backend via XMLHttpRequest (in browser) or Request module (in Node.js)
+                        		 *
+                        		 * @method Syncano#request
+                        		 * @param {string} requestType - GET / POST / PUT / PATCH / DELETE
+                        		 * @param {string} method - Syncano API method to call
+                        		 * @param {object} params -  - parameters to API call
+                        		 * @param {function} [callbackOK] - optional method to call on success
+                        		 * @param {function} [callbackError] - optional method to call when request fails
+                        		 * @returns {object} promise
+                        		 */
+                        		request: function(requestType, method, params, _callbackOK, _callbackError) {
+                        			var deferred = Deferred();
+                        			var callbackOK = function(result) {
+                        				typeof _callbackOK === &#x27;function&#x27; &amp;&amp; _callbackOK(result);
+                        				deferred.resolve(result);
+                        			};
+                        			var callbackError = function(error) {
+                        				typeof _callbackError === &#x27;function&#x27; &amp;&amp; _callbackError(error);
+                        				deferred.reject(error);
+                        			};
+                        
+                        			if (typeof method === &#x27;undefined&#x27;) {
+                        				callbackError(&#x27;Missing request method&#x27;);
+                        			} else {
+                        				params = params || {};
+                        				var url = normalizeUrl(baseURL + method);
+                        				if (apiKey !== null) {
+                        					url += (url.indexOf(&#x27;?&#x27;) === -1 ? &#x27;?&#x27; : &#x27;&amp;&#x27;) + &#x27;api_key=&#x27; + apiKey + &#x27;&amp;format=json&#x27;;
+                        				}
+                        				var ajaxParams = {
+                        					type: requestType,
+                        					url: url,
+                        					data: params
+                        				};
+                        				ajaxParams.success = function(data) {
+                        					if (typeof data === &#x27;object&#x27; &amp;&amp; typeof data.objects !== &#x27;undefined&#x27; &amp;&amp; typeof data.prev !== &#x27;undefined&#x27; &amp;&amp; typeof data.next !== &#x27;undefined&#x27;) {
+                        						callbackOK(createList(this, data));
+                        					} else {
+                        						callbackOK(data);
+                        					}
+                        				}.bind(this);
+                        
+                        				ajaxParams.error = function(xhr) {
+                        					var err = &#x27;Error sending request: &#x27; + method;
+                        					if (xhr.responseText) {
+                        						try {
+                        							err = JSON.parse(xhr.responseText);
+                        							if (err.detail) {
+                        								err = err.detail;
+                        							}
+                        						} catch (e) {
+                        							err = xhr.responseText;
+                        						};
+                        					}
+                        					callbackError(err);
+                        				};
+                        
+                        				if (!isNode) {
+                        					ajax(ajaxParams);
+                        				} else if (isNode) {
+                        					nodeRequest(ajaxParams);
+                        				}
+                        			}
+                        			return deferred.promise;
+                        		}
+                        	};
+                        
+                        	/**
+                        	 * Schema is the builder for the classes definition
+                        	 *
+                        	 * @constructor
+                        	 * @class Syncano.Schema
+                        	 *
+                        	 * @example
+                        	 * var schema = new Syncano.Schema()
+                        	 *   .addField(&#x27;last_name&#x27;, &#x27;string&#x27;).addOrderIndex()
+                        	 *   .addField(&#x27;year_of_birth&#x27;, &#x27;integer&#x27;).addFilterIndex()
+                        	 *   .toString();
+                        	 */
+                        	Syncano.Schema = function() {
+                        		this.data = [];
+                        	};
+                        
+                        	Syncano.Schema.prototype = {
+                        		/**
+                        		 * Adds new field to the schema
+                        		 *
+                        		 * @method Syncano.Schema#addField
+                        		 * @param {string} name - name of the field
+                        		 * @param {string} type - string / text / integer / float / boolean / datetime / file / reference
+                        		 * @param {string} target - if type equals &#x27;reference&#x27;, target describes className of the reference object
+                        		 * @return {object} this - Schema object
+                        		 */
+                        		addField: function(name, type, target) {
+                        			var rec = {
+                        				name: name,
+                        				type: type
+                        			};
+                        			if (type === &#x27;reference&#x27;) {
+                        				rec.target = target;
+                        			}
+                        			this.data.push(rec);
+                        			return this;
+                        		},
+                        
+                        		/**
+                        		 * Defines that last added field can be used in order_by query
+                        		 *
+                        		 * @method Syncano.Schema#addOrderIndex
+                        		 * @return {object} this - Schema object
+                        		 */
+                        		addOrderIndex: function() {
+                        			this.data[this.data.length - 1][&#x27;order_index&#x27;] = true;
+                        			return this;
+                        		},
+                        
+                        		/**
+                        		 * Defines that last added field can be used for filtering objects
+                        		 *
+                        		 * @method Syncano.Schema#addFilterIndex
+                        		 * @return {object} this - Schema object
+                        		 */
+                        		addFilterIndex: function() {
+                        			this.data[this.data.length - 1][&#x27;filter_index&#x27;] = true;
+                        			return this;
+                        		},
+                        
+                        		/**
+                        		 * Converts schema to string (used internally)
+                        		 *
+                        		 * @method Syncano.Schema#toString
+                        		 * @return {string}
+                        		 */
+                        		toString: function() {
+                        			return JSON.stringify(this.data);
+                        		}
+                        	};
+                        
+                        	/*
+                        	 * Simple defer/promise library
+                        	 * author Jonathan Gotti &lt;jgotti at jgotti dot net&gt;
+                        	 * https://github.com/malko/D.js/blob/master/lib/D.js
+                        	 */
+                        	var Deferred = (function(undef) {
+                        		&quot;use strict&quot;;
+                        
+                        		var isFunc = function(f) {
+                        				return (typeof f === &#x27;function&#x27;);
+                        			},
+                        			isArray = function(a) {
+                        				return Array.isArray ? Array.isArray(a) : (a instanceof Array);
+                        			},
+                        			isObjOrFunc = function(o) {
+                        				return !!(o &amp;&amp; (typeof o).match(/function|object/));
+                        			},
+                        			isNotVal = function(v) {
+                        				return (v === false || v === undef || v === null);
+                        			},
+                        			slice = function(a, offset) {
+                        				return [].slice.call(a, offset);
+                        			}
+                        
+                        
+                        		var nextTick = function(cb) {
+                        			setTimeout(cb, 0);
+                        		};
+                        
+                        		function rethrow(e) {
+                        			nextTick(function() {
+                        				throw e;
+                        			});
+                        		}
+                        
+                        		function promise_success(fulfilled) {
+                        			return this.then(fulfilled, undef);
+                        		}
+                        
+                        		function promise_error(failed) {
+                        			return this.then(undef, failed);
+                        		}
+                        
+                        		function promise_apply(fulfilled, failed) {
+                        			return this.then(
+                        				function(a) {
+                        					return isFunc(fulfilled) ? fulfilled.apply(null, isArray(a) ? a : [a]) : (defer.onlyFuncs ? a : fulfilled);
+                        				}, failed || undef
+                        			);
+                        		}
+                        
+                        		function promise_ensure(cb) {
+                        			function _cb() {
+                        				cb();
+                        			}
+                        			this.then(_cb, _cb);
+                        			return this;
+                        		}
+                        
+                        		function promise_nodify(cb) {
+                        			return this.then(
+                        				function(a) {
+                        					return isFunc(cb) ? cb.apply(null, isArray(a) ? a.splice(0, 0, undefined) &amp;&amp; a : [undefined, a]) : (defer.onlyFuncs ? a : cb);
+                        				},
+                        				function(e) {
+                        					return cb(e);
+                        				}
+                        			);
+                        		}
+                        
+                        		function promise_rethrow(failed) {
+                        			return this.then(
+                        				undef, failed ? function(e) {
+                        					failed(e);
+                        					throw e;
+                        				} : rethrow
+                        			);
+                        		}
+                        
+                        		var defer = function(alwaysAsync) {
+                        			var alwaysAsyncFn = (undef !== alwaysAsync ? alwaysAsync : deferIsAlwaysAsync) ? nextTick : function(fn) {
+                        					fn();
+                        				},
+                        				status = 0,
+                        				pendings = [],
+                        				value,
+                        				_promise = {
+                        					then: function(fulfilled, failed) {
+                        						var d = defer();
+                        						pendings.push([
+                        							function(value) {
+                        								try {
+                        									if (isNotVal(fulfilled)) {
+                        										d.resolve(value);
+                        									} else {
+                        										d.resolve(isFunc(fulfilled) ? fulfilled(value) : (defer.onlyFuncs ? value : fulfilled));
+                        									}
+                        								} catch (e) {
+                        									d.reject(e);
+                        								}
+                        							},
+                        							function(err) {
+                        								if (isNotVal(failed) || ((!isFunc(failed)) &amp;&amp; defer.onlyFuncs)) {
+                        									d.reject(err);
+                        								}
+                        								if (failed) {
+                        									try {
+                        										d.resolve(isFunc(failed) ? failed(err) : failed);
+                        									} catch (e) {
+                        										d.reject(e);
+                        									}
+                        								}
+                        							}
+                        						]);
+                        						status !== 0 &amp;&amp; alwaysAsyncFn(execCallbacks);
+                        						return d.promise;
+                        					},
+                        					success: promise_success,
+                        					error: promise_error,
+                        					&#x27;catch&#x27;: promise_error,
+                        					otherwise: promise_error,
+                        					apply: promise_apply,
+                        					spread: promise_apply,
+                        					ensure: promise_ensure,
+                        					nodify: promise_nodify,
+                        					rethrow: promise_rethrow,
+                        
+                        					isPending: function() {
+                        						return status === 0;
+                        					},
+                        
+                        					getStatus: function() {
+                        						return status;
+                        					}
+                        				};
+                        
+                        			_promise.toSource = _promise.toString = _promise.valueOf = function() {
+                        				return value === undef ? this : value;
+                        			};
+                        
+                        
+                        			function execCallbacks() {
+                        				if (status === 0) {
+                        					return;
+                        				}
+                        				var cbs = pendings,
+                        					i = 0,
+                        					l = cbs.length,
+                        					cbIndex = ~status ? 0 : 1,
+                        					cb;
+                        				pendings = [];
+                        				for (; i &lt; l; i++) {
+                        					(cb = cbs[i][cbIndex]) &amp;&amp; cb(value);
+                        				}
+                        			}
+                        
+                        			function _resolve(val) {
+                        				var done = false;
+                        
+                        				function once(f) {
+                        					return function(x) {
+                        						if (done) {
+                        							return undefined;
+                        						} else {
+                        							done = true;
+                        							return f(x);
+                        						}
+                        					};
+                        				}
+                        				if (status) {
+                        					return this;
+                        				}
+                        				try {
+                        					var then = isObjOrFunc(val) &amp;&amp; val.then;
+                        					if (isFunc(then)) { // managing a promise
+                        						if (val === _promise) {
+                        							throw new Error(&quot;Promise can&#x27;t resolve itself&quot;);
+                        						}
+                        						then.call(val, once(_resolve), once(_reject));
+                        						return this;
+                        					}
+                        				} catch (e) {
+                        					once(_reject)(e);
+                        					return this;
+                        				}
+                        				alwaysAsyncFn(function() {
+                        					value = val;
+                        					status = 1;
+                        					execCallbacks();
+                        				});
+                        				return this;
+                        			}
+                        
+                        			function _reject(Err) {
+                        				status || alwaysAsyncFn(function() {
+                        					try {
+                        						throw (Err);
+                        					} catch (e) {
+                        						value = e;
+                        					}
+                        					status = -1;
+                        					execCallbacks();
+                        				});
+                        				return this;
+                        			}
+                        			return {
+                        				promise: _promise,
+                        				resolve: _resolve,
+                        				fulfill: _resolve // alias
+                        					,
+                        				reject: _reject
+                        			};
+                        		};
+                        
+                        		defer.deferred = defer.defer = defer;
+                        		defer.nextTick = nextTick;
+                        		defer.onlyFuncs = true;
+                        
+                        		defer.resolved = defer.fulfilled = function(value) {
+                        			return defer(true).resolve(value).promise;
+                        		};
+                        
+                        		defer.rejected = function(reason) {
+                        			return defer(true).reject(reason).promise;
+                        		};
+                        
+                        		defer.wait = function(time) {
+                        			var d = defer();
+                        			setTimeout(d.resolve, time || 0);
+                        			return d.promise;
+                        		};
+                        
+                        		defer.delay = function(fn, delay) {
+                        			var d = defer();
+                        			setTimeout(function() {
+                        				try {
+                        					d.resolve(isFunc(fn) ? fn.apply(null) : fn);
+                        				} catch (e) {
+                        					d.reject(e);
+                        				}
+                        			}, delay || 0);
+                        			return d.promise;
+                        		};
+                        
+                        		defer.promisify = function(promise) {
+                        			if (promise &amp;&amp; isFunc(promise.then)) {
+                        				return promise;
+                        			}
+                        			return defer.resolved(promise);
+                        		};
+                        
+                        		function multiPromiseResolver(callerArguments, returnPromises) {
+                        			var promises = slice(callerArguments);
+                        			if (promises.length === 1 &amp;&amp; isArray(promises[0])) {
+                        				if (!promises[0].length) {
+                        					return defer.fulfilled([]);
+                        				}
+                        				promises = promises[0];
+                        			}
+                        			var args = [],
+                        				d = defer(),
+                        				c = promises.length;
+                        			if (!c) {
+                        				d.resolve(args);
+                        			} else {
+                        				var resolver = function(i) {
+                        					promises[i] = defer.promisify(promises[i]);
+                        					promises[i].then(
+                        						function(v) {
+                        							args[i] = returnPromises ? promises[i] : v;
+                        							(--c) || d.resolve(args);
+                        						},
+                        						function(e) {
+                        							if (!returnPromises) {
+                        								d.reject(e);
+                        							} else {
+                        								args[i] = promises[i];
+                        								(--c) || d.resolve(args);
+                        							}
+                        						}
+                        					);
+                        				};
+                        				for (var i = 0, l = c; i &lt; l; i++) {
+                        					resolver(i);
+                        				}
+                        			}
+                        			return d.promise;
+                        		}
+                        
+                        		function sequenceZenifier(promise, zenValue) {
+                        			return promise.then(isFunc(zenValue) ? zenValue : function() {
+                        				return zenValue;
+                        			});
+                        		}
+                        
+                        		function sequencePromiseResolver(callerArguments) {
+                        			var funcs = slice(callerArguments);
+                        			if (funcs.length === 1 &amp;&amp; isArray(funcs[0])) {
+                        				funcs = funcs[0];
+                        			}
+                        			var d = defer(),
+                        				i = 0,
+                        				l = funcs.length,
+                        				promise = defer.resolved();
+                        			for (; i &lt; l; i++) {
+                        				promise = sequenceZenifier(promise, funcs[i]);
+                        			}
+                        			d.resolve(promise);
+                        			return d.promise;
+                        		}
+                        
+                        		defer.all = function() {
+                        			return multiPromiseResolver(arguments, false);
+                        		};
+                        
+                        		defer.resolveAll = function() {
+                        			return multiPromiseResolver(arguments, true);
+                        		};
+                        
+                        		defer.sequence = function() {
+                        			return sequencePromiseResolver(arguments);
+                        		};
+                        		return defer;
+                        	})();
+                        
+                        	return Syncano;
+                        
+                        })();
+                        
+                        if (isNode || isWebpack) {
+                        	module.exports = Syncano;
+                        }
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/jquery/jquery-1.8.2.min.js"></script>
+<script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script src="../assets/js/yuidoc-bootstrap.js"></script>
+<script>prettyPrint();</script>
+</body>
+</html>
