@@ -60,7 +60,7 @@ TestSuite.prototype = {
 	},
 
 	createUserClass: function() {
-		this.createClass('user');
+		this.createClass('userclass');
 	},
 
 	createRelationClass: function() {
@@ -69,7 +69,7 @@ TestSuite.prototype = {
 			description: 'relation description',
 			schema: new Syncano.Schema()
 				.addField('name', 'string')
-				.addField('user', 'reference', 'user')
+				.addField('user', 'reference', 'userclass')
 		}).then(this.onSuccess.bind(this), this.onError.bind(this));
 	},
 
@@ -95,7 +95,7 @@ TestSuite.prototype = {
 		this.connection.Classes.list().then(function(list) {
 			var classToDelete = null;
 			for (var key in list) {
-				if (key !== 'user') {
+				if (key !== 'userclass') {
 					classToDelete = key;
 					break;
 				}
@@ -105,14 +105,14 @@ TestSuite.prototype = {
 	},
 
 	getClassInfo: function() {
-		this.connection.Classes.get('user').then(this.onSuccess.bind(this), this.onError.bind(this));
+		this.connection.Classes.get('userclass').then(this.onSuccess.bind(this), this.onError.bind(this));
 	},
 
 	updateClass: function() {
 		this.connection.Classes.list().then(function(list) {
 			var className = null;
 			for (var key in list) {
-				if (key !== 'user') {
+				if (key !== 'userclass') {
 					className = key;
 					break;
 				}
@@ -126,7 +126,7 @@ TestSuite.prototype = {
 	},
 
 	listDataObjects: function() {
-		this.connection.DataObjects.list('user').then(this.onSuccess.bind(this), this.onError.bind(this));
+		this.connection.DataObjects.list('userclass').then(this.onSuccess.bind(this), this.onError.bind(this));
 	},
 
 	listDataObjectsWithReference: function() {
@@ -134,7 +134,7 @@ TestSuite.prototype = {
 	},
 
 	createDataObjectWithReference: function() {
-		this.connection.DataObjects.list('user').then(function(Users) {
+		this.connection.DataObjects.list('userclass').then(function(Users) {
 			if (Users.length > 0) {
 				var user = Users.at(0);
 				this.connection.DataObjects.create({
@@ -150,7 +150,7 @@ TestSuite.prototype = {
 
 	createDataObject: function() {
 		this.connection.DataObjects.create({
-			class_name: 'user',
+			class_name: 'userclass',
 			first_name: this.generateRandomString(6),
 			last_name: this.generateRandomString(10),
 			year_of_birth: this.generateRandomNumber(1950, 2000)
@@ -158,10 +158,10 @@ TestSuite.prototype = {
 	},
 
 	deleteDataObject: function() {
-		this.connection.DataObjects.list('user').then(function(list) {
+		this.connection.DataObjects.list('userclass').then(function(list) {
 			if (list.length > 0) {
 				this.connection.DataObjects.remove({
-					class_name: 'user',
+					class_name: 'userclass',
 					id: list.at(0).id
 				}).then(this.onSuccess.bind(this), this.onError.bind(this));
 			} else {
@@ -171,9 +171,9 @@ TestSuite.prototype = {
 	},
 
 	updateDataObject: function() {
-		this.connection.DataObjects.list('user').then(function(list) {
+		this.connection.DataObjects.list('userclass').then(function(list) {
 			if (list.length > 0) {
-				this.connection.DataObjects.update('user', {
+				this.connection.DataObjects.update('userclass', {
 					id: list.at(0).id,
 					first_name: this.generateRandomString(8),
 					last_name: this.generateRandomString(10)
@@ -185,9 +185,9 @@ TestSuite.prototype = {
 	},
 
 	getDataObject: function() {
-		this.connection.DataObjects.list('user').then(function(list) {
+		this.connection.DataObjects.list('userclass').then(function(list) {
 			if (list.length > 0) {
-				this.connection.DataObjects.get('user', {
+				this.connection.DataObjects.get('userclass', {
 					id: list.at(0).id
 				}).then(this.onSuccess.bind(this), this.onError.bind(this));
 			} else {
@@ -246,7 +246,7 @@ TestSuite.prototype = {
 	},
 
 	listDataObjectsWithFilter: function() {
-		this.connection.DataObjects.list('user', {
+		this.connection.DataObjects.list('userclass', {
 			query: JSON.stringify({
 				year_of_birth: {
 					_eq: 1959
@@ -256,7 +256,7 @@ TestSuite.prototype = {
 	},
 
 	listDataObjectsWithPagination: function() {
-		this.connection.DataObjects.list('user', {
+		this.connection.DataObjects.list('userclass', {
 			limit: 3
 		}).then(function(pageList) {
 			console.log('First page', pageList);
@@ -315,7 +315,7 @@ TestSuite.prototype = {
 			"print 'hello'"
 		].join('\n');
 		var params = {
-			name: 'Codebox ' + this.generateRandomNumber(10, 1000),
+			label: 'Codebox ' + this.generateRandomNumber(10, 1000),
 			source: source,
 			runtime_name: 'python'
 		}
@@ -328,7 +328,7 @@ TestSuite.prototype = {
 			"console.log(JSON.stringify(obj));"
 		].join('\n');
 		var params = {
-			name: 'Codebox ' + this.generateRandomNumber(10, 1000),
+			label: 'Codebox ' + this.generateRandomNumber(10, 1000),
 			source: source
 		}
 		this.connection.CodeBoxes.create(params).then(this.onSuccess.bind(this), this.onError.bind(this));
@@ -447,6 +447,7 @@ TestSuite.prototype = {
 		this.connection.CodeBoxes.list().then(function(List) {
 			if (List.length > 0) {
 				this.connection.WebHooks.create({
+					name: this.generateRandomString(6),
 					codebox: List.at(0),
 					slug: 'slug_' + this.generateRandomString(8)
 				}).then(this.onSuccess.bind(this), this.onError.bind(this));
@@ -544,9 +545,9 @@ TestSuite.prototype = {
 		this.connection.CodeBoxes.list().then(function(List) {
 			if (List.length > 0) {
 				this.connection.Triggers.create({
-					name: this.generateRandomString(8),
+					label: this.generateRandomString(8),
 					codebox: List.at(0),
-					'class': 'user',
+					'class': 'userclass',
 					signal: 'post_create'
 				}).then(this.onSuccess.bind(this), this.onError.bind(this));
 			} else {
@@ -619,7 +620,7 @@ TestSuite.prototype = {
 			if (List.length > 0) {
 				this.connection.Schedules.create({
 					codebox: List.at(0),
-					name: 'every 30 seconds one bunny dies',
+					label: 'every 30 seconds one bunny dies',
 					interval_sec: 30
 				}).then(this.onSuccess.bind(this), this.onError.bind(this));
 			} else {
@@ -719,7 +720,7 @@ TestSuite.prototype = {
 					if (List.length > 0) {
 						var user = List.at(0);
 						this.connection.DataObjects.create({
-							class_name: 'user',
+							class_name: 'userclass',
 							first_name: this.generateRandomString(6),
 							last_name: this.generateRandomString(10),
 							year_of_birth: 2222,
@@ -746,7 +747,7 @@ TestSuite.prototype = {
 				this.connection.Users.list().then(function(List) {
 					if (List.length > 1) {
 						var user = List.at(1);
-						this.connection.DataObjects.list('user').then(function(List) {
+						this.connection.DataObjects.list('userclass').then(function(List) {
 							var id = null,
 								obj = null;
 							for (var i = 0; i < List.length; i++) {
@@ -761,7 +762,7 @@ TestSuite.prototype = {
 								this.onError('Create DO with owner and group first');
 							} else {
 								console.log('Object before change', obj);
-								this.connection.DataObjects.update('user', {
+								this.connection.DataObjects.update('userclass', {
 									id: id,
 									group: group.id,
 									group_permissions: 'read',
@@ -853,7 +854,7 @@ TestSuite.prototype = {
 			if (List.length > 0) {
 				var grp = List.at(0);
 				this.connection.DataObjects.create({
-					class_name: 'user',
+					class_name: 'userclass',
 					first_name: this.generateRandomString(6),
 					last_name: this.generateRandomString(10),
 					year_of_birth: this.generateRandomNumber(1950, 2000),
@@ -967,7 +968,7 @@ TestSuite.prototype = {
 			if (List.length > 0) {
 				var channel = List.at(0);
 				this.connection.DataObjects.create({
-					class_name: 'user',
+					class_name: 'userclass',
 					first_name: this.generateRandomString(6),
 					last_name: this.generateRandomString(10),
 					year_of_birth: 1111,
@@ -993,7 +994,7 @@ TestSuite.prototype = {
 				this.onError('Create at least one channel with separate rooms');
 			}
 			this.connection.DataObjects.create({
-				class_name: 'user',
+				class_name: 'userclass',
 				first_name: this.generateRandomString(6),
 				last_name: this.generateRandomString(10),
 				year_of_birth: 3333,
@@ -1004,7 +1005,7 @@ TestSuite.prototype = {
 	},
 
 	updateDataObjectWithChannel: function() {
-		this.connection.DataObjects.list('user').then(function(List) {
+		this.connection.DataObjects.list('userclass').then(function(List) {
 			var id = null,
 				obj = null;
 			for (var i = 0; i < List.length; i++) {
@@ -1018,7 +1019,7 @@ TestSuite.prototype = {
 			if (id === null) {
 				this.onError('Create DO with channel first');
 			} else {
-				this.connection.DataObjects.update('user', {
+				this.connection.DataObjects.update('userclass', {
 					id: id,
 					first_name: this.generateRandomString(10)
 				}).then(this.onSuccess.bind(this), this.onError.bind(this));
@@ -1027,7 +1028,7 @@ TestSuite.prototype = {
 	},
 
 	deleteDataObjectWithChannel: function() {
-		this.connection.DataObjects.list('user').then(function(List) {
+		this.connection.DataObjects.list('userclass').then(function(List) {
 			var id = null,
 				obj = null;
 			for (var i = 0; i < List.length; i++) {
@@ -1041,7 +1042,7 @@ TestSuite.prototype = {
 			if (id === null) {
 				this.onError('Create DO with channel first');
 			} else {
-				this.connection.DataObjects.remove('user', {
+				this.connection.DataObjects.remove('userclass', {
 					id: id,
 				}).then(this.onSuccess.bind(this), this.onError.bind(this));
 			}
@@ -1049,7 +1050,7 @@ TestSuite.prototype = {
 	},
 
 	updateDataObjectWithRoom: function() {
-		this.connection.DataObjects.list('user').then(function(List) {
+		this.connection.DataObjects.list('userclass').then(function(List) {
 			var id = null;
 			for (var i = 0; i < List.length; i++) {
 				var item = List.at(i);
@@ -1061,7 +1062,7 @@ TestSuite.prototype = {
 			if (id === null) {
 				this.onError('Create DO with channel first');
 			} else {
-				this.connection.DataObjects.update('user', {
+				this.connection.DataObjects.update('userclass', {
 					id: id,
 					first_name: this.generateRandomString(10)
 				}).then(this.onSuccess.bind(this), this.onError.bind(this));
